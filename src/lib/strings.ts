@@ -214,7 +214,7 @@ export const t = {
       name: "Property name", namePh: "e.g. Melville Cottages", type: "Property type", description: "Short description", descriptionPh: "What makes this property stand out?", yearBuilt: "Year built (optional)",
       address: "Street address", addressPh: "e.g. 12 Rivonia Road", suburb: "Suburb", city: "City / town", province: "Province", postalCode: "Postal code", erf: "Erf / stand number (optional)", erfPh: "e.g. Erf 1234, Sandown",
       photos: "Property photos", photosHint: "JPG, PNG or WebP · up to 5 MB each · up to 8 photos. The first photo is the cover.",
-      addPhotos: "Add photos", cover: "Cover", makeCover: "Make cover", removePhoto: "Remove photo",
+      addPhotos: "Add photos", photoType: "Wrong file type — use JPG, PNG or WebP.", photoSize: "Too large — the limit is 5 MB.", photoTooMany: "Only {n} photos per property — extra files were skipped.", cover: "Cover", makeCover: "Make cover", removePhoto: "Remove photo",
       amenitiesHint: "Choose everything tenants get access to.",
       municipality: "Municipality", municipalityPh: "e.g. City of Johannesburg", accountNo: "Municipal account number", rates: "Monthly rates & taxes (R)", electricity: "Electricity", prepaid: "Prepaid", conventional: "Conventional (billed)",
       electricityMeter: "Electricity meter number", waterMeter: "Water meter number",

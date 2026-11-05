@@ -15,7 +15,6 @@ import { PROVINCES } from "@/mocks/plans";
 import { propertySchema, type PropertyFormInput } from "@/lib/validation";
 import { checkUpload, UPLOAD_RULES } from "@/lib/portfolio-rules";
 import { t } from "@/lib/strings";
-import { cn } from "@/lib/utils";
 import { fill, imageFileToDataUrl, resolvePhoto } from "./shared";
 
 const STEP_FIELDS: FieldPath<PropertyFormInput>[][] = [
@@ -79,12 +78,12 @@ export function PropertyForm({ initial }: { initial?: PropertyRecord }) {
     const errs: string[] = [];
     const room = rule.maxFiles - photos.length;
     const list = Array.from(files);
-    if (list.length > room) errs.push(fill(t.docs.dialog.tooMany.replace("10", "{n}"), { n: rule.maxFiles }));
+    if (list.length > room) errs.push(fill(f.photoTooMany, { n: rule.maxFiles }));
     const accepted: string[] = [];
     for (const file of list.slice(0, Math.max(room, 0))) {
       const why = checkUpload(file, "photo");
-      if (why) { errs.push(`${file.name}: ${why === "type" ? t.docs.dialog.rejectedType.replace("PDF, ", "") : why === "size" ? t.docs.dialog.rejectedSize.replace("10", "5") : t.docs.dialog.rejectedEmpty}`); continue; }
-      try { accepted.push(await imageFileToDataUrl(file)); } catch { errs.push(`${file.name}: ${t.docs.dialog.rejectedType}`); }
+      if (why) { errs.push(`${file.name}: ${why === "type" ? f.photoType : why === "size" ? f.photoSize : t.docs.dialog.rejectedEmpty}`); continue; }
+      try { accepted.push(await imageFileToDataUrl(file)); } catch { errs.push(`${file.name}: ${f.photoType}`); }
     }
     setPhotoErrors(errs);
     if (accepted.length) { setPhotos((ph) => [...ph, ...accepted]); setPhotosDirty(true); }
@@ -234,7 +233,7 @@ export function PropertyForm({ initial }: { initial?: PropertyRecord }) {
         </div>
       </GlassCard>
       <ConfirmDialog open={discard} onOpenChange={setDiscard} title={f.discardTitle} body={f.discardBody} confirmLabel={f.discard} onConfirm={() => { leave(); }} />
-      <span className={cn("sr-only")} aria-live="polite">{f.steps[step]}</span>
+      <span className="sr-only" aria-live="polite">{f.steps[step]}</span>
     </div>
   );
 }
