@@ -35,7 +35,7 @@ export function StatusPipeline({ req }: { req: Pick<MaintRequest, "status" | "ti
           <li key={s} className="relative min-w-0" aria-current={i === cur ? "step" : undefined}>
             <span aria-hidden className={cn("absolute -left-6 top-0.5 h-[15px] w-[15px] rounded-full border-[3px] border-surface-solid", i === cur ? "bg-olive-700 ring-2 ring-olive-200" : reached ? "bg-olive-500" : "bg-olive-100")} />
             <p className={cn("text-[14px]", reached ? "font-medium text-ink-900" : "text-ink-500")}>{r.statuses[s]}</p>
-            {ev && <p className="text-[12px] text-ink-500">{fmtDateTime(ev.at)} · {ev.by}</p>}
+            {ev && <TruncatedText text={`${fmtDateTime(ev.at)} · ${ev.by}`} className="text-[12px] text-ink-500" />}
           </li>
         );
       })}
@@ -76,7 +76,7 @@ export function Thread({ msgs, viewer }: { msgs: ThreadMsg[]; viewer: "tenant" |
               m.internal ? "border border-dashed border-warning/50 bg-warning/10 text-ink-900" : mine ? "bg-olive-700 text-primary-foreground" : "bg-olive-100 text-ink-900")}>
               {m.internal && <span className="mb-1 inline-flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-warning"><Lock className="h-3 w-3" aria-hidden />{r.detail.internalChip}</span>}
               <p className="whitespace-pre-wrap break-words">{m.body}</p>
-              <p className={cn("mt-1 text-[11px]", mine && !m.internal ? "text-primary-foreground/75" : "text-ink-500")}>{m.by} · {fmtDateTime(m.at)}</p>
+              <p className={cn("mt-1 truncate text-[11px]", mine && !m.internal ? "text-primary-foreground/75" : "text-ink-500")} title={`${m.by} · ${fmtDateTime(m.at)}`}>{m.by} · {fmtDateTime(m.at)}</p>
             </div>
           </li>
         );

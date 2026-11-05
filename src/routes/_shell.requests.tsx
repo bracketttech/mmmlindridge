@@ -75,7 +75,7 @@ function OwnerRequests({ view, id, set }: { view: View; id?: string | undefined;
   const detail = sel && <RequestDetail key={sel.id} req={sel} place={place(sel)} />;
 
   const columns: Column<MaintRequest>[] = [
-    { key: "req", header: r.cols.request, render: (x) => <div className="min-w-0 max-w-[260px]"><TruncatedText text={x.title} className="font-medium text-ink-900" /><p className="text-[12px] text-ink-500">{x.ref} · {r.categoryShort[x.category]} · {x.tenantName}</p></div> },
+    { key: "req", header: r.cols.request, render: (x) => <div className="min-w-0 max-w-[260px]"><TruncatedText text={x.title} className="font-medium text-ink-900" /><TruncatedText text={`${x.ref} · ${r.categoryShort[x.category]} · ${x.tenantName}`} className="text-[12px] text-ink-500" /></div> },
     { key: "place", header: r.cols.place, render: (x) => <TruncatedText text={place(x)} className="block max-w-[180px] text-ink-500" /> },
     { key: "prio", header: r.cols.priority, render: (x) => <PriorityChip p={x.priority} /> },
     { key: "status", header: r.cols.status, render: (x) => <ReqStatusChip s={x.status} /> },
@@ -85,7 +85,7 @@ function OwnerRequests({ view, id, set }: { view: View; id?: string | undefined;
   const card = (x: MaintRequest) => (
     <div className="min-w-0 space-y-2">
       <div className="flex items-start gap-2"><div className="min-w-0 flex-1"><TruncatedText text={x.title} className="font-medium text-ink-900" /><TruncatedText text={`${x.ref} · ${place(x)}`} className="block text-[12px] text-ink-500" /></div><ReqStatusChip s={x.status} /></div>
-      <div className="flex flex-wrap items-center gap-2"><PriorityChip p={x.priority} /><StatusChip>{r.categoryShort[x.category]}</StatusChip><span className="text-[12px] text-ink-500">{x.assignee?.name ?? r.filters.unassigned}</span></div>
+      <div className="flex flex-wrap items-center gap-2"><PriorityChip p={x.priority} /><StatusChip>{r.categoryShort[x.category]}</StatusChip><TruncatedText text={x.assignee?.name ?? r.filters.unassigned} className="min-w-0 flex-1 text-[12px] text-ink-500" /></div>
     </div>
   );
 
@@ -137,7 +137,7 @@ function Board({ rows, loading, selectedId, onSelect, place }: { rows: MaintRequ
     <div className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2" aria-label={r.views.board}>
       {groupByStatus(rows).map((col) => (
         <section key={col.status} className="glass w-[260px] shrink-0 snap-start space-y-2 rounded-[8.05px] p-2.5" aria-label={r.statuses[col.status]}>
-          <header className="flex items-center justify-between px-1"><ReqStatusChip s={col.status} /><span className="text-[12px] tabular-nums text-ink-500">{col.items.length}</span></header>
+          <header className="flex min-w-0 items-center justify-between gap-2 px-1"><ReqStatusChip s={col.status} /><span className="text-[12px] tabular-nums text-ink-500">{col.items.length}</span></header>
           {col.items.length === 0 ? <p className="rounded-[5.75px] border border-dashed border-border-soft p-3 text-center text-[12px] text-ink-500">—</p> : col.items.map((x) => (
             <button key={x.id} type="button" onClick={() => onSelect(x.id)} aria-current={x.id === selectedId ? "true" : undefined}
               className={cn("w-full min-w-0 space-y-1.5 rounded-[5.75px] border border-border-soft p-2.5 text-left shadow-soft transition", x.id === selectedId ? "bg-olive-100 ring-2 ring-olive-700" : "bg-surface-solid hover:bg-olive-100/50")}>
@@ -169,7 +169,7 @@ function Contractors() {
             <div className="flex flex-wrap items-center gap-2 text-[13px]"><StatusChip tone="info">{c.trade}</StatusChip><span className="inline-flex items-center gap-1 text-ink-900"><Star className="h-3.5 w-3.5 fill-warning text-warning" aria-hidden />{c.rating.toFixed(1).replace(".", ",")}</span><span className="text-ink-500">{fill(r.contractors.jobs, { n: c.jobs })}</span></div>
             <div className="flex gap-2">
               <a href={`tel:${c.phone.replace(/\s/g, "")}`} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-olive-100 px-3 text-[13px] text-olive-900 hover:bg-olive-200"><Phone className="h-3.5 w-3.5" aria-hidden />{r.contractors.call}</a>
-              <a href={`mailto:${c.email}`} className="inline-flex h-9 min-w-0 items-center gap-1.5 rounded-full bg-olive-100 px-3 text-[13px] text-olive-900 hover:bg-olive-200"><Mail className="h-3.5 w-3.5 shrink-0" aria-hidden />{r.contractors.email}</a>
+              <a href={`mailto:${c.email}`} className="inline-flex h-9 min-w-0 items-center gap-1.5 rounded-full bg-olive-100 px-3 text-[13px] text-olive-900 hover:bg-olive-200"><Mail className="h-3.5 w-3.5 shrink-0" aria-hidden /><span className="truncate">{r.contractors.email}</span></a>
             </div>
           </GlassCard></li>
         ))}
@@ -202,9 +202,9 @@ function Schedule() {
                 <div className="min-w-0 flex-1">
                   <TruncatedText text={x.title} className="font-medium text-ink-900" />
                   <TruncatedText text={`${dir.propertyName(x.propertyId)} · ${x.assignee}`} className="block text-[12px] text-ink-500" />
-                  <p className="text-[12px] text-ink-500">{r.schedule.freq[x.frequency]} · {fill(r.schedule.last, { date: formatDate(x.lastDone) })}</p>
+                  <TruncatedText text={`${r.schedule.freq[x.frequency]} · ${fill(r.schedule.last, { date: formatDate(x.lastDone) })}`} className="text-[12px] text-ink-500" />
                 </div>
-                {x.nextDue < today ? <StatusChip tone="danger" dot>{r.schedule.overdue}</StatusChip> : x.nextDue <= soon ? <StatusChip tone="warning" dot>{r.schedule.dueSoon}</StatusChip> : null}
+                <span className="shrink-0">{x.nextDue < today ? <StatusChip tone="danger" dot>{r.schedule.overdue}</StatusChip> : x.nextDue <= soon ? <StatusChip tone="warning" dot>{r.schedule.dueSoon}</StatusChip> : null}</span>
               </li>
             );
           })}
