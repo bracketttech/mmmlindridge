@@ -275,6 +275,7 @@ export const t = {
     seeAll: "See all",
     moreActions: "More actions",
     working: "Working…",
+    close: "Close",
     edit: "Edit",
     back: "Back",
   },

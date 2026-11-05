@@ -14,10 +14,9 @@ import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
 import { TextField } from "../auth";
 import { SelectField, ToggleRow } from "../forms";
-import { DataTable, Modal, StatusCell, type Column } from "../composites";
+import { DataTable, Modal, StatusCell, statusTone, type Column } from "../composites";
 import { ConfirmDialog } from "../overlays";
 import { EmptyState, GlassCard, PillButton, SegmentedChips, Skel, StatusChip, TruncatedText } from "../primitives";
-import { statusTone } from "../composites";
 import { fill } from "./shared";
 
 const u = t.units;
@@ -118,7 +117,7 @@ export function UnitsPanel({ property, canManage }: { property: Property; canMan
         </div>
       ) : null}
 
-      {(view === "list" || true) && units.length + (loading ? 1 : 0) > 0 && (
+      {(loading || error || units.length > 0) && (
         <GlassCard hover={false} className={cn("p-2 md:p-4", view === "grid" && "md:hidden")}>
           <DataTable caption={`${u.cols.unit} — ${property.name}`} rows={rows} columns={cols} loading={loading} error={error} onRetry={reload} card={card}
             empty={<EmptyState title={u.noMatch} />} />
