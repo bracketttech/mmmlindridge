@@ -174,7 +174,7 @@ export function StatusChip({ tone = "neutral", children, dot = false }: { tone?:
   );
 }
 
-export function DeltaChip({ value, label }: { value: string; label?: string }) {
+export function DeltaChip({ value, label }: { value: string; label?: string | undefined }) {
   const down = value.trim().startsWith("-");
   const Icon = down ? ArrowDownRight : ArrowUpRight;
   return (
@@ -189,7 +189,7 @@ export function DeltaChip({ value, label }: { value: string; label?: string }) {
 }
 
 /* ---------- PageHeader (two-tone) ---------- */
-export function PageHeader({ title, muted, sub, actions }: { title: string; muted?: string; sub?: string; actions?: ReactNode }) {
+export function PageHeader({ title, muted, sub, actions }: { title: string; muted?: string | undefined; sub?: string | undefined; actions?: ReactNode }) {
   return (
     <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0 animate-rise">

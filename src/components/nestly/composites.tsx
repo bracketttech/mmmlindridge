@@ -42,7 +42,7 @@ export function KpiTile({ label, value, unit, delta, deltaLabel, variant = "plai
 }
 
 /* ---------- Avatar ---------- */
-export function NAvatar({ name, src, size = 36, className }: { name: string; src?: string | null; size?: number; className?: string }) {
+export function NAvatar({ name, src, size = 36, className }: { name: string; src?: string | null | undefined; size?: number; className?: string }) {
   return (
     <span className={cn("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-olive-200 font-medium text-olive-900", className)} style={{ width: size, height: size, fontSize: size * 0.36 }}>
       {src ? <img src={src} alt={name} className="h-full w-full object-cover" /> : <span aria-label={name}>{initials(name)}</span>}
@@ -170,9 +170,9 @@ export function AvatarUploader({ name, initial = null, onChange }: { name: strin
   const input = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const pick = (f?: File) => {
+  const pick = (f?: File): void => {
     if (!f) return;
-    if (!f.type.startsWith("image/")) return toast.error("Please choose an image file.");
+    if (!f.type.startsWith("image/")) { toast.error("Please choose an image file."); return; }
     const reader = new FileReader();
     reader.onload = () => { setDraft(String(reader.result)); setZoom(1); };
     reader.readAsDataURL(f);
