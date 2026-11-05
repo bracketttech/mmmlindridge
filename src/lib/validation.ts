@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { t } from "./strings";
+import { PROPERTY_TYPES, UNIT_STATUSES } from "@/mocks/portfolio";
+import { isSaPostalCode } from "./portfolio-rules";
 
 const v = t.auth.validation;
 
@@ -63,8 +65,6 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type SignupInput = z.infer<typeof signupSchema>;
 
 /* ---------- Properties & units (Phase 4) ---------- */
-import { PROPERTY_TYPES, UNIT_STATUSES } from "@/mocks/portfolio";
-import { isSaPostalCode } from "./portfolio-rules";
 
 const pf = t.props.form;
 const optText = (max: number) => z.string().trim().max(max, v.tooLong);
