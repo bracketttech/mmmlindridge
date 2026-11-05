@@ -51,7 +51,7 @@ function SelectField({ label, error, children, ...rest }: React.SelectHTMLAttrib
   return (
     <div className="space-y-1.5">
       <label htmlFor={id} className="block text-[14px] font-medium text-ink-900">{label}</label>
-      <select id={id} aria-invalid={!!error} className={cn("h-12 w-full rounded-[16px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none focus:border-olive-700 focus:ring-3 focus:ring-olive-200", error ? "border-danger" : "border-input")} {...rest}>
+      <select id={id} aria-invalid={!!error} className={cn("h-12 w-full rounded-[5px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none focus:border-olive-700 focus:ring-3 focus:ring-olive-200", error ? "border-danger" : "border-input")} {...rest}>
         {children}
       </select>
       {error && <p role="alert" className="text-[13px] text-danger">{error}</p>}
@@ -111,7 +111,7 @@ function OnboardingPage() {
               <legend className="mb-2 text-[14px] font-medium text-ink-900">{o.business.type}</legend>
               <div className="grid gap-3 sm:grid-cols-2">
                 {(["individual", "company"] as const).map((k) => (
-                  <label key={k} className={cn("flex cursor-pointer items-center gap-3 rounded-[16px] border bg-surface-solid p-4 transition has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-olive-200", kind === k ? "border-olive-700 bg-olive-100" : "border-input")}>
+                  <label key={k} className={cn("flex cursor-pointer items-center gap-3 rounded-[5px] border bg-surface-solid p-4 transition has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-olive-200", kind === k ? "border-olive-700 bg-olive-100" : "border-input")}>
                     <input type="radio" value={k} className="sr-only" {...register("kind")} />
                     <span className="grid h-9 w-9 place-items-center rounded-full bg-olive-200 text-olive-900">{k === "individual" ? <User className="h-4 w-4" /> : <Building className="h-4 w-4" />}</span>
                     <span className="text-[15px]">{k === "individual" ? o.business.individual : o.business.company}</span>
@@ -163,7 +163,7 @@ function OnboardingPage() {
                 const price = p.monthly === null ? o.plan.talk : formatZAR(billing === "annual" ? Math.round((p.monthly * 10) / 12) : p.monthly, { decimals: false });
                 return (
                   <button type="button" role="radio" aria-checked={sel} key={p.id} onClick={() => setValue("plan", p.id)}
-                    className={cn("lift rounded-[22px] border p-5 text-left transition", sel ? "border-olive-700 bg-olive-800 text-on-dark" : "glass border-surface-solid")}>
+                    className={cn("lift rounded-[7px] border p-5 text-left transition", sel ? "border-olive-700 bg-olive-800 text-on-dark" : "glass border-surface-solid")}>
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-h3">{p.name}</span>
                       {sel && <span className="inline-flex items-center gap-1 rounded-full bg-surface-solid px-2.5 py-0.5 text-[12px] font-medium text-olive-900"><Check className="h-3 w-3" />{o.plan.selected}</span>}

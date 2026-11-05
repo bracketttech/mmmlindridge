@@ -13,7 +13,7 @@ import { GlassCard, Skel, TruncatedText } from "./primitives";
 export function AuthLayout({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   return (
     <div className="min-h-screen w-full bg-outer md:p-3">
-      <div className="relative grid min-h-screen w-full overflow-hidden bg-canvas md:min-h-[calc(100vh-1.5rem)] md:rounded-[28px] md:border md:border-surface-solid md:shadow-soft lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+      <div className="relative grid min-h-screen w-full overflow-hidden bg-canvas md:min-h-[calc(100vh-1.5rem)] md:rounded-[8px] md:border md:border-surface-solid md:shadow-soft lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
         <div className="flex min-w-0 flex-col px-5 py-6 sm:px-10 md:py-8">
           <Link to="/login" className="w-fit rounded-md text-ink-900" aria-label="Nestly — sign in">
             <Logo />
@@ -22,7 +22,7 @@ export function AuthLayout({ children, wide = false }: { children: ReactNode; wi
           <p className="text-[12px] text-ink-500">© 2026 Nestly · Made in South Africa</p>
         </div>
         <aside aria-hidden className="relative hidden p-3 lg:block">
-          <div className="relative h-full overflow-hidden rounded-[22px] bg-olive-800">
+          <div className="relative h-full overflow-hidden rounded-[7px] bg-olive-800">
             <FadeImage src={authImage} alt="" width={1024} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-olive-900/80 via-olive-900/10 to-transparent" />
             <div className="absolute inset-x-6 bottom-6 space-y-4 animate-rise" style={{ animationDelay: "200ms" }}>
@@ -30,7 +30,7 @@ export function AuthLayout({ children, wide = false }: { children: ReactNode; wi
                 {t.auth.brandHeadline} <em className="font-light">{t.auth.brandAccent}</em>
               </h2>
               <p className="max-w-md text-[15px] text-on-dark-muted">{t.auth.brandBody}</p>
-              <div className="glass max-w-md rounded-[22px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark">
+              <div className="glass max-w-md rounded-[7px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark">
                 <p className="text-[14px]">{t.auth.brandQuote}</p>
                 <p className="mt-1 text-[12px] text-on-dark-muted">{t.auth.brandQuoteBy}</p>
               </div>
@@ -70,7 +70,7 @@ export const TextField = forwardRef<HTMLInputElement, FieldProps>(function TextF
           aria-invalid={!!error}
           aria-describedby={desc}
           className={cn(
-            "h-12 w-full rounded-[16px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-olive-700 focus:ring-3 focus:ring-olive-200",
+            "h-12 w-full rounded-[5px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-olive-700 focus:ring-3 focus:ring-olive-200",
             error ? "border-danger" : "border-input",
             trailing && "pr-12",
             className,
@@ -129,7 +129,7 @@ export function StrengthMeter({ password }: { password: string }) {
 
 export function LockedField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="min-w-0 rounded-[16px] border border-border-soft bg-olive-100/60 px-4 py-3">
+    <div className="min-w-0 rounded-[5px] border border-border-soft bg-olive-100/60 px-4 py-3">
       <p className="flex items-center gap-1.5 text-[12px] text-ink-500">
         <Lock aria-hidden className="h-3 w-3" /> {label}
       </p>
@@ -140,7 +140,7 @@ export function LockedField({ label, value }: { label: string; value: string }) 
 
 export function FormAlert({ children }: { children: ReactNode }) {
   return (
-    <div role="alert" className="flex items-start gap-2 rounded-[16px] border border-danger/25 bg-danger/10 px-4 py-3 text-[14px] text-danger">
+    <div role="alert" className="flex items-start gap-2 rounded-[5px] border border-danger/25 bg-danger/10 px-4 py-3 text-[14px] text-danger">
       <AlertCircle aria-hidden className="mt-0.5 h-4 w-4 shrink-0" />
       <span>{children}</span>
     </div>

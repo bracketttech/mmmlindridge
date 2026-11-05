@@ -57,7 +57,7 @@ function OtpPage() {
           <InputOTP id="otp" maxLength={6} value={code} onChange={setCode} autoFocus inputMode="numeric" aria-invalid={!!error} containerClassName="gap-2">
             <InputOTPGroup className="gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
-                <InputOTPSlot key={i} index={i} className="h-14 w-11 rounded-[14px] border border-input bg-surface-solid text-[20px] first:rounded-[14px] last:rounded-[14px] sm:w-12" />
+                <InputOTPSlot key={i} index={i} className="h-14 w-11 rounded-[4px] border border-input bg-surface-solid text-[20px] first:rounded-[4px] last:rounded-[4px] sm:w-12" />
               ))}
             </InputOTPGroup>
           </InputOTP>

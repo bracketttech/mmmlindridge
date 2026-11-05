@@ -55,7 +55,7 @@ export function DocumentsPanel({ property, canManage }: { property: Property; ca
   const menu = (d: Document) => (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={`${t.common.moreActions}: ${d.name}`} onClick={(e) => e.stopPropagation()} className="grid h-8 w-8 place-items-center rounded-full text-ink-500 hover:bg-olive-100"><MoreHorizontal className="h-4 w-4" /></DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-44 rounded-[14px] p-1.5">
+      <DropdownMenuContent align="end" className="w-44 rounded-[4px] p-1.5">
         <DropdownMenuItem onSelect={() => setPreview(d)}><FileText className="h-4 w-4" />{dt.preview.title}</DropdownMenuItem>
         {canManage && <DropdownMenuItem onSelect={() => setToDelete(d)} className="text-danger focus:text-danger"><Trash2 className="h-4 w-4" />{t.common.delete}</DropdownMenuItem>}
       </DropdownMenuContent>
@@ -66,7 +66,7 @@ export function DocumentsPanel({ property, canManage }: { property: Property; ca
     const Icon = d.mime.startsWith("image/") ? FileImage : FileText;
     return (
       <div className="flex min-w-0 max-w-[340px] items-center gap-3">
-        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[12px] bg-olive-100 text-olive-800"><Icon aria-hidden className="h-4 w-4" /></span>
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[4px] bg-olive-100 text-olive-800"><Icon aria-hidden className="h-4 w-4" /></span>
         <TruncatedText text={d.name} className="font-medium text-ink-900" />
       </div>
     );
@@ -121,9 +121,9 @@ export function DocumentsPanel({ property, canManage }: { property: Property; ca
             const flagged = items.some((d) => expiryState(d.expiresAt) === "expired" || expiryState(d.expiresAt) === "soon");
             return (
               <li key={type}>
-                <button type="button" onClick={() => setFolder(type)} className="glass lift flex h-full w-full flex-col gap-4 rounded-[20px] p-4 text-left">
+                <button type="button" onClick={() => setFolder(type)} className="glass lift flex h-full w-full flex-col gap-4 rounded-[6px] p-4 text-left">
                   <span className="flex items-start justify-between">
-                    <span className="relative grid h-11 w-11 place-items-center rounded-[14px] bg-olive-700 text-primary-foreground">
+                    <span className="relative grid h-11 w-11 place-items-center rounded-[4px] bg-olive-700 text-primary-foreground">
                       <Folder aria-hidden className="h-5 w-5" />
                       <Icon aria-hidden className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-surface-solid p-0.5 text-olive-800" />
                     </span>
@@ -218,7 +218,7 @@ function UploadDialog({ propertyId, defaultType, onClose }: { propertyId: string
         {phase === "pick" && (
           <>
             <div onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)} onDrop={onDrop}
-              className={cn("flex flex-col items-center gap-2 rounded-[20px] border-2 border-dashed px-4 py-8 text-center transition-colors", drag ? "border-olive-700 bg-olive-100" : "border-olive-500/40 bg-surface-solid/60")}>
+              className={cn("flex flex-col items-center gap-2 rounded-[6px] border-2 border-dashed px-4 py-8 text-center transition-colors", drag ? "border-olive-700 bg-olive-100" : "border-olive-500/40 bg-surface-solid/60")}>
               <span className="grid h-12 w-12 place-items-center rounded-full bg-olive-200 text-olive-900"><UploadCloud aria-hidden className="h-6 w-6" /></span>
               <p className="text-[15px] font-medium text-ink-900">{d.drop}</p>
               <p className="text-[12px] text-ink-500">{d.hint}</p>
@@ -237,9 +237,9 @@ function UploadDialog({ propertyId, defaultType, onClose }: { propertyId: string
         {items.length > 0 && (
           <ul className="space-y-2" aria-live="polite">
             {items.map((it) => (
-              <li key={it.id} className={cn("rounded-[16px] border px-3 py-2.5", it.error ? "border-danger/30 bg-danger/5" : "border-border-soft bg-surface-solid")}>
+              <li key={it.id} className={cn("rounded-[5px] border px-3 py-2.5", it.error ? "border-danger/30 bg-danger/5" : "border-border-soft bg-surface-solid")}>
                 <div className="flex items-center gap-3">
-                  <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-[10px]", it.error ? "bg-danger/12 text-danger" : it.done ? "bg-olive-700 text-primary-foreground" : "bg-olive-100 text-olive-800")}>
+                  <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-[3px]", it.error ? "bg-danger/12 text-danger" : it.done ? "bg-olive-700 text-primary-foreground" : "bg-olive-100 text-olive-800")}>
                     {it.error ? <AlertCircle aria-hidden className="h-4 w-4" /> : it.done ? <CheckCircle2 aria-hidden className="h-4 w-4" /> : <FileText aria-hidden className="h-4 w-4" />}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -278,14 +278,14 @@ function PreviewDrawer({ doc, onClose, canManage, onDelete }: { doc: Document | 
       </>}>
       {doc && (
         <div className="space-y-5">
-          <div className="overflow-hidden rounded-[20px] border border-border-soft bg-olive-100/60">
+          <div className="overflow-hidden rounded-[6px] border border-border-soft bg-olive-100/60">
             {doc.previewUrl && doc.mime.startsWith("image/") ? (
               <img src={doc.previewUrl} alt={doc.name} className="max-h-[60vh] w-full object-contain" />
             ) : doc.previewUrl && doc.mime === "application/pdf" ? (
               <iframe src={doc.previewUrl} title={doc.name} className="h-[60vh] w-full bg-surface-solid" />
             ) : (
               <div className="flex flex-col items-center gap-3 px-6 py-10 text-center">
-                <div className="relative w-36 rounded-[12px] bg-surface-solid p-4 shadow-soft" aria-hidden>
+                <div className="relative w-36 rounded-[4px] bg-surface-solid p-4 shadow-soft" aria-hidden>
                   <Icon className="mb-3 h-6 w-6 text-olive-700" />
                   {[80, 95, 70, 90, 60, 85].map((w, i) => <span key={i} className="mb-1.5 block h-1.5 rounded-full bg-olive-100" style={{ width: `${w}%` }} />)}
                 </div>

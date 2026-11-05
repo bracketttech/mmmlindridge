@@ -12,16 +12,16 @@ export function PropertyCard({ p, canManage, onDelete }: { p: Property; canManag
   const c = t.props.card;
   const occ = p.units ? Math.round((p.occupied / p.units) * 100) : 0;
   return (
-    <article className="glass lift group relative flex h-full flex-col rounded-[22px] p-2">
+    <article className="glass lift group relative flex h-full flex-col rounded-[7px] p-2">
       <div className="relative">
-        <PropertyPhoto p={p} className="h-48 rounded-[18px] sm:h-52" />
+        <PropertyPhoto p={p} className="h-48 rounded-[5px] sm:h-52" />
         <div className="absolute left-3 top-3 right-14"><PropertyBadges p={p} onDark /></div>
         {canManage && (
           <DropdownMenu>
             <DropdownMenuTrigger aria-label={`${t.props.detail.actions}: ${p.name}`} className="absolute right-3 top-3 z-10 grid h-9 w-9 place-items-center rounded-full bg-surface-solid/90 text-ink-900 shadow-soft hover:bg-surface-solid">
               <MoreHorizontal className="h-4 w-4" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-44 rounded-[14px] p-1.5">
+            <DropdownMenuContent align="end" className="w-44 rounded-[4px] p-1.5">
               <DropdownMenuItem asChild><Link to="/properties/$propertyId/edit" params={{ propertyId: p.id }}><Pencil className="h-4 w-4" />{t.props.detail.edit}</Link></DropdownMenuItem>
               <DropdownMenuItem onSelect={() => onDelete(p)} className="text-danger focus:text-danger"><Trash2 className="h-4 w-4" />{t.common.delete}</DropdownMenuItem>
             </DropdownMenuContent>
@@ -32,7 +32,7 @@ export function PropertyCard({ p, canManage, onDelete }: { p: Property; canManag
         <div className="min-w-0">
           <h3 className="min-w-0">
             {/* Stretched link: the whole card opens the property, the menu stays clickable above it. */}
-            <Link to="/properties/$propertyId" params={{ propertyId: p.id }} aria-label={fill(c.open, { name: p.name })} className="rounded-sm after:absolute after:inset-0 after:rounded-[22px] after:content-['']">
+            <Link to="/properties/$propertyId" params={{ propertyId: p.id }} aria-label={fill(c.open, { name: p.name })} className="rounded-sm after:absolute after:inset-0 after:rounded-[7px] after:content-['']">
               <TruncatedText text={p.name} className="text-h3 text-ink-900" />
             </Link>
           </h3>

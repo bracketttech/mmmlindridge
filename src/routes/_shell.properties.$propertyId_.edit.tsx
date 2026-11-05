@@ -19,7 +19,7 @@ function EditPropertyPage() {
   const canManage = useCanManage();
   const { data, loading, error, reload } = useData(() => propertyService.get(propertyId), [propertyId]);
   if (!canManage) return <Placeholder navKey="properties" title={t.props.title} muted={t.props.muted} />;
-  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-[480px] rounded-[22px]" /></div>;
+  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-[480px] rounded-[7px]" /></div>;
   if (error) return <GlassCard hover={false}><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={<PillButton variant="secondary" onClick={reload}>{t.common.retry}</PillButton>} /></GlassCard>;
   if (!data) return <GlassCard hover={false}><EmptyState icon={<Building2 className="h-6 w-6" />} title={t.props.notFound} body={t.props.notFoundBody} action={<Link to="/properties" className="text-[14px] font-medium text-olive-700 underline">{t.props.back}</Link>} /></GlassCard>;
   return <PropertyForm key={data.id} initial={data} />;

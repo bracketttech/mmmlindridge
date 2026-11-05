@@ -2,7 +2,7 @@ import { forwardRef, useId, type ReactNode, type SelectHTMLAttributes, type Text
 import { AlertCircle, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const control = "w-full rounded-[16px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-olive-700 focus:ring-3 focus:ring-olive-200";
+const control = "w-full rounded-[5px] border bg-surface-solid px-4 text-[15px] text-ink-900 outline-none transition placeholder:text-ink-500/70 focus:border-olive-700 focus:ring-3 focus:ring-olive-200";
 
 function FieldError({ id, error }: { id: string; error?: string | undefined }) {
   if (!error) return null;
@@ -48,7 +48,7 @@ export const TextAreaField = forwardRef<HTMLTextAreaElement, TextareaHTMLAttribu
 export function ToggleRow({ label, checked, onChange, hint }: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string }) {
   const id = useId();
   return (
-    <div className="flex items-center justify-between gap-4 rounded-[16px] border border-border-soft bg-surface-solid px-4 py-3">
+    <div className="flex items-center justify-between gap-4 rounded-[5px] border border-border-soft bg-surface-solid px-4 py-3">
       <div className="min-w-0">
         <label htmlFor={id} className="block cursor-pointer text-[14px] font-medium text-ink-900">{label}</label>
         {hint && <p className="text-[12px] text-ink-500">{hint}</p>}
