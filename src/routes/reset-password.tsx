@@ -12,7 +12,7 @@ import { t } from "@/lib/strings";
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/reset-password")({
-  validateSearch: (s: Record<string, unknown>) => ({ token: typeof s.token === "string" ? s.token : "" }),
+  validateSearch: (s: Record<string, unknown>) => ({ token: typeof s["token"] === "string" ? s["token"] : "" }),
   head: () => pageHead("Reset password", "Choose a new password for your Nestly account.", true),
   component: ResetPage,
 });

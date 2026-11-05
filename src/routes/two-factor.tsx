@@ -14,8 +14,8 @@ import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/two-factor")({
   validateSearch: (s: Record<string, unknown>) => ({
-    email: typeof s.email === "string" ? s.email : "",
-    role: (ROLES as string[]).includes(String(s.role)) ? (s.role as Role) : ("owner" as Role),
+    email: typeof s["email"] === "string" ? s["email"] : "",
+    role: (ROLES as string[]).includes(String(s["role"])) ? (s["role"] as Role) : ("owner" as Role),
   }),
   head: () => pageHead("Two-step verification", "Enter your verification code to finish signing in to Nestly.", true),
   component: OtpPage,

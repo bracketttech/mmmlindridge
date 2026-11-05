@@ -11,8 +11,8 @@ import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/verify-email")({
   validateSearch: (s: Record<string, unknown>) => ({
-    email: typeof s.email === "string" ? s.email : "",
-    name: typeof s.name === "string" ? s.name : "",
+    email: typeof s["email"] === "string" ? s["email"] : "",
+    name: typeof s["name"] === "string" ? s["name"] : "",
   }),
   head: () => pageHead("Verify your email", "Confirm your email address to activate your Nestly account.", true),
   component: VerifyPage,
