@@ -68,9 +68,9 @@ function TenantsPage() {
   const owing = arrears.reduce((a, x) => a + x.balance, 0);
 
   const cols: Column<Tenant>[] = [
-    { key: "tenant", header: tt.cols.tenant, render: (x) => <div className="max-w-[260px]"><PersonCell name={x.name} email={x.email} src={x.avatar} /></div> },
-    { key: "unit", header: tt.cols.unit, render: (x) => <div className="min-w-0 max-w-[200px]"><p className="font-medium text-ink-900">{dir.unitLabel(x.unitId)}</p><TruncatedText text={dir.propertyName(x.propertyId)} className="text-[12px] text-ink-500" /></div> },
-    { key: "lease", header: tt.cols.leaseEnd, render: (x) => <span className="text-ink-700">{x.leaseEnd ? formatDate(x.leaseEnd) : "—"}</span> },
+    { key: "tenant", header: tt.cols.tenant, render: (x) => <div className="max-w-[220px]"><PersonCell name={x.name} email={x.email} src={x.avatar} /></div> },
+    { key: "unit", header: tt.cols.unit, render: (x) => <div className="min-w-0 max-w-[160px]"><p className="font-medium text-ink-900">{dir.unitLabel(x.unitId)}</p><TruncatedText text={dir.propertyName(x.propertyId)} className="text-[12px] text-ink-500" /></div> },
+    { key: "lease", className: "xl:hidden 2xl:table-cell", header: tt.cols.leaseEnd, render: (x) => <span className="text-ink-700">{x.leaseEnd ? formatDate(x.leaseEnd) : "—"}</span> },
     { key: "balance", header: tt.cols.balance, render: (x) => <span className={x.balance ? "font-medium tabular-nums text-danger" : "tabular-nums text-ink-500"}>{x.balance ? formatZAR(x.balance) : tt.upToDate}</span> },
     { key: "status", header: tt.cols.status, render: (x) => <TenantStatus x={x} /> },
   ];
@@ -115,7 +115,7 @@ function TenantsPage() {
               </div>
               <SegmentedChips label={tt.cols.status} value={search.status ?? "all"} onChange={(v) => set({ status: v === "all" ? undefined : v })} wrap
                 options={STATUSES.map((s) => ({ value: s, label: tt.statuses[s], count: loading ? undefined : count(s) }))} />
-              <DataTable rows={rows} columns={cols} loading={loading} error={error} onRetry={reload} caption={tt.all} card={card}
+              <DataTable rows={rows} columns={cols} loading={loading} error={error} onRetry={reload} caption={tt.all} card={card} tableClassName="xl:min-w-0"
                 selectedId={search.t} onSelect={(id) => set({ t: id }, false)}
                 empty={<EmptyState icon={<SearchX className="h-6 w-6" />} title={tt.noResults} body={tt.noResultsBody} action={<PillButton variant="secondary" onClick={() => set({ q: undefined, status: undefined })}>{t.props.clear}</PillButton>} />} />
             </GlassCard>
