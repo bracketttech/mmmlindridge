@@ -63,11 +63,11 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
     <>
     {card && (
       <ul aria-label={caption} className="space-y-2 md:hidden">
-        {loading && Array.from({ length: 3 }).map((_, i) => <li key={i}><Skel className="h-24 w-full rounded-[18px]" /></li>)}
+        {loading && Array.from({ length: 3 }).map((_, i) => <li key={i}><Skel className="h-24 w-full rounded-[5px]" /></li>)}
         {!loading && error && <li><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={onRetry && <PillButton variant="secondary" onClick={onRetry}>{t.common.retry}</PillButton>} /></li>}
         {!loading && !error && rows.length === 0 && <li>{emptyNode}</li>}
         {!loading && !error && rows.map((r) => (
-          <li key={r.id} className={cn("rounded-[18px] border border-border-soft bg-surface-solid/80 p-4", r.id === selectedId && "bg-olive-100")}>{card(r)}</li>
+          <li key={r.id} className={cn("rounded-[5px] border border-border-soft bg-surface-solid/80 p-4", r.id === selectedId && "bg-olive-100")}>{card(r)}</li>
         ))}
       </ul>
     )}
@@ -77,7 +77,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
         <thead>
           <tr className="bg-surface-solid/70">
             {columns.map((c, i) => (
-              <th key={c.key} scope="col" className={cn("text-overline whitespace-nowrap px-3 py-3 font-medium text-ink-500", i === 0 && "rounded-l-[10px]", i === columns.length - 1 && "rounded-r-[10px]", c.className)}>{c.header}</th>
+              <th key={c.key} scope="col" className={cn("text-overline whitespace-nowrap px-3 py-3 font-medium text-ink-500", i === 0 && "rounded-l-[3px]", i === columns.length - 1 && "rounded-r-[3px]", c.className)}>{c.header}</th>
             ))}
           </tr>
         </thead>
@@ -104,7 +104,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
                 className={cn("cursor-pointer transition-colors", sel ? "bg-olive-100" : "hover:bg-surface-solid/70")}
               >
                 {columns.map((c, i) => (
-                  <td key={c.key} className={cn("whitespace-nowrap border-b border-border-soft px-3 py-3 align-middle", sel && "border-transparent", i === 0 && "rounded-l-[12px]", i === columns.length - 1 && "rounded-r-[12px]", c.className)}>{c.render(r)}</td>
+                  <td key={c.key} className={cn("whitespace-nowrap border-b border-border-soft px-3 py-3 align-middle", sel && "border-transparent", i === 0 && "rounded-l-[4px]", i === columns.length - 1 && "rounded-r-[4px]", c.className)}>{c.render(r)}</td>
                 ))}
               </tr>
             );
@@ -149,7 +149,7 @@ export function Modal({ open, onOpenChange, title, children, footer, wide = fals
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-olive-900/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
-        <Dialog.Content className={cn("fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[28px] bg-surface-solid p-6 shadow-soft", wide ? "max-w-xl" : "max-w-md", " data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95")}>
+        <Dialog.Content className={cn("fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[8px] bg-surface-solid p-6 shadow-soft", wide ? "max-w-xl" : "max-w-md", " data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95")}>
           <div className="mb-4 flex items-center justify-between gap-3">
             <Dialog.Title className="truncate text-h2 text-ink-900">{title}</Dialog.Title>
             <Dialog.Close aria-label={t.shell.close} className="grid h-9 w-9 shrink-0 place-items-center rounded-full hover:bg-olive-100"><X className="h-4 w-4" /></Dialog.Close>
@@ -169,7 +169,7 @@ export function BottomSheet({ open, onOpenChange, title, children }: { open: boo
     <Drawer.Root open={open} onOpenChange={onOpenChange}>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 z-50 bg-olive-900/30 backdrop-blur-sm" />
-        <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] rounded-t-[28px] bg-surface-solid p-5 pb-8 outline-none">
+        <Drawer.Content className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] rounded-t-[8px] bg-surface-solid p-5 pb-8 outline-none">
           <div aria-hidden className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-olive-200" />
           <Drawer.Title className="mb-3 text-h2 text-ink-900">{title}</Drawer.Title>
           <Drawer.Description className="sr-only">{title}</Drawer.Description>

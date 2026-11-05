@@ -36,8 +36,8 @@ export function SidePanel({ open, onOpenChange, title, children, footer, wide = 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-olive-900/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
         <Dialog.Content className={cn(
-          "fixed inset-x-0 bottom-0 z-50 flex max-h-[90vh] flex-col rounded-t-[28px] bg-surface-solid shadow-soft outline-none data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom",
-          "md:inset-y-3 md:left-auto md:right-3 md:max-h-none md:rounded-[28px] md:data-[state=open]:slide-in-from-right md:data-[state=open]:slide-in-from-bottom-0",
+          "fixed inset-x-0 bottom-0 z-50 flex max-h-[90vh] flex-col rounded-t-[8px] bg-surface-solid shadow-soft outline-none data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom",
+          "md:inset-y-3 md:left-auto md:right-3 md:max-h-none md:rounded-[8px] md:data-[state=open]:slide-in-from-right md:data-[state=open]:slide-in-from-bottom-0",
           wide ? "md:w-[560px]" : "md:w-[460px]",
         )}>
           <div className="flex items-center justify-between gap-3 border-b border-border-soft px-5 py-4">
