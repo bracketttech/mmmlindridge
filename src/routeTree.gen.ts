@@ -14,7 +14,10 @@ import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SessionExpiredRouteImport } from './routes/session-expired'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as TwoFactorRouteImport } from './routes/two-factor'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ShellAnnouncementsRouteImport } from './routes/_shell.announcements'
 import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
@@ -30,6 +33,8 @@ import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
 import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
+import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -55,9 +60,24 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SessionExpiredRoute = SessionExpiredRouteImport.update({
+  id: '/session-expired',
+  path: '/session-expired',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TwoFactorRoute = TwoFactorRouteImport.update({
+  id: '/two-factor',
+  path: '/two-factor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShellAnnouncementsRoute = ShellAnnouncementsRouteImport.update({
@@ -135,13 +155,26 @@ const ShellTenantsRoute = ShellTenantsRouteImport.update({
   path: '/tenants',
   getParentRoute: () => ShellRoute,
 } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterTokenRoute = RegisterTokenRouteImport.update({
+  id: '/register/$token',
+  path: '/register/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
+  '/two-factor': typeof TwoFactorRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
   '/dashboard': typeof ShellDashboardRoute
@@ -157,13 +190,18 @@ export interface FileRoutesByFullPath {
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
   '/tenants': typeof ShellTenantsRoute
+  '/invite/$token': typeof InviteTokenRoute
+  '/register/$token': typeof RegisterTokenRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
+  '/two-factor': typeof TwoFactorRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
   '/dashboard': typeof ShellDashboardRoute
@@ -179,6 +217,8 @@ export interface FileRoutesByTo {
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
   '/tenants': typeof ShellTenantsRoute
+  '/invite/$token': typeof InviteTokenRoute
+  '/register/$token': typeof RegisterTokenRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -187,7 +227,10 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
+  '/two-factor': typeof TwoFactorRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_shell/announcements': typeof ShellAnnouncementsRoute
   '/_shell/applications': typeof ShellApplicationsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
@@ -203,6 +246,8 @@ export interface FileRoutesById {
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/staff': typeof ShellStaffRoute
   '/_shell/tenants': typeof ShellTenantsRoute
+  '/invite/$token': typeof InviteTokenRoute
+  '/register/$token': typeof RegisterTokenRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,7 +256,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
+    | '/session-expired'
     | '/signup'
+    | '/two-factor'
+    | '/verify-email'
     | '/announcements'
     | '/applications'
     | '/dashboard'
@@ -227,13 +275,18 @@ export interface FileRouteTypes {
     | '/settings'
     | '/staff'
     | '/tenants'
+    | '/invite/$token'
+    | '/register/$token'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/forgot-password'
     | '/login'
     | '/reset-password'
+    | '/session-expired'
     | '/signup'
+    | '/two-factor'
+    | '/verify-email'
     | '/announcements'
     | '/applications'
     | '/dashboard'
@@ -249,6 +302,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/staff'
     | '/tenants'
+    | '/invite/$token'
+    | '/register/$token'
   id:
     | '__root__'
     | '/'
@@ -256,7 +311,10 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/reset-password'
+    | '/session-expired'
     | '/signup'
+    | '/two-factor'
+    | '/verify-email'
     | '/_shell/announcements'
     | '/_shell/applications'
     | '/_shell/dashboard'
@@ -272,6 +330,8 @@ export interface FileRouteTypes {
     | '/_shell/settings'
     | '/_shell/staff'
     | '/_shell/tenants'
+    | '/invite/$token'
+    | '/register/$token'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -280,7 +340,12 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SessionExpiredRoute: typeof SessionExpiredRoute
   SignupRoute: typeof SignupRoute
+  TwoFactorRoute: typeof TwoFactorRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
+  InviteTokenRoute: typeof InviteTokenRoute
+  RegisterTokenRoute: typeof RegisterTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -320,11 +385,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/session-expired': {
+      id: '/session-expired'
+      path: '/session-expired'
+      fullPath: '/session-expired'
+      preLoaderRoute: typeof SessionExpiredRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/two-factor': {
+      id: '/two-factor'
+      path: '/two-factor'
+      fullPath: '/two-factor'
+      preLoaderRoute: typeof TwoFactorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_shell/announcements': {
@@ -432,6 +518,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellTenantsRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register/$token': {
+      id: '/register/$token'
+      path: '/register/$token'
+      fullPath: '/register/$token'
+      preLoaderRoute: typeof RegisterTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -479,7 +579,12 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SessionExpiredRoute: SessionExpiredRoute,
   SignupRoute: SignupRoute,
+  TwoFactorRoute: TwoFactorRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
+  InviteTokenRoute: InviteTokenRoute,
+  RegisterTokenRoute: RegisterTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
