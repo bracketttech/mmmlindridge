@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Building2, Plus, Search, SearchX, X } from "lucide-react";
 import { Placeholder } from "@/components/nestly/Placeholder";
 import { EmptyState, GlassCard, PageHeader, PillButton, SegmentedChips, Skel, Stagger } from "@/components/nestly/primitives";
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/_shell/properties/")({
   component: PropertiesPage,
 });
 
-export function filterProperties(list: Property[], f: Search) {
+function filterProperties(list: Property[], f: Search) {
   const q = f.q?.trim().toLowerCase() ?? "";
   return list.filter((p) =>
     (!q || [p.name, p.suburb, p.city, p.address].some((x) => x.toLowerCase().includes(q))) &&
@@ -68,9 +68,7 @@ function PropertiesPage() {
   const statusCount = (s: (typeof STATUSES)[number]) => (s === "all" ? all.length : all.filter((x) => occupancyStatuses(x).includes(s)).length);
 
   const addBtn = canManage && (
-    <Link to="/properties/new" className="contents">
-      <PillButton icon={<Plus className="h-4 w-4" />} tabIndex={-1}>{p.add}</PillButton>
-    </Link>
+    <PillButton icon={<Plus className="h-4 w-4" />} onClick={() => navigate({ to: "/properties/new" })}>{p.add}</PillButton>
   );
 
   return (
@@ -84,10 +82,10 @@ function PropertiesPage() {
       ) : (
         <>
           <Stagger className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-4">
-            <KpiTile loading={loading} label={t.nav.properties} value={String(all.length)} unit={t.props.card.units.replace("units", "buildings")} variant="tick-bar" visual={all.map((x) => x.units)} tip={all.map((x) => `${x.name}: ${x.units} units`).join(" · ")} />
-            <KpiTile loading={loading} label={t.props.detail.occupancy} value={`${occPct}%`} unit={`${occupied}/${units}`} variant="donut" percent={occPct} tip={`${occupied} of ${units} units let`} />
+            <KpiTile loading={loading} label={t.nav.properties} value={String(all.length)} unit={p.kpi.buildings} variant="tick-bar" visual={all.map((x) => x.units)} tip={all.map((x) => `${x.name}: ${x.units}`).join(" · ")} />
+            <KpiTile loading={loading} label={t.props.detail.occupancy} value={`${occPct}%`} unit={`${occupied}/${units}`} variant="donut" percent={occPct} tip={fill(p.kpi.let, { o: occupied, u: units })} />
             <KpiTile loading={loading} label={t.dash.vacant} value={String(vacant)} unit={t.dash.ready} variant="plain" delta={String(all.reduce((a, x) => a + x.maintenance, 0))} deltaLabel={t.units.statuses.maintenance.toLowerCase()} />
-            <KpiTile loading={loading} label={t.props.detail.rentRoll} value={formatCompactZAR(rentRoll)} unit="/ month" variant="sparkline" visual={all.map((x) => x.rentRoll)} tip={formatZAR(rentRoll)} />
+            <KpiTile loading={loading} label={t.props.detail.rentRoll} value={formatCompactZAR(rentRoll)} unit={p.kpi.perMonth} variant="sparkline" visual={all.map((x) => x.rentRoll)} tip={formatZAR(rentRoll)} />
           </Stagger>
 
           <GlassCard hover={false} className="animate-rise space-y-3 p-3 md:p-4" style={{ animationDelay: "300ms" }}>

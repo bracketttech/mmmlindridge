@@ -49,7 +49,7 @@ export function PropertyCard({ p, canManage, onDelete }: { p: Property; canManag
               <dt className="truncate">{c.rentRoll}</dt>
               <Tooltip>
                 <TooltipTrigger asChild><dd tabIndex={0} className="relative z-10 w-fit rounded-sm text-[16px] tabular-nums text-ink-900">{formatCompactZAR(p.rentRoll)}</dd></TooltipTrigger>
-                <TooltipContent>{formatZAR(p.rentRoll)} / month</TooltipContent>
+                <TooltipContent>{formatZAR(p.rentRoll)} {t.props.kpi.perMonth}</TooltipContent>
               </Tooltip>
             </div>
           </dl>

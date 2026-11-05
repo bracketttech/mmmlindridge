@@ -195,6 +195,7 @@ export const t = {
   },
   props: {
     title: "Your", muted: "properties", sub: "{n} properties · {u} units · {o}% occupied",
+    kpi: { buildings: "buildings", perMonth: "/ month", let: "{o} of {u} units let" },
     add: "Add property", search: "Search by name, suburb or city", filters: "Filters", clear: "Clear filters",
     type: "Type", province: "Province", status: "Status", anyType: "All types", anyProvince: "All provinces",
     statuses: { all: "All", fully_let: "Fully let", vacancies: "Vacancies", maintenance: "Maintenance", setup: "Setup needed" },
