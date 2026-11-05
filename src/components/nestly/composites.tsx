@@ -57,9 +57,21 @@ export function NAvatar({ name, src, size = 36, className }: { name: string; src
 
 /* ---------- DataTable ---------- */
 export type Column<T> = { key: string; header: string; className?: string; render: (row: T) => ReactNode };
-export function DataTable<T extends { id: string }>({ rows, columns, selectedId, onSelect, loading, error, onRetry, caption }: { rows: T[]; columns: Column<T>[]; selectedId?: string; onSelect?: (id: string) => void; loading?: boolean; error?: boolean; onRetry?: () => void; caption: string }) {
+export function DataTable<T extends { id: string }>({ rows, columns, selectedId, onSelect, loading, error, onRetry, caption, card, empty }: { rows: T[]; columns: Column<T>[]; selectedId?: string | undefined; onSelect?: (id: string) => void; loading?: boolean; error?: boolean; onRetry?: () => void; caption: string; card?: (row: T) => ReactNode; empty?: ReactNode }) {
+  const emptyNode = empty ?? <EmptyState body="No rows match this filter." />;
   return (
-    <div className="w-full overflow-x-auto">
+    <>
+    {card && (
+      <ul aria-label={caption} className="space-y-2 md:hidden">
+        {loading && Array.from({ length: 3 }).map((_, i) => <li key={i}><Skel className="h-24 w-full rounded-[18px]" /></li>)}
+        {!loading && error && <li><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={onRetry && <PillButton variant="secondary" onClick={onRetry}>{t.common.retry}</PillButton>} /></li>}
+        {!loading && !error && rows.length === 0 && <li>{emptyNode}</li>}
+        {!loading && !error && rows.map((r) => (
+          <li key={r.id} className={cn("rounded-[18px] border border-border-soft bg-surface-solid/80 p-4", r.id === selectedId && "bg-olive-100")}>{card(r)}</li>
+        ))}
+      </ul>
+    )}
+    <div className={cn("w-full overflow-x-auto", card && "hidden md:block")}>
       <table className="w-full min-w-[640px] border-separate border-spacing-y-1 text-left text-[14px]">
         <caption className="sr-only">{caption}</caption>
         <thead>
@@ -78,7 +90,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
             <tr><td colSpan={columns.length}><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={onRetry && <PillButton variant="secondary" onClick={onRetry}>{t.common.retry}</PillButton>} /></td></tr>
           )}
           {!loading && !error && rows.length === 0 && (
-            <tr><td colSpan={columns.length}><EmptyState body="No rows match this filter." /></td></tr>
+            <tr><td colSpan={columns.length}>{emptyNode}</td></tr>
           )}
           {!loading && !error && rows.map((r) => {
             const sel = r.id === selectedId;
@@ -100,6 +112,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 
