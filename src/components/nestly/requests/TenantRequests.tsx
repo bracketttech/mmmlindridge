@@ -47,7 +47,7 @@ export function TenantRequests({ selectedId, onSelect }: { selectedId?: string |
                       <div className="flex items-start gap-2">
                         <div className="min-w-0 flex-1">
                           <TruncatedText text={x.title} className="font-medium text-ink-900" />
-                          <p className="text-[12px] text-ink-500">{x.ref} · {r.categoryShort[x.category]} · {formatDate(x.createdAt)}</p>
+                          <TruncatedText text={`${x.ref} · ${r.categoryShort[x.category]} · ${formatDate(x.createdAt)}`} className="text-[12px] text-ink-500" />
                         </div>
                         <ReqStatusChip s={x.status} />
                       </div>
@@ -76,8 +76,8 @@ function TenantRequestDetail({ req, name }: { req: MaintRequest; name: string })
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2"><span className="text-[12px] font-medium text-ink-500">{req.ref}</span><StatusChip>{r.categoryShort[req.category]}</StatusChip><PriorityChip p={req.priority} /><ReqStatusChip s={req.status} /></div>
         <h2 className="hidden lg:block"><TruncatedText text={req.title} lines={2} className="text-h2 text-ink-900" /></h2>
-        <p className="whitespace-pre-wrap text-[14px] text-ink-900">{req.description}</p>
-        {req.assignee && <p className="text-[13px] text-ink-500">{r.detail.assign}: {req.assignee.name}</p>}
+        <p className="whitespace-pre-wrap break-words text-[14px] text-ink-900">{req.description}</p>
+        {req.assignee && <TruncatedText text={`${r.detail.assign}: ${req.assignee.name}`} className="text-[13px] text-ink-500" />}
       </div>
       {canRate(req) && (
         <section className="animate-rise-in space-y-3 rounded-[8.05px] border border-olive-200 bg-olive-100/60 p-4">

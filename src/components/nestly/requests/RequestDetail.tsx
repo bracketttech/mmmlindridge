@@ -49,14 +49,14 @@ export function RequestDetail({ req, place }: { req: MaintRequest; place: string
         <h2><TruncatedText text={req.title} lines={2} className="text-h2 text-ink-900" /></h2>
         <div className="flex items-center gap-2">
           <NAvatar name={req.tenantName} size={32} />
-          <div className="min-w-0"><TruncatedText text={req.tenantName} className="text-[14px] font-medium text-ink-900" /><p className="flex items-center gap-1 text-[12px] text-ink-500"><MapPin className="h-3 w-3 shrink-0" aria-hidden /><TruncatedText text={place} /></p></div>
+          <div className="min-w-0 flex-1"><TruncatedText text={req.tenantName} className="text-[14px] font-medium text-ink-900" /><p className="flex min-w-0 items-center gap-1 text-[12px] text-ink-500"><MapPin className="h-3 w-3 shrink-0" aria-hidden /><TruncatedText text={place} /></p></div>
         </div>
       </div>
 
-      <p className="whitespace-pre-wrap text-[14px] text-ink-900">{req.description}</p>
+      <p className="whitespace-pre-wrap break-words text-[14px] text-ink-900">{req.description}</p>
       <div className="grid gap-2 text-[13px] text-ink-500 sm:grid-cols-2">
-        <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" aria-hidden />{fill(r.detail.logged, { date: fmtDateTime(req.createdAt) })}</span>
-        <span className="flex items-center gap-1.5"><CalendarDays className="h-3.5 w-3.5" aria-hidden />{req.moveOutDate ? `${r.detail.moveOut}: ${formatDate(req.moveOutDate)}` : `${r.detail.access}: ${req.access}`}</span>
+        <span className="flex min-w-0 items-center gap-1.5"><Clock className="h-3.5 w-3.5 shrink-0" aria-hidden /><TruncatedText text={fill(r.detail.logged, { date: fmtDateTime(req.createdAt) })} /></span>
+        <span className="flex min-w-0 items-center gap-1.5"><CalendarDays className="h-3.5 w-3.5 shrink-0" aria-hidden /><TruncatedText text={req.moveOutDate ? `${r.detail.moveOut}: ${formatDate(req.moveOutDate)}` : `${r.detail.access}: ${req.access}`} /></span>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
@@ -71,14 +71,14 @@ export function RequestDetail({ req, place }: { req: MaintRequest; place: string
       </div>
 
       <div className="flex items-end gap-2">
-        <div className="flex-1"><TextField label={r.detail.cost} inputMode="decimal" value={cost} onChange={(e) => setCost(e.target.value.replace(/[^\d.,]/g, ""))} /></div>
+        <div className="min-w-0 flex-1"><TextField label={r.detail.cost} inputMode="decimal" value={cost} onChange={(e) => setCost(e.target.value.replace(/[^\d.,]/g, ""))} /></div>
         <PillButton variant="secondary" onClick={() => run(requestService.setCost(req.id, cost ? Number(cost.replace(",", ".")) : undefined), r.detail.costSaved)}>{r.detail.saveCost}</PillButton>
       </div>
 
       <Section title={r.quote.title}>
         {req.quote ? (
           <div className="flex flex-wrap items-center gap-3 rounded-[5.75px] border border-border-soft p-3">
-            <div className="min-w-0 flex-1"><TruncatedText text={req.quote.contractorName} className="text-[14px] font-medium text-ink-900" /><p className="text-[13px] text-ink-500">{formatZAR(req.quote.amount)} · {req.quote.note}</p></div>
+            <div className="min-w-0 flex-1"><TruncatedText text={req.quote.contractorName} className="text-[14px] font-medium text-ink-900" /><TruncatedText text={`${formatZAR(req.quote.amount)} · ${req.quote.note}`} className="text-[13px] text-ink-500" /></div>
             <StatusChip tone={req.quote.status === "approved" ? "success" : req.quote.status === "declined" ? "danger" : "warning"} dot>{r.quote[req.quote.status]}</StatusChip>
             {req.quote.status === "pending" && <PillButton size="sm" onClick={() => setDecide(true)}>{r.quote.approveTitle}</PillButton>}
           </div>
