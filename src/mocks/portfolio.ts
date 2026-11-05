@@ -1,6 +1,6 @@
 import { getTenancy } from "./tenancy-store";
 // Portfolio mock seed (properties, units, documents). The browser store in ./portfolio-store.ts copies this on first run.
-import { properties as baseProps, units as baseUnits, tenants } from "./data";
+import { properties as baseProps, units as baseUnits } from "./data";
 
 export const PROPERTY_TYPES = ["apartment_block", "house", "complex", "townhouse", "commercial", "student", "granny_flat"] as const;
 export type PropertyType = (typeof PROPERTY_TYPES)[number];
