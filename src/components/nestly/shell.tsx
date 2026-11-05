@@ -133,11 +133,11 @@ export const DEMO_USER = { name: "Janice Tinto", email: "janice@nestly.co.za" };
 function AvatarMenu() {
   const { role, setRole } = useAppState();
   const navigate = useNavigate();
-  const [user, setUser] = useState(DEMO_USER);
-  useEffect(() => {
+  // Shell is client-only (ssr: false), so the session can be read synchronously — no name/photo flash.
+  const [user] = useState(() => {
     const s = readSession();
-    if (s) setUser({ name: s.name, email: s.email });
-  }, []);
+    return s ? { name: s.name, email: s.email } : DEMO_USER;
+  });
   const signOut = () => {
     clearSession();
     navigate({ to: "/login", replace: true });
@@ -145,7 +145,7 @@ function AvatarMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.account} className="shrink-0 rounded-full">
-        <NAvatar name={user.name} size={40} className="bg-olive-800 text-primary-foreground" />
+        <NAvatar name={user.name} src={avatarFor(user.email)} size={40} className="bg-olive-800 text-primary-foreground" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64 rounded-[16px] p-1.5">
         <DropdownMenuLabel className="font-normal">
@@ -240,6 +240,8 @@ function MobileTabBar() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  // Warm every shell image once so property switches and menus never show a blank frame.
+  useEffect(() => { preloadImages(allShellImages()); }, []);
   return (
     <div className="flex min-h-screen w-full gap-3 bg-outer p-0 md:p-3">
       <Sidebar />
