@@ -37,6 +37,7 @@ import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
+import { Route as ShellPropertiesPropertyIdRouteImport } from './routes/_shell.properties.$propertyId'
 import { Route as ShellPropertiesNewRouteImport } from './routes/_shell.properties.new'
 import { Route as ShellPropertiesPropertyIdEditRouteImport } from './routes/_shell.properties.$propertyId_.edit'
 
@@ -179,6 +180,12 @@ const ShellPropertiesIndexRoute = ShellPropertiesIndexRouteImport.update({
   path: '/properties/',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellPropertiesPropertyIdRoute =
+  ShellPropertiesPropertyIdRouteImport.update({
+    id: '/properties/$propertyId',
+    path: '/properties/$propertyId',
+    getParentRoute: () => ShellRoute,
+  } as any)
 const ShellPropertiesNewRoute = ShellPropertiesNewRouteImport.update({
   id: '/properties/new',
   path: '/properties/new',
@@ -218,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/properties/': typeof ShellPropertiesIndexRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
@@ -249,6 +257,7 @@ export interface FileRoutesByTo {
   '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/properties': typeof ShellPropertiesIndexRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
@@ -282,6 +291,7 @@ export interface FileRoutesById {
   '/_shell/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/_shell/properties/new': typeof ShellPropertiesNewRoute
   '/_shell/properties/': typeof ShellPropertiesIndexRoute
   '/_shell/properties/$propertyId_/edit': typeof ShellPropertiesPropertyIdEditRoute
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/properties/$propertyId'
     | '/properties/new'
     | '/properties/'
     | '/properties/$propertyId/edit'
@@ -346,6 +357,7 @@ export interface FileRouteTypes {
     | '/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/properties/$propertyId'
     | '/properties/new'
     | '/properties'
     | '/properties/$propertyId/edit'
@@ -378,6 +390,7 @@ export interface FileRouteTypes {
     | '/_shell/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/_shell/properties/$propertyId'
     | '/_shell/properties/new'
     | '/_shell/properties/'
     | '/_shell/properties/$propertyId_/edit'
@@ -596,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellPropertiesIndexRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/properties/$propertyId': {
+      id: '/_shell/properties/$propertyId'
+      path: '/properties/$propertyId'
+      fullPath: '/properties/$propertyId'
+      preLoaderRoute: typeof ShellPropertiesPropertyIdRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/new': {
       id: '/_shell/properties/new'
       path: '/properties/new'
@@ -629,6 +649,7 @@ interface ShellRouteChildren {
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
   ShellTenantsRoute: typeof ShellTenantsRoute
+  ShellPropertiesPropertyIdRoute: typeof ShellPropertiesPropertyIdRoute
   ShellPropertiesNewRoute: typeof ShellPropertiesNewRoute
   ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
   ShellPropertiesPropertyIdEditRoute: typeof ShellPropertiesPropertyIdEditRoute
@@ -650,6 +671,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
   ShellTenantsRoute: ShellTenantsRoute,
+  ShellPropertiesPropertyIdRoute: ShellPropertiesPropertyIdRoute,
   ShellPropertiesNewRoute: ShellPropertiesNewRoute,
   ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
   ShellPropertiesPropertyIdEditRoute: ShellPropertiesPropertyIdEditRoute,
