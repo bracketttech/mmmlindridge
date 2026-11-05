@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
 import { z } from "zod";
 import { AuthHeading, AuthLayout, PasswordField, StrengthMeter } from "@/components/nestly/auth";
-import { LinkStatusScreen } from "@/components/nestly/LinkStatusScreen";
 import { PillButton, SuccessCheck } from "@/components/nestly/primitives";
 import { resetSchema } from "@/lib/validation";
 import { authService, AuthError } from "@/services/auth";
@@ -39,8 +38,8 @@ function ResetPage() {
     <AuthLayout>
       {state === "expired" ? (
         <div>
-          <LinkStatusScreen status="expired" />
-          <Link to="/forgot-password" className="mt-3 inline-block rounded-sm text-[14px] font-medium text-olive-700 hover:underline">{s.requestNew}</Link>
+          <AuthHeading title={s.expiredTitle} muted={s.expiredMuted} sub={s.expiredBody} />
+          <Link to="/forgot-password" className="inline-flex h-12 items-center rounded-full bg-olive-700 px-6 text-sm font-medium text-primary-foreground hover:bg-olive-800">{s.requestNew}</Link>
         </div>
       ) : state === "done" ? (
         <div className="flex flex-col items-center text-center">
