@@ -12,7 +12,7 @@ export type NavKey =
   | "dashboard" | "properties" | "tenants" | "requests" | "schedule" | "invoices" | "leases"
   | "applications" | "staff" | "legal" | "announcements" | "reports" | "settings" | "profile";
 
-export type NavItem = { key: NavKey; label: string; to: `/${string}`; icon: LucideIcon };
+export type NavItem = { key: NavKey; label: string; to: `/${NavKey}`; icon: LucideIcon };
 
 const BASE: Record<NavKey, NavItem> = {
   dashboard: { key: "dashboard", label: t.nav.dashboard, to: "/dashboard", icon: LayoutDashboard },

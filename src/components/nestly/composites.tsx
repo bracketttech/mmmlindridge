@@ -27,9 +27,9 @@ export function KpiTile({ label, value, unit, delta, deltaLabel, variant = "plai
         <TruncatedText text={label} className="text-[13px] text-ink-500" />
         <CardMenu />
       </div>
-      <div className="flex items-end justify-between gap-3">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex min-w-0 items-baseline gap-1.5">
-          <span className="text-kpi text-ink-900 truncate">{value}</span>
+          <span className="text-kpi whitespace-nowrap text-ink-900">{value}</span>
           {unit && <span className="truncate text-[13px] text-ink-500">{unit}</span>}
         </div>
         {variant === "donut" && <MiniDonut value={percent} tip={tip} />}
@@ -42,7 +42,7 @@ export function KpiTile({ label, value, unit, delta, deltaLabel, variant = "plai
 }
 
 /* ---------- Avatar ---------- */
-export function NAvatar({ name, src, size = 36, className }: { name: string; src?: string | null; size?: number; className?: string }) {
+export function NAvatar({ name, src, size = 36, className }: { name: string; src?: string | null | undefined; size?: number; className?: string }) {
   return (
     <span className={cn("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-olive-200 font-medium text-olive-900", className)} style={{ width: size, height: size, fontSize: size * 0.36 }}>
       {src ? <img src={src} alt={name} className="h-full w-full object-cover" /> : <span aria-label={name}>{initials(name)}</span>}
@@ -60,7 +60,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
         <thead>
           <tr className="bg-surface-solid/70">
             {columns.map((c, i) => (
-              <th key={c.key} scope="col" className={cn("text-overline px-3 py-3 font-medium text-ink-500", i === 0 && "rounded-l-[10px]", i === columns.length - 1 && "rounded-r-[10px]", c.className)}>{c.header}</th>
+              <th key={c.key} scope="col" className={cn("text-overline whitespace-nowrap px-3 py-3 font-medium text-ink-500", i === 0 && "rounded-l-[10px]", i === columns.length - 1 && "rounded-r-[10px]", c.className)}>{c.header}</th>
             ))}
           </tr>
         </thead>
@@ -87,7 +87,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
                 className={cn("cursor-pointer transition-colors", sel ? "bg-olive-100" : "hover:bg-surface-solid/70")}
               >
                 {columns.map((c, i) => (
-                  <td key={c.key} className={cn("border-b border-border-soft px-3 py-3 align-middle", sel && "border-transparent", i === 0 && "rounded-l-[12px]", i === columns.length - 1 && "rounded-r-[12px]", c.className)}>{c.render(r)}</td>
+                  <td key={c.key} className={cn("whitespace-nowrap border-b border-border-soft px-3 py-3 align-middle", sel && "border-transparent", i === 0 && "rounded-l-[12px]", i === columns.length - 1 && "rounded-r-[12px]", c.className)}>{c.render(r)}</td>
                 ))}
               </tr>
             );
@@ -170,9 +170,9 @@ export function AvatarUploader({ name, initial = null, onChange }: { name: strin
   const input = useRef<HTMLInputElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const pick = (f?: File) => {
+  const pick = (f?: File): void => {
     if (!f) return;
-    if (!f.type.startsWith("image/")) return toast.error("Please choose an image file.");
+    if (!f.type.startsWith("image/")) { toast.error("Please choose an image file."); return; }
     const reader = new FileReader();
     reader.onload = () => { setDraft(String(reader.result)); setZoom(1); };
     reader.readAsDataURL(f);
