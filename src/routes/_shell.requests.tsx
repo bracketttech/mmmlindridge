@@ -166,7 +166,7 @@ function Contractors() {
               <NAvatar name={c.name} size={44} />
               <div className="min-w-0 flex-1"><TruncatedText text={c.company} className="font-medium text-ink-900" /><TruncatedText text={`${c.name} · ${c.areas}`} className="block text-[12px] text-ink-500" /></div>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-[13px]"><StatusChip tone="info" className="min-w-0 max-w-full truncate">{c.trade}</StatusChip><span className="inline-flex items-center gap-1 text-ink-900"><Star className="h-3.5 w-3.5 fill-warning text-warning" aria-hidden />{c.rating.toFixed(1).replace(".", ",")}</span><span className="text-ink-500">{fill(r.contractors.jobs, { n: c.jobs })}</span></div>
+            <div className="flex flex-wrap items-center gap-2 text-[13px]"><StatusChip tone="info">{c.trade}</StatusChip><span className="inline-flex items-center gap-1 text-ink-900"><Star className="h-3.5 w-3.5 fill-warning text-warning" aria-hidden />{c.rating.toFixed(1).replace(".", ",")}</span><span className="text-ink-500">{fill(r.contractors.jobs, { n: c.jobs })}</span></div>
             <div className="flex gap-2">
               <a href={`tel:${c.phone.replace(/\s/g, "")}`} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-olive-100 px-3 text-[13px] text-olive-900 hover:bg-olive-200"><Phone className="h-3.5 w-3.5" aria-hidden />{r.contractors.call}</a>
               <a href={`mailto:${c.email}`} className="inline-flex h-9 min-w-0 items-center gap-1.5 rounded-full bg-olive-100 px-3 text-[13px] text-olive-900 hover:bg-olive-200"><Mail className="h-3.5 w-3.5 shrink-0" aria-hidden /><span className="truncate">{r.contractors.email}</span></a>
@@ -204,7 +204,7 @@ function Schedule() {
                   <TruncatedText text={`${dir.propertyName(x.propertyId)} · ${x.assignee}`} className="block text-[12px] text-ink-500" />
                   <TruncatedText text={`${r.schedule.freq[x.frequency]} · ${fill(r.schedule.last, { date: formatDate(x.lastDone) })}`} className="text-[12px] text-ink-500" />
                 </div>
-                {x.nextDue < today ? <StatusChip tone="danger" dot className="shrink-0">{r.schedule.overdue}</StatusChip> : x.nextDue <= soon ? <StatusChip tone="warning" dot className="shrink-0">{r.schedule.dueSoon}</StatusChip> : null}
+                <span className="shrink-0">{x.nextDue < today ? <StatusChip tone="danger" dot>{r.schedule.overdue}</StatusChip> : x.nextDue <= soon ? <StatusChip tone="warning" dot>{r.schedule.dueSoon}</StatusChip> : null}</span>
               </li>
             );
           })}
