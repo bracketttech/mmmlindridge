@@ -13,7 +13,9 @@ import { UnitsPanel } from "@/components/nestly/properties/UnitsPanel";
 import { DocumentsPanel } from "@/components/nestly/properties/DocumentsPanel";
 import { usePropertyDelete } from "@/components/nestly/properties/actions";
 import { fill, PropertyBadges, resolvePhoto, useCanManage } from "@/components/nestly/properties/shared";
-import { invoiceService, propertyService, requestService, staffService, tenantService, type Invoice, type Property, type Request, type Staff, type Tenant } from "@/services";
+import { invoiceService, propertyService, requestService, staffService, tenantService, type Invoice, type Property, type MaintRequest, type Staff, type Tenant } from "@/services";
+import { PriorityChip, ReqStatusChip } from "@/components/nestly/requests/shared";
+import { isOpenStatus } from "@/lib/maintenance-rules";
 import { useAppState } from "@/lib/app-state";
 import { roleCanSee } from "@/lib/nav";
 import { useData } from "@/lib/use-data";
@@ -212,22 +214,22 @@ function TenantsTab({ p }: { p: Property }) {
 function MaintenanceTab({ p }: { p: Property }) {
   const d = t.props.detail;
   const { data, loading, error, reload } = useData(() => requestService.list(p.id), [p.id]);
-  const cols: Column<Request>[] = [
+  const cols: Column<MaintRequest>[] = [
     { key: "title", header: d.maintTitle, render: (x) => <TruncatedText text={x.title} className="max-w-[280px] font-medium text-ink-900" /> },
-    { key: "type", header: d.type, render: (x) => <StatusChip tone={x.type === "fault" ? "warning" : "info"}>{x.type === "fault" ? "Fault" : "Upgrade"}</StatusChip> },
-    { key: "priority", header: "Priority", render: (x) => <StatusCell status={x.priority} /> },
-    { key: "status", header: t.units.cols.status, render: (x) => <StatusCell status={x.status} /> },
+    { key: "type", header: d.type, render: (x) => <StatusChip tone={x.category === "fault" ? "warning" : "info"}>{t.req.categoryShort[x.category]}</StatusChip> },
+    { key: "priority", header: "Priority", render: (x) => <PriorityChip p={x.priority} /> },
+    { key: "status", header: t.units.cols.status, render: (x) => <ReqStatusChip s={x.status} /> },
     { key: "date", header: "Logged", render: (x) => <span className="text-ink-500">{formatDate(x.createdAt)}</span> },
   ];
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3 md:max-w-md">
-        <KpiTile loading={loading} label={d.maintTitle} value={String((data ?? []).filter((x) => x.status !== "resolved").length)} unit="open" variant="plain" />
+        <KpiTile loading={loading} label={d.maintTitle} value={String((data ?? []).filter((x) => isOpenStatus(x.status)).length)} unit="open" variant="plain" />
         <KpiTile label={d.inMaint} value={String(p.maintenance)} unit={d.units.toLowerCase()} variant="plain" />
       </div>
       <GlassCard hover={false} className="p-3 md:p-4">
         <DataTable rows={data ?? []} columns={cols} loading={loading} error={error} onRetry={reload} caption={d.maintTitle}
-          card={(x) => <div className="space-y-1.5"><TruncatedText text={x.title} className="font-medium text-ink-900" /><div className="flex flex-wrap items-center gap-2"><StatusCell status={x.status} /><StatusCell status={x.priority} /><span className="text-[12px] text-ink-500">{formatDate(x.createdAt)}</span></div></div>}
+          card={(x) => <div className="space-y-1.5"><TruncatedText text={x.title} className="font-medium text-ink-900" /><div className="flex flex-wrap items-center gap-2"><ReqStatusChip s={x.status} /><PriorityChip p={x.priority} /><span className="text-[12px] text-ink-500">{formatDate(x.createdAt)}</span></div></div>}
           empty={<EmptyState icon={<Wrench className="h-6 w-6" />} title={d.maintEmpty} body={d.maintEmptyBody} />} />
       </GlassCard>
     </div>

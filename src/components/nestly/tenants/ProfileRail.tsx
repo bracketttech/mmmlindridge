@@ -4,6 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { NAvatar, StatusCell } from "../composites";
 import { EmptyState, PillButton, Skel, StatusChip, Timeline, TruncatedText } from "../primitives";
 import { changeService, requestService, tenantService, type Tenant } from "@/services";
+import { ReqStatusChip } from "@/components/nestly/requests/shared";
 import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
@@ -99,7 +100,7 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
       <Section title={r.requests}>
         {reqs.loading ? <Skel className="h-12 w-full" /> : (reqs.data ?? []).length === 0 ? <p className="text-[13px] text-ink-500">{r.noRequests}</p> : (
           <ul className="space-y-2">{reqs.data!.map((q) => (
-            <li key={q.id} className="flex items-center justify-between gap-2 text-[13px]"><TruncatedText text={q.title} className="min-w-0 flex-1 text-ink-900" /><StatusCell status={q.status} /></li>
+            <li key={q.id} className="flex items-center justify-between gap-2 text-[13px]"><TruncatedText text={q.title} className="min-w-0 flex-1 text-ink-900" /><ReqStatusChip s={q.status} /></li>
           ))}</ul>
         )}
       </Section>
