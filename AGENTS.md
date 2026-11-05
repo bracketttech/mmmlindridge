@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Nestly
+- UI-only phases: pages read data only through `src/services/*` (backed by `src/mocks`) so a real backend can replace them without page changes.
+- All UI copy lives in `src/lib/strings.ts`; en-ZA formatting helpers in `src/lib/format.ts`.
+- Role-aware navigation is defined once in `src/lib/nav.ts`; shell, tab bar and route guards read from it.
+- App pages live under the `_shell` pathless layout; product docs are in `DOCS/`.
