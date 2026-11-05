@@ -33,7 +33,6 @@ import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
 import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
-import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
@@ -160,11 +159,6 @@ const ShellStaffRoute = ShellStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => ShellRoute,
 } as any)
-const ShellTenantsRoute = ShellTenantsRouteImport.update({
-  id: '/tenants',
-  path: '/tenants',
-  getParentRoute: () => ShellRoute,
-} as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
@@ -222,7 +216,6 @@ export interface FileRoutesByFullPath {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
-  '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -254,7 +247,6 @@ export interface FileRoutesByTo {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
-  '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -288,7 +280,6 @@ export interface FileRoutesById {
   '/_shell/schedule': typeof ShellScheduleRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/staff': typeof ShellStaffRoute
-  '/_shell/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -322,7 +313,6 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
-    | '/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/properties/$propertyId'
@@ -354,7 +344,6 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
-    | '/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/properties/$propertyId'
@@ -387,7 +376,6 @@ export interface FileRouteTypes {
     | '/_shell/schedule'
     | '/_shell/settings'
     | '/_shell/staff'
-    | '/_shell/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/_shell/properties/$propertyId'
@@ -581,13 +569,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellStaffRouteImport
       parentRoute: typeof ShellRoute
     }
-    '/_shell/tenants': {
-      id: '/_shell/tenants'
-      path: '/tenants'
-      fullPath: '/tenants'
-      preLoaderRoute: typeof ShellTenantsRouteImport
-      parentRoute: typeof ShellRoute
-    }
     '/invite/$token': {
       id: '/invite/$token'
       path: '/invite/$token'
@@ -648,7 +629,6 @@ interface ShellRouteChildren {
   ShellScheduleRoute: typeof ShellScheduleRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
-  ShellTenantsRoute: typeof ShellTenantsRoute
   ShellPropertiesPropertyIdRoute: typeof ShellPropertiesPropertyIdRoute
   ShellPropertiesNewRoute: typeof ShellPropertiesNewRoute
   ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
@@ -670,7 +650,6 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellScheduleRoute: ShellScheduleRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
-  ShellTenantsRoute: ShellTenantsRoute,
   ShellPropertiesPropertyIdRoute: ShellPropertiesPropertyIdRoute,
   ShellPropertiesNewRoute: ShellPropertiesNewRoute,
   ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
