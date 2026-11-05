@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/format";
 import { propertyService, notificationService, type Property, type Notification } from "@/services";
 import { NAvatar, BottomSheet } from "./composites";
+import { SearchOverlay } from "./SearchOverlay";
+import { propertyImage } from "./property-image";
 import { TruncatedText, IconButton, useRipple } from "./primitives";
 
 function useActiveIndex(items: NavItem[]) {
@@ -70,7 +72,7 @@ function PropertySwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.switchProperty} className="glass flex h-12 min-w-0 max-w-[280px] items-center gap-3 rounded-full py-1 pl-1 pr-3 text-left shadow-none">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>
+        {current ? <NAvatar name={current.name} src={propertyImage(current.id)} size={40} /> : <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>}
         <span className="min-w-0 flex-1">
           <TruncatedText text={name} className="text-[14px] font-medium text-ink-900" />
           <TruncatedText text={sub} className="text-[11px] text-ink-500" />
@@ -80,7 +82,7 @@ function PropertySwitcher() {
       <DropdownMenuContent align="start" className="w-72 rounded-[16px] p-1.5">
         {[{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }, ...(list ?? [])].map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[12px] py-2">
-            <NAvatar name={p.name} size={32} />
+            {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyImage(p.id)} size={32} />}
             <span className="min-w-0 flex-1">
               <TruncatedText text={p.name} className="text-[14px] font-medium" />
               <TruncatedText text={p.suburb ? `${p.address}, ${p.suburb}` : p.address} className="text-[12px] text-ink-500" />
@@ -119,6 +121,8 @@ function NotificationsBell() {
             </div>
           </div>
         ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild><Link to="/notifications" className="justify-center rounded-[12px] font-medium text-olive-700">{t.shell.viewAll}</Link></DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -164,6 +168,14 @@ function AvatarMenu() {
 }
 
 function TopBar() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setSearchOpen(true); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 md:flex md:justify-between">
       <div className="flex min-w-0 items-center gap-3">
@@ -171,11 +183,13 @@ function TopBar() {
         <PropertySwitcher />
       </div>
       <div className="flex items-center gap-2">
-        <label className="glass hidden h-11 w-72 items-center gap-2 rounded-full px-4 shadow-none xl:flex">
-          <Search className="h-4 w-4 shrink-0 text-ink-500" />
-          <input aria-label={t.shell.search} placeholder={t.shell.search} className="min-w-0 flex-1 bg-transparent text-[14px] outline-none placeholder:text-ink-500" />
-        </label>
-        <IconButton label={t.shell.search} className="xl:hidden"><Search className="h-4 w-4" /></IconButton>
+        <button type="button" onClick={() => setSearchOpen(true)} className="glass hidden h-11 w-72 items-center gap-2 rounded-full px-4 text-left text-[14px] text-ink-500 shadow-none xl:flex">
+          <Search className="h-4 w-4 shrink-0" />
+          <span className="flex-1 truncate">{t.shell.search}</span>
+          <kbd className="rounded-md bg-olive-100 px-1.5 text-[11px]">Ctrl K</kbd>
+        </button>
+        <IconButton label={t.shell.search} className="xl:hidden" onClick={() => setSearchOpen(true)}><Search className="h-4 w-4" /></IconButton>
+        <SearchOverlay open={searchOpen} onOpenChange={setSearchOpen} />
         <NotificationsBell />
         <AvatarMenu />
       </div>

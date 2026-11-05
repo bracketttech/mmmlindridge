@@ -48,6 +48,7 @@ export const t = {
     moreMenu: "More menus",
     close: "Close",
     mainNav: "Main navigation",
+    viewAll: "View all notifications",
   },
   placeholder: {
     title: "Coming in a later phase",
@@ -55,6 +56,25 @@ export const t = {
     notForRole: "Not available for this role",
     notForRoleBody: "Switch role from the avatar menu to preview this page.",
     backHome: "Back to dashboard",
+  },
+  search: {
+    title: "Search", hint: "Search tenants, properties, invoices and requests.", none: "No matches", noneBody: "Try a name, suburb, invoice number or request.",
+    kinds: { tenant: "Tenant", property: "Property", invoice: "Invoice", request: "Request" },
+  },
+  notificationsPage: { title: "Your", muted: "notifications", sub: "Rent, requests, leases and team updates", all: "All", unread: "Unread", markAll: "Mark all as read", empty: "You're all caught up." },
+  dash: {
+    featured: "Featured property", allProps: "Portfolio · {n} properties", units: "{n} units", occupied: "{n}% occupied", rentRoll: "rent roll",
+    rentCollected: "Rent collected", ofDue: "of {due} due", arrears: "Arrears", tenantsOwing: "across {n} tenants", occupancy: "Occupancy", unitsOcc: "of {n} units",
+    openRequests: "Open requests", highPriority: "{n} high priority", expiries: "Lease expiries", next90: "next 90 days",
+    chartTitle: "Rent collection", chartSub: "Last 12 months · collected vs due (dashed)", collected: "Collected", due: "Due",
+    ageingTitle: "Arrears ageing", ageingSub: "How long rent has been owed", ageingGaugeLabel: "of arrears under 30 days",
+    buckets: ["0–30 days", "31–60 days", "61–90 days", "90+ days"],
+    attention: "Today · needs attention", attentionSub: "Sorted by urgency", activity: "Recent activity", activitySub: "Payments, requests and leases",
+    expiriesTitle: "Upcoming lease expiries", vacantTitle: "Vacant & notice units", overdueTitle: "Unpaid invoices", requestsTitle: "Open requests",
+    jobsToday: "Jobs today", scheduled: "visits scheduled", vacant: "Vacant units", ready: "ready to let", applications: "Applications", toReview: "to review",
+    viewings: "Viewings", thisWeek: "this week", notices: "Active notices", served: "served", breaches: "Lease breaches", open: "open",
+    collectionRate: "Collection rate", thisMonth: "this month", vsLast: "vs last month", none: "Nothing needs attention right now.",
+    tenantSoon: "Your tenant home arrives in a later phase.",
   },
   home: {
     owner: { title: "Good afternoon,", muted: "Janice", sub: "Owner dashboard · your portfolio at a glance" },
