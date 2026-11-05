@@ -1,6 +1,6 @@
 import {
   Bell, Building2, CalendarDays, ClipboardCheck, FileText, Gavel, LayoutDashboard, Megaphone,
-  BarChart3, Receipt, Settings, ShieldCheck, Users, Wrench, UserRound, Wallet, CreditCard, FolderOpen, Home,
+  BarChart3, Receipt, Settings, ShieldCheck, Users, Wrench, UserRound, Wallet, CreditCard, FolderOpen, Home, UserCog,
   type LucideIcon,
 } from "lucide-react";
 import { t } from "./strings";
@@ -10,7 +10,7 @@ export const ROLES: Role[] = ["owner", "caretaker", "agent", "finance", "legal",
 
 export type NavKey =
   | "dashboard" | "properties" | "tenants" | "requests" | "schedule" | "invoices" | "leases"
-  | "applications" | "staff" | "legal" | "announcements" | "reports" | "settings" | "profile";
+  | "change-requests" | "applications" | "staff" | "legal" | "announcements" | "reports" | "settings" | "profile";
 
 export type NavItem = { key: NavKey; label: string; to: `/${NavKey}`; icon: LucideIcon };
 
@@ -18,6 +18,7 @@ const BASE: Record<NavKey, NavItem> = {
   dashboard: { key: "dashboard", label: t.nav.dashboard, to: "/dashboard", icon: LayoutDashboard },
   properties: { key: "properties", label: t.nav.properties, to: "/properties", icon: Building2 },
   tenants: { key: "tenants", label: t.nav.tenants, to: "/tenants", icon: Users },
+  "change-requests": { key: "change-requests", label: t.nav.changes, to: "/change-requests", icon: UserCog },
   requests: { key: "requests", label: t.nav.requests, to: "/requests", icon: Wrench },
   schedule: { key: "schedule", label: t.nav.schedule, to: "/schedule", icon: CalendarDays },
   invoices: { key: "invoices", label: t.nav.invoices, to: "/invoices", icon: Receipt },
@@ -32,7 +33,7 @@ const BASE: Record<NavKey, NavItem> = {
 };
 
 const ROLE_ITEMS: Record<Role, NavKey[]> = {
-  owner: ["dashboard", "properties", "tenants", "requests", "schedule", "invoices", "leases", "applications", "staff", "legal", "announcements", "reports", "settings"],
+  owner: ["dashboard", "properties", "tenants", "change-requests", "requests", "schedule", "invoices", "leases", "applications", "staff", "legal", "announcements", "reports", "settings"],
   caretaker: ["dashboard", "properties", "requests", "schedule", "announcements", "settings"],
   agent: ["dashboard", "properties", "tenants", "schedule", "applications", "leases", "announcements", "settings"],
   finance: ["dashboard", "properties", "tenants", "invoices", "reports", "settings"],
