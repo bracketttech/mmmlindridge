@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type ReactNode, type ButtonHTMLAttributes, type MouseEvent } from "react";
+import { cloneElement, isValidElement, useRef, useState, type CSSProperties, type ReactNode, type ButtonHTMLAttributes, type MouseEvent } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { MoreHorizontal, ArrowUpRight, ArrowDownRight, CheckCircle2, AlertTriangle, XCircle, Info, Clock, Inbox, AlertOctagon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -61,14 +61,16 @@ export function CardMenu({ label = t.common.moreActions }: { label?: string }) {
 
 /* ---------- Stagger wrapper ---------- */
 export function Stagger({ children, className, start = 120, step = 60 }: { children: ReactNode[] | ReactNode; className?: string; start?: number; step?: number }) {
-  const arr = Array.isArray(children) ? children : [children];
+  const arr = (Array.isArray(children) ? children : [children]).filter(Boolean);
   return (
     <div className={className}>
-      {arr.map((c, i) => (
-        <div key={i} className="animate-rise min-w-0" style={{ animationDelay: `${start + i * step}ms` }}>
-          {c}
-        </div>
-      ))}
+      {arr.map((c, i) => {
+        const style = { animationDelay: `${start + i * step}ms` };
+        // Clone elements so grid-span classes stay on the grid item.
+        if (isValidElement<{ className?: string; style?: CSSProperties }>(c))
+          return cloneElement(c, { key: c.key ?? i, className: cn(c.props.className, "animate-rise min-w-0"), style: { ...c.props.style, ...style } });
+        return <div key={i} className="animate-rise min-w-0" style={style}>{c}</div>;
+      })}
     </div>
   );
 }
