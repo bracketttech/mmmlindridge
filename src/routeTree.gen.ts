@@ -14,6 +14,7 @@ import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ShellAnnouncementsRouteImport } from './routes/_shell.announcements'
 import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellDesignRouteImport } from './routes/_shell.design'
 import { Route as ShellInvoicesRouteImport } from './routes/_shell.invoices'
 import { Route as ShellLeasesRouteImport } from './routes/_shell.leases'
 import { Route as ShellLegalRouteImport } from './routes/_shell.legal'
@@ -48,6 +49,11 @@ const ShellApplicationsRoute = ShellApplicationsRouteImport.update({
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDesignRoute = ShellDesignRouteImport.update({
+  id: '/design',
+  path: '/design',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellInvoicesRoute = ShellInvoicesRouteImport.update({
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
   '/leases': typeof ShellLeasesRoute
   '/legal': typeof ShellLegalRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
   '/dashboard': typeof ShellDashboardRoute
+  '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
   '/leases': typeof ShellLeasesRoute
   '/legal': typeof ShellLegalRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/_shell/announcements': typeof ShellAnnouncementsRoute
   '/_shell/applications': typeof ShellApplicationsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/design': typeof ShellDesignRoute
   '/_shell/invoices': typeof ShellInvoicesRoute
   '/_shell/leases': typeof ShellLeasesRoute
   '/_shell/legal': typeof ShellLegalRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/applications'
     | '/dashboard'
+    | '/design'
     | '/invoices'
     | '/leases'
     | '/legal'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/announcements'
     | '/applications'
     | '/dashboard'
+    | '/design'
     | '/invoices'
     | '/leases'
     | '/legal'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/_shell/announcements'
     | '/_shell/applications'
     | '/_shell/dashboard'
+    | '/_shell/design'
     | '/_shell/invoices'
     | '/_shell/leases'
     | '/_shell/legal'
@@ -254,6 +266,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/design': {
+      id: '/_shell/design'
+      path: '/design'
+      fullPath: '/design'
+      preLoaderRoute: typeof ShellDesignRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/invoices': {
@@ -340,6 +359,7 @@ interface ShellRouteChildren {
   ShellAnnouncementsRoute: typeof ShellAnnouncementsRoute
   ShellApplicationsRoute: typeof ShellApplicationsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellDesignRoute: typeof ShellDesignRoute
   ShellInvoicesRoute: typeof ShellInvoicesRoute
   ShellLeasesRoute: typeof ShellLeasesRoute
   ShellLegalRoute: typeof ShellLegalRoute
@@ -357,6 +377,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellAnnouncementsRoute: ShellAnnouncementsRoute,
   ShellApplicationsRoute: ShellApplicationsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
+  ShellDesignRoute: ShellDesignRoute,
   ShellInvoicesRoute: ShellInvoicesRoute,
   ShellLeasesRoute: ShellLeasesRoute,
   ShellLegalRoute: ShellLegalRoute,
