@@ -85,6 +85,7 @@ const pill = cva(
         dark: "bg-olive-900 text-primary-foreground hover:bg-olive-800",
         secondary: "bg-surface-solid text-ink-900 border border-border-soft hover:bg-olive-100",
         ghost: "text-ink-900 hover:bg-olive-100",
+        danger: "bg-danger text-primary-foreground hover:opacity-90",
       },
       size: { md: "h-11 pl-5 pr-1.5", lg: "h-14 pl-6 pr-2 text-[15px]", sm: "h-9 pl-4 pr-1 text-[13px]" },
     },

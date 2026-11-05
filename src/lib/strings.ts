@@ -220,7 +220,7 @@ export const t = {
       rulesText: "House rules", rulesPh: "e.g. No braais on balconies. Refuse goes out on Tuesdays.", pets: "Pets allowed", smoking: "Smoking allowed", quietFrom: "Quiet hours from", quietTo: "Quiet hours until",
       back: "Back", next: "Continue", create: "Create property", save: "Save changes", cancel: "Cancel",
       created: "Property created — add its units next", saved: "Property updated", storageFull: "Demo storage is full — remove some photos and try again.",
-      postal: "Enter a 4-digit postal code.", year: "Enter a year like 2012.", rates: "Enter an amount in rand.",
+      postal: "Enter a 4-digit postal code.", year: "Enter a year like 2012.", ratesErr: "Enter an amount in rand.",
       discardTitle: "Discard changes?", discardBody: "You'll lose what you've entered so far.", discard: "Discard",
     },
     detail: {
