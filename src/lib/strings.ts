@@ -273,5 +273,8 @@ export const t = {
     cropTitle: "Crop your photo",
     seeAll: "See all",
     moreActions: "More actions",
+    working: "Working…",
+    edit: "Edit",
+    back: "Back",
   },
 } as const;

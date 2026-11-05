@@ -131,12 +131,12 @@ export const statusTone = (s: string): Tone =>
 export const StatusCell = ({ status }: { status: string }) => <StatusChip tone={statusTone(status)} dot>{status.replace("_", " ").replace(/^./, (c) => c.toUpperCase())}</StatusChip>;
 
 /* ---------- Modal ---------- */
-export function Modal({ open, onOpenChange, title, children, footer }: { open: boolean; onOpenChange: (o: boolean) => void; title: string; children: ReactNode; footer?: ReactNode }) {
+export function Modal({ open, onOpenChange, title, children, footer, wide = false }: { open: boolean; onOpenChange: (o: boolean) => void; title: string; children: ReactNode; footer?: ReactNode; wide?: boolean }) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-olive-900/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[28px] bg-surface-solid p-6 shadow-soft data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
+        <Dialog.Content className={cn("fixed left-1/2 top-1/2 z-50 max-h-[90vh] w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-[28px] bg-surface-solid p-6 shadow-soft", wide ? "max-w-xl" : "max-w-md", " data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95")}>
           <div className="mb-4 flex items-center justify-between gap-3">
             <Dialog.Title className="truncate text-h2 text-ink-900">{title}</Dialog.Title>
             <Dialog.Close aria-label={t.shell.close} className="grid h-9 w-9 shrink-0 place-items-center rounded-full hover:bg-olive-100"><X className="h-4 w-4" /></Dialog.Close>
