@@ -127,9 +127,9 @@ export function IconButton({ label, children, className, ...rest }: ButtonHTMLAt
 }
 
 /* ---------- SegmentedChips ---------- */
-export function SegmentedChips<T extends string>({ options, value, onChange, label }: { options: { value: T; label: string; count?: number }[]; value: T; onChange: (v: T) => void; label: string }) {
+export function SegmentedChips<T extends string>({ options, value, onChange, label, wrap = false }: { options: { value: T; label: string; count?: number }[]; value: T; onChange: (v: T) => void; label: string; wrap?: boolean }) {
   return (
-    <div role="tablist" aria-label={label} className="glass inline-flex max-w-full gap-1 overflow-x-auto rounded-full p-1 shadow-none [scrollbar-width:none]">
+    <div role="tablist" aria-label={label} className={cn("glass inline-flex max-w-full gap-1 p-1 shadow-none [scrollbar-width:none]", wrap ? "flex-wrap rounded-[22px]" : "overflow-x-auto rounded-full")}>
       {options.map((o) => {
         const active = o.value === value;
         return (
