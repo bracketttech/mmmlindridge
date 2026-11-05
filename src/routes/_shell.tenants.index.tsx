@@ -132,7 +132,7 @@ function TenantsPage() {
       {linkFor && <SendLinkDialog tenant={linkFor} place={{ property: dir.propertyName(linkFor.propertyId), unit: dir.unitLabel(linkFor.unitId) }} onClose={() => setLinkFor(null)} />}
       <ConfirmDialog open={!!archiveFor} onOpenChange={(o) => !o && setArchiveFor(null)}
         title={archiveFor?.archived ? tt.rail.restore : fill(tt.archiveTitle, { name: archiveFor?.name ?? "" })} body={archiveFor?.archived ? "" : tt.archiveBody}
-        confirmLabel={archiveFor?.archived ? tt.rail.restore : tt.rail.archive}
+        confirmLabel={archiveFor?.archived ? tt.rail.restore : tt.rail.archive} tone="primary"
         onConfirm={async () => { if (!archiveFor) return; await tenantService.archive(archiveFor.id, !archiveFor.archived); toast.success(archiveFor.archived ? tt.restored : tt.archived); }} />
       <ConfirmDialog open={!!deleteFor} onOpenChange={(o) => !o && setDeleteFor(null)} title={fill(tt.deleteTitle, { name: deleteFor?.name ?? "" })} body={tt.deleteBody} confirmLabel={tt.rail.delete}
         onConfirm={async () => { if (!deleteFor) return; await tenantService.remove(deleteFor.id); toast.success(tt.deleted); set({ t: undefined }); }} />

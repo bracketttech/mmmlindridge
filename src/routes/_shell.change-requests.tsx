@@ -109,7 +109,7 @@ function RequestDetail({ r, x, place }: { r: ChangeRequest; x: Tenant; place: st
       <div className="flex items-start gap-3">
         <NAvatar name={x.name} src={x.avatar} size={52} />
         <div className="min-w-0 flex-1">
-          <TruncatedText text={x.name} as="h2" className="text-h2 text-ink-900" />
+          <h2 className="min-w-0"><TruncatedText text={x.name} className="text-h2 text-ink-900" /></h2>
           <TruncatedText text={place} className="text-[13px] text-ink-500" />
           <p className="mt-1 text-[12px] text-ink-500">{r.status === "pending" ? fill(c.submitted, { date: formatDate(r.submittedAt) }) : fill(c.decided, { status: c.statuses[r.status], date: formatDate(r.decidedAt ?? r.submittedAt), by: r.decidedBy ?? "" })}</p>
         </div>

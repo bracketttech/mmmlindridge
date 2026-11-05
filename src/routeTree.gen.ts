@@ -21,6 +21,7 @@ import { Route as TwoFactorRouteImport } from './routes/two-factor'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ShellAnnouncementsRouteImport } from './routes/_shell.announcements'
 import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
+import { Route as ShellChangeRequestsRouteImport } from './routes/_shell.change-requests'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellDesignRouteImport } from './routes/_shell.design'
 import { Route as ShellInvoicesRouteImport } from './routes/_shell.invoices'
@@ -100,6 +101,11 @@ const ShellAnnouncementsRoute = ShellAnnouncementsRouteImport.update({
 const ShellApplicationsRoute = ShellApplicationsRouteImport.update({
   id: '/applications',
   path: '/applications',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellChangeRequestsRoute = ShellChangeRequestsRouteImport.update({
+  id: '/change-requests',
+  path: '/change-requests',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
+  '/change-requests': typeof ShellChangeRequestsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
+  '/change-requests': typeof ShellChangeRequestsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/verify-email': typeof VerifyEmailRoute
   '/_shell/announcements': typeof ShellAnnouncementsRoute
   '/_shell/applications': typeof ShellApplicationsRoute
+  '/_shell/change-requests': typeof ShellChangeRequestsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/design': typeof ShellDesignRoute
   '/_shell/invoices': typeof ShellInvoicesRoute
@@ -329,6 +338,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/announcements'
     | '/applications'
+    | '/change-requests'
     | '/dashboard'
     | '/design'
     | '/invoices'
@@ -363,6 +373,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/announcements'
     | '/applications'
+    | '/change-requests'
     | '/dashboard'
     | '/design'
     | '/invoices'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/_shell/announcements'
     | '/_shell/applications'
+    | '/_shell/change-requests'
     | '/_shell/dashboard'
     | '/_shell/design'
     | '/_shell/invoices'
@@ -520,6 +532,13 @@ declare module '@tanstack/react-router' {
       path: '/applications'
       fullPath: '/applications'
       preLoaderRoute: typeof ShellApplicationsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/change-requests': {
+      id: '/_shell/change-requests'
+      path: '/change-requests'
+      fullPath: '/change-requests'
+      preLoaderRoute: typeof ShellChangeRequestsRouteImport
       parentRoute: typeof ShellRoute
     }
     '/_shell/dashboard': {
@@ -675,6 +694,7 @@ declare module '@tanstack/react-router' {
 interface ShellRouteChildren {
   ShellAnnouncementsRoute: typeof ShellAnnouncementsRoute
   ShellApplicationsRoute: typeof ShellApplicationsRoute
+  ShellChangeRequestsRoute: typeof ShellChangeRequestsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellDesignRoute: typeof ShellDesignRoute
   ShellInvoicesRoute: typeof ShellInvoicesRoute
@@ -699,6 +719,7 @@ interface ShellRouteChildren {
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAnnouncementsRoute: ShellAnnouncementsRoute,
   ShellApplicationsRoute: ShellApplicationsRoute,
+  ShellChangeRequestsRoute: ShellChangeRequestsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellDesignRoute: ShellDesignRoute,
   ShellInvoicesRoute: ShellInvoicesRoute,

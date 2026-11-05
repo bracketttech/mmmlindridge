@@ -156,7 +156,7 @@ function MyDetailsView({ me, property, unit }: { me: Tenant; property: string; u
         </div>
       </div>
 
-      <ConfirmDialog open={!!confirm} onOpenChange={(o) => !o && setConfirm(null)} title={m.confirmTitle} body={fill(m.confirmBody, { n: confirm?.length ?? 0 })} confirmLabel={m.submit}
+      <ConfirmDialog open={!!confirm} onOpenChange={(o) => !o && setConfirm(null)} title={m.confirmTitle} body={fill(m.confirmBody, { n: confirm?.length ?? 0 })} confirmLabel={m.submit} tone="primary"
         onConfirm={async () => { if (!confirm) return; await changeService.submit(me.id, confirm); toast.success(m.submitted); setEditing(false); }} />
     </div>
   );

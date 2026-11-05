@@ -39,7 +39,7 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
       <div className="flex items-start gap-3">
         <NAvatar name={x.name} src={x.avatar} size={56} />
         <div className="min-w-0 flex-1">
-          <TruncatedText text={x.name} as="h2" className="text-h2 text-ink-900" />
+          <h2 className="min-w-0"><TruncatedText text={x.name} className="text-h2 text-ink-900" /></h2>
           <TruncatedText text={place} className="text-[13px] text-ink-500" />
           <div className="mt-1.5 flex flex-wrap gap-1.5"><TenantStatus x={x} /><StatusChip tone={x.registered ? "success" : "neutral"}>{x.registered ? r.registered : r.notRegistered}</StatusChip></div>
         </div>
