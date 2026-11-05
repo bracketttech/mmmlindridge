@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { CardMenu, GlassCard, Skel, TruncatedText, Stagger, StatusChip, EmptyState } from "./primitives";
 import { KpiTile, StatusCell } from "./composites";
 import { AreaComparisonChart, ChartCard, GaugeChart } from "./charts";
-import { propertyImage } from "./property-image";
+import { propertyImage } from "@/images";
+import { FadeImage } from "./fade-image";
 import type { Role } from "@/lib/nav";
 
 const d = t.dash;

@@ -8,6 +8,7 @@ import { initials } from "@/lib/format";
 import { t } from "@/lib/strings";
 import { CardMenu, DeltaChip, GlassCard, Skel, StatusChip, TruncatedText, EmptyState, PillButton, type Tone } from "./primitives";
 import { MiniDonut, MiniSpark, MiniTicks } from "./charts";
+import { FadeImage } from "./fade-image";
 
 /* ---------- KpiTile ---------- */
 type KpiProps = {

@@ -13,7 +13,7 @@ import { formatDate } from "@/lib/format";
 import { propertyService, notificationService, type Property, type Notification } from "@/services";
 import { NAvatar, BottomSheet } from "./composites";
 import { SearchOverlay } from "./SearchOverlay";
-import { propertyImage } from "./property-image";
+import { propertyImage, propertyThumb, avatarFor, preloadImages, allShellImages } from "@/images";
 import { TruncatedText, IconButton, useRipple } from "./primitives";
 
 function useActiveIndex(items: NavItem[]) {
@@ -72,7 +72,7 @@ function PropertySwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.switchProperty} className="glass flex h-12 min-w-0 max-w-[280px] items-center gap-3 rounded-full py-1 pl-1 pr-3 text-left shadow-none">
-        {current ? <NAvatar name={current.name} src={propertyImage(current.id)} size={40} /> : <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>}
+        {current ? <NAvatar name={current.name} src={propertyThumb(current.id)} size={40} /> : <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>}
         <span className="min-w-0 flex-1">
           <TruncatedText text={name} className="text-[14px] font-medium text-ink-900" />
           <TruncatedText text={sub} className="text-[11px] text-ink-500" />
@@ -82,7 +82,7 @@ function PropertySwitcher() {
       <DropdownMenuContent align="start" className="w-72 rounded-[16px] p-1.5">
         {[{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }, ...(list ?? [])].map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[12px] py-2">
-            {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyImage(p.id)} size={32} />}
+            {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyThumb(p.id)} size={32} />}
             <span className="min-w-0 flex-1">
               <TruncatedText text={p.name} className="text-[14px] font-medium" />
               <TruncatedText text={p.suburb ? `${p.address}, ${p.suburb}` : p.address} className="text-[12px] text-ink-500" />
