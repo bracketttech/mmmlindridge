@@ -140,7 +140,7 @@ export function ProgressCell({ value }: { value: number }) {
 }
 
 export const statusTone = (s: string): Tone =>
-  (({ active: "success", paid: "success", resolved: "success", occupied: "success", pending: "neutral", open: "info", in_progress: "warning", notice: "warning", overdue: "danger", arrears: "danger", failed: "danger", vacant: "neutral" }) as Record<string, Tone>)[s] ?? "neutral";
+  (({ active: "success", paid: "success", resolved: "success", occupied: "success", pending: "neutral", open: "info", in_progress: "warning", notice: "warning", overdue: "danger", arrears: "danger", failed: "danger", vacant: "neutral", maintenance: "info" }) as Record<string, Tone>)[s] ?? "neutral";
 export const StatusCell = ({ status }: { status: string }) => <StatusChip tone={statusTone(status)} dot>{status.replace("_", " ").replace(/^./, (c) => c.toUpperCase())}</StatusChip>;
 
 /* ---------- Modal ---------- */
