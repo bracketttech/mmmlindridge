@@ -10,33 +10,213 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShellRouteImport } from './routes/_shell'
+import { Route as ShellAnnouncementsRouteImport } from './routes/_shell.announcements'
+import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
+import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
+import { Route as ShellInvoicesRouteImport } from './routes/_shell.invoices'
+import { Route as ShellLeasesRouteImport } from './routes/_shell.leases'
+import { Route as ShellLegalRouteImport } from './routes/_shell.legal'
+import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
+import { Route as ShellPropertiesRouteImport } from './routes/_shell.properties'
+import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
+import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
+import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
+import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
+import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
+import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellRoute = ShellRouteImport.update({
+  id: '/_shell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShellAnnouncementsRoute = ShellAnnouncementsRouteImport.update({
+  id: '/announcements',
+  path: '/announcements',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellApplicationsRoute = ShellApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellDashboardRoute = ShellDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellInvoicesRoute = ShellInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellLeasesRoute = ShellLeasesRouteImport.update({
+  id: '/leases',
+  path: '/leases',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellLegalRoute = ShellLegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellProfileRoute = ShellProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellPropertiesRoute = ShellPropertiesRouteImport.update({
+  id: '/properties',
+  path: '/properties',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellReportsRoute = ShellReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellRequestsRoute = ShellRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellScheduleRoute = ShellScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellSettingsRoute = ShellSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellStaffRoute = ShellStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTenantsRoute = ShellTenantsRouteImport.update({
+  id: '/tenants',
+  path: '/tenants',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/announcements': typeof ShellAnnouncementsRoute
+  '/applications': typeof ShellApplicationsRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/invoices': typeof ShellInvoicesRoute
+  '/leases': typeof ShellLeasesRoute
+  '/legal': typeof ShellLegalRoute
+  '/profile': typeof ShellProfileRoute
+  '/properties': typeof ShellPropertiesRoute
+  '/reports': typeof ShellReportsRoute
+  '/requests': typeof ShellRequestsRoute
+  '/schedule': typeof ShellScheduleRoute
+  '/settings': typeof ShellSettingsRoute
+  '/staff': typeof ShellStaffRoute
+  '/tenants': typeof ShellTenantsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/announcements': typeof ShellAnnouncementsRoute
+  '/applications': typeof ShellApplicationsRoute
+  '/dashboard': typeof ShellDashboardRoute
+  '/invoices': typeof ShellInvoicesRoute
+  '/leases': typeof ShellLeasesRoute
+  '/legal': typeof ShellLegalRoute
+  '/profile': typeof ShellProfileRoute
+  '/properties': typeof ShellPropertiesRoute
+  '/reports': typeof ShellReportsRoute
+  '/requests': typeof ShellRequestsRoute
+  '/schedule': typeof ShellScheduleRoute
+  '/settings': typeof ShellSettingsRoute
+  '/staff': typeof ShellStaffRoute
+  '/tenants': typeof ShellTenantsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_shell': typeof ShellRouteWithChildren
+  '/_shell/announcements': typeof ShellAnnouncementsRoute
+  '/_shell/applications': typeof ShellApplicationsRoute
+  '/_shell/dashboard': typeof ShellDashboardRoute
+  '/_shell/invoices': typeof ShellInvoicesRoute
+  '/_shell/leases': typeof ShellLeasesRoute
+  '/_shell/legal': typeof ShellLegalRoute
+  '/_shell/profile': typeof ShellProfileRoute
+  '/_shell/properties': typeof ShellPropertiesRoute
+  '/_shell/reports': typeof ShellReportsRoute
+  '/_shell/requests': typeof ShellRequestsRoute
+  '/_shell/schedule': typeof ShellScheduleRoute
+  '/_shell/settings': typeof ShellSettingsRoute
+  '/_shell/staff': typeof ShellStaffRoute
+  '/_shell/tenants': typeof ShellTenantsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/announcements'
+    | '/applications'
+    | '/dashboard'
+    | '/invoices'
+    | '/leases'
+    | '/legal'
+    | '/profile'
+    | '/properties'
+    | '/reports'
+    | '/requests'
+    | '/schedule'
+    | '/settings'
+    | '/staff'
+    | '/tenants'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/announcements'
+    | '/applications'
+    | '/dashboard'
+    | '/invoices'
+    | '/leases'
+    | '/legal'
+    | '/profile'
+    | '/properties'
+    | '/reports'
+    | '/requests'
+    | '/schedule'
+    | '/settings'
+    | '/staff'
+    | '/tenants'
+  id:
+    | '__root__'
+    | '/'
+    | '/_shell'
+    | '/_shell/announcements'
+    | '/_shell/applications'
+    | '/_shell/dashboard'
+    | '/_shell/invoices'
+    | '/_shell/leases'
+    | '/_shell/legal'
+    | '/_shell/profile'
+    | '/_shell/properties'
+    | '/_shell/reports'
+    | '/_shell/requests'
+    | '/_shell/schedule'
+    | '/_shell/settings'
+    | '/_shell/staff'
+    | '/_shell/tenants'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ShellRoute: typeof ShellRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +228,153 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell': {
+      id: '/_shell'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_shell/announcements': {
+      id: '/_shell/announcements'
+      path: '/announcements'
+      fullPath: '/announcements'
+      preLoaderRoute: typeof ShellAnnouncementsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/applications': {
+      id: '/_shell/applications'
+      path: '/applications'
+      fullPath: '/applications'
+      preLoaderRoute: typeof ShellApplicationsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/dashboard': {
+      id: '/_shell/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof ShellDashboardRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/invoices': {
+      id: '/_shell/invoices'
+      path: '/invoices'
+      fullPath: '/invoices'
+      preLoaderRoute: typeof ShellInvoicesRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/leases': {
+      id: '/_shell/leases'
+      path: '/leases'
+      fullPath: '/leases'
+      preLoaderRoute: typeof ShellLeasesRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/legal': {
+      id: '/_shell/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof ShellLegalRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/profile': {
+      id: '/_shell/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ShellProfileRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/properties': {
+      id: '/_shell/properties'
+      path: '/properties'
+      fullPath: '/properties'
+      preLoaderRoute: typeof ShellPropertiesRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/reports': {
+      id: '/_shell/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ShellReportsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/requests': {
+      id: '/_shell/requests'
+      path: '/requests'
+      fullPath: '/requests'
+      preLoaderRoute: typeof ShellRequestsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/schedule': {
+      id: '/_shell/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof ShellScheduleRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/settings': {
+      id: '/_shell/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ShellSettingsRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/staff': {
+      id: '/_shell/staff'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof ShellStaffRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/tenants': {
+      id: '/_shell/tenants'
+      path: '/tenants'
+      fullPath: '/tenants'
+      preLoaderRoute: typeof ShellTenantsRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
+interface ShellRouteChildren {
+  ShellAnnouncementsRoute: typeof ShellAnnouncementsRoute
+  ShellApplicationsRoute: typeof ShellApplicationsRoute
+  ShellDashboardRoute: typeof ShellDashboardRoute
+  ShellInvoicesRoute: typeof ShellInvoicesRoute
+  ShellLeasesRoute: typeof ShellLeasesRoute
+  ShellLegalRoute: typeof ShellLegalRoute
+  ShellProfileRoute: typeof ShellProfileRoute
+  ShellPropertiesRoute: typeof ShellPropertiesRoute
+  ShellReportsRoute: typeof ShellReportsRoute
+  ShellRequestsRoute: typeof ShellRequestsRoute
+  ShellScheduleRoute: typeof ShellScheduleRoute
+  ShellSettingsRoute: typeof ShellSettingsRoute
+  ShellStaffRoute: typeof ShellStaffRoute
+  ShellTenantsRoute: typeof ShellTenantsRoute
+}
+
+const ShellRouteChildren: ShellRouteChildren = {
+  ShellAnnouncementsRoute: ShellAnnouncementsRoute,
+  ShellApplicationsRoute: ShellApplicationsRoute,
+  ShellDashboardRoute: ShellDashboardRoute,
+  ShellInvoicesRoute: ShellInvoicesRoute,
+  ShellLeasesRoute: ShellLeasesRoute,
+  ShellLegalRoute: ShellLegalRoute,
+  ShellProfileRoute: ShellProfileRoute,
+  ShellPropertiesRoute: ShellPropertiesRoute,
+  ShellReportsRoute: ShellReportsRoute,
+  ShellRequestsRoute: ShellRequestsRoute,
+  ShellScheduleRoute: ShellScheduleRoute,
+  ShellSettingsRoute: ShellSettingsRoute,
+  ShellStaffRoute: ShellStaffRoute,
+  ShellTenantsRoute: ShellTenantsRoute,
+}
+
+const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ShellRoute: ShellRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
