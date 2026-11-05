@@ -23,7 +23,7 @@ export function SearchOverlay({ open, onOpenChange }: { open: boolean; onOpenCha
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-olive-900/30 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-1/2 top-[10vh] z-50 w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-[8px] bg-surface-solid shadow-soft data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
+        <Dialog.Content className="fixed left-1/2 top-[10vh] z-50 w-[calc(100vw-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-[9.2px] bg-surface-solid shadow-soft data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
           <Dialog.Title className="sr-only">{t.search.title}</Dialog.Title>
           <Dialog.Description className="sr-only">{t.search.hint}</Dialog.Description>
           <div className="flex items-center gap-3 border-b border-border-soft px-5">
@@ -38,7 +38,7 @@ export function SearchOverlay({ open, onOpenChange }: { open: boolean; onOpenCha
             {res?.map((r) => {
               const Icon = ICON[r.kind];
               return (
-                <Link key={r.kind + r.id} to={r.to} onClick={() => onOpenChange(false)} className="flex items-center gap-3 rounded-[5px] px-3 py-2.5 hover:bg-olive-100 focus:bg-olive-100">
+                <Link key={r.kind + r.id} to={r.to} onClick={() => onOpenChange(false)} className="flex items-center gap-3 rounded-[5.75px] px-3 py-2.5 hover:bg-olive-100 focus:bg-olive-100">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-olive-200 text-olive-900"><Icon className="h-4 w-4" /></span>
                   <span className="min-w-0 flex-1">
                     <TruncatedText text={r.title} className="text-[14px] font-medium text-ink-900" />

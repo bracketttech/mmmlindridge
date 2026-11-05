@@ -45,7 +45,7 @@ export function useRipple() {
 /* ---------- GlassCard ---------- */
 export function GlassCard({ className, children, hover = true, style, as: As = "div" }: { className?: string; children: ReactNode; hover?: boolean; style?: CSSProperties; as?: "div" | "section" | "article" }) {
   return (
-    <As style={style} className={cn("glass rounded-[7px] p-5", hover && "lift", className)}>
+    <As style={style} className={cn("glass rounded-[8.05px] p-5", hover && "lift", className)}>
       {children}
     </As>
   );
@@ -132,7 +132,7 @@ export function IconButton({ label, children, className, ...rest }: ButtonHTMLAt
 /* ---------- SegmentedChips ---------- */
 export function SegmentedChips<T extends string>({ options, value, onChange, label, wrap = false }: { options: { value: T; label: string; count?: number | undefined }[]; value: T; onChange: (v: T) => void; label: string; wrap?: boolean }) {
   return (
-    <div role="tablist" aria-label={label} className={cn("glass inline-flex max-w-full gap-1 p-1 shadow-none [scrollbar-width:none]", wrap ? "flex-wrap rounded-[7px]" : "overflow-x-auto rounded-full")}>
+    <div role="tablist" aria-label={label} className={cn("glass inline-flex max-w-full gap-1 p-1 shadow-none [scrollbar-width:none]", wrap ? "flex-wrap rounded-[8.05px]" : "overflow-x-auto rounded-full")}>
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -210,7 +210,7 @@ export function PageHeader({ title, muted, sub, actions }: { title: string; mute
 
 /* ---------- Skeleton / Empty / Error ---------- */
 export function Skel({ className }: { className?: string }) {
-  return <div aria-hidden className={cn("animate-pulse rounded-[3px] bg-olive-100", className)} />;
+  return <div aria-hidden className={cn("animate-pulse rounded-[3.45px] bg-olive-100", className)} />;
 }
 
 export function EmptyState({ title = t.common.emptyTitle, body, icon, action, tone = "empty" }: { title?: string; body?: string; icon?: ReactNode; action?: ReactNode; tone?: "empty" | "error" }) {

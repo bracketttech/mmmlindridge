@@ -122,7 +122,7 @@ function PropertiesPage() {
             <GlassCard hover={false}><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={<PillButton variant="secondary" onClick={reload}>{t.common.retry}</PillButton>} /></GlassCard>
           ) : loading ? (
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 3 }).map((_, i) => <div key={i} className="glass space-y-3 rounded-[7px] p-2"><Skel className="h-52 rounded-[5px]" /><Skel className="mx-3 h-5 w-2/3" /><Skel className="mx-3 mb-3 h-4 w-1/2" /></div>)}
+              {Array.from({ length: 3 }).map((_, i) => <div key={i} className="glass space-y-3 rounded-[8.05px] p-2"><Skel className="h-52 rounded-[5.75px]" /><Skel className="mx-3 h-5 w-2/3" /><Skel className="mx-3 mb-3 h-4 w-1/2" /></div>)}
             </div>
           ) : rows.length === 0 ? (
             <GlassCard hover={false}>

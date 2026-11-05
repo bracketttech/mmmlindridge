@@ -113,7 +113,7 @@ function NewRequestPage() {
                 const Icon = ICONS[c];
                 return (
                   <button key={c} type="button" role="radio" aria-checked={cat === c} onClick={() => { setCat(c); setErrs({}); }}
-                    className={cn("flex min-w-0 items-start gap-3 rounded-[7px] border p-4 text-left transition", cat === c ? "border-olive-700 bg-olive-100 ring-2 ring-olive-200" : "border-border-soft bg-surface-solid hover:bg-olive-100/50")}>
+                    className={cn("flex min-w-0 items-start gap-3 rounded-[8.05px] border p-4 text-left transition", cat === c ? "border-olive-700 bg-olive-100 ring-2 ring-olive-200" : "border-border-soft bg-surface-solid hover:bg-olive-100/50")}>
                     <span className={cn("grid h-10 w-10 shrink-0 place-items-center rounded-full", cat === c ? "bg-olive-700 text-primary-foreground" : "bg-olive-100 text-olive-700")}><Icon className="h-5 w-5" aria-hidden /></span>
                     <span className="min-w-0"><span className="block font-medium text-ink-900">{r.categories[c]}</span><span className="block text-[13px] text-ink-500">{r.categoryHints[c]}</span></span>
                   </button>
@@ -138,8 +138,8 @@ function NewRequestPage() {
               <PillButton variant="secondary" onClick={() => fileRef.current?.click()} icon={<Paperclip className="h-4 w-4" />}>{r.photos.add}</PillButton>
               <input ref={fileRef} type="file" multiple className="sr-only" aria-label={r.photos.add} onChange={(e) => addFiles(e.target.files)} />
             </div>
-            {fileErrs.length > 0 && <ul role="alert" className="space-y-1 rounded-[5px] border border-danger/25 bg-danger/10 px-3 py-2 text-[13px] text-danger">{fileErrs.map((e) => <li key={e}>{e}</li>)}</ul>}
-            {files.length ? <AttachmentThumbs items={files} onRemove={(id) => setFiles((x) => x.filter((f) => f.id !== id))} /> : <p className="rounded-[5px] border border-dashed border-border-soft p-6 text-center text-[13px] text-ink-500">{r.photos.none}</p>}
+            {fileErrs.length > 0 && <ul role="alert" className="space-y-1 rounded-[5.75px] border border-danger/25 bg-danger/10 px-3 py-2 text-[13px] text-danger">{fileErrs.map((e) => <li key={e}>{e}</li>)}</ul>}
+            {files.length ? <AttachmentThumbs items={files} onRemove={(id) => setFiles((x) => x.filter((f) => f.id !== id))} /> : <p className="rounded-[5.75px] border border-dashed border-border-soft p-6 text-center text-[13px] text-ink-500">{r.photos.none}</p>}
           </div>
         )}
         {step === 3 && (
@@ -147,7 +147,7 @@ function NewRequestPage() {
             <div role="radiogroup" aria-label={r.steps[3]} className="grid gap-2 sm:grid-cols-2">
               {PRIORITIES.map((p) => (
                 <button key={p} type="button" role="radio" aria-checked={priority === p} onClick={() => setPriority(p)}
-                  className={cn("rounded-[7px] border p-3 text-left transition", priority === p ? "border-olive-700 bg-olive-100 ring-2 ring-olive-200" : "border-border-soft bg-surface-solid hover:bg-olive-100/50")}>
+                  className={cn("rounded-[8.05px] border p-3 text-left transition", priority === p ? "border-olive-700 bg-olive-100 ring-2 ring-olive-200" : "border-border-soft bg-surface-solid hover:bg-olive-100/50")}>
                   <PriorityChip p={p} /><span className="mt-1 block text-[13px] text-ink-500">{r.priorityHints[p]}</span>
                 </button>
               ))}

@@ -77,7 +77,7 @@ export function RequestDetail({ req, place }: { req: MaintRequest; place: string
 
       <Section title={r.quote.title}>
         {req.quote ? (
-          <div className="flex flex-wrap items-center gap-3 rounded-[5px] border border-border-soft p-3">
+          <div className="flex flex-wrap items-center gap-3 rounded-[5.75px] border border-border-soft p-3">
             <div className="min-w-0 flex-1"><TruncatedText text={req.quote.contractorName} className="text-[14px] font-medium text-ink-900" /><p className="text-[13px] text-ink-500">{formatZAR(req.quote.amount)} · {req.quote.note}</p></div>
             <StatusChip tone={req.quote.status === "approved" ? "success" : req.quote.status === "declined" ? "danger" : "warning"} dot>{r.quote[req.quote.status]}</StatusChip>
             {req.quote.status === "pending" && <PillButton size="sm" onClick={() => setDecide(true)}>{r.quote.approveTitle}</PillButton>}
@@ -91,10 +91,10 @@ export function RequestDetail({ req, place }: { req: MaintRequest; place: string
 
       <Section title={r.detail.thread}>
         <Thread msgs={req.thread} viewer="staff" />
-        <div className={cn("space-y-2 rounded-[5px] border p-3", mode === "internal" ? "border-dashed border-warning/50 bg-warning/5" : "border-border-soft")}>
+        <div className={cn("space-y-2 rounded-[5.75px] border p-3", mode === "internal" ? "border-dashed border-warning/50 bg-warning/5" : "border-border-soft")}>
           <SegmentedChips label={r.detail.thread} value={mode} onChange={setMode} options={[{ value: "public", label: r.detail.tenantVisible }, { value: "internal", label: r.detail.internal }]} />
           <textarea aria-label={mode === "internal" ? r.detail.internal : r.detail.tenantVisible} value={msg} onChange={(e) => setMsg(e.target.value)} rows={2} placeholder={mode === "internal" ? r.detail.notePh : r.detail.msgPh}
-            className="w-full resize-none rounded-[5px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
+            className="w-full resize-none rounded-[5.75px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
           <div className="flex justify-end"><PillButton size="sm" disabled={!msg.trim()} onClick={send} icon={<Send className="h-3.5 w-3.5" />}>{r.detail.send}</PillButton></div>
         </div>
       </Section>

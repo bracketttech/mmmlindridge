@@ -128,7 +128,7 @@ export function TenantForm({ initial }: { initial?: Tenant }) {
                   <div className="space-y-3">
                     <p className="text-[14px] font-medium text-ink-900">{tf.occupants}</p>
                     {occ.fields.map((f, i) => (
-                      <div key={f.id} className="grid items-start gap-3 rounded-[5px] border border-border-soft p-3 sm:grid-cols-[1fr_1fr_90px_auto]">
+                      <div key={f.id} className="grid items-start gap-3 rounded-[5.75px] border border-border-soft p-3 sm:grid-cols-[1fr_1fr_90px_auto]">
                         <TextField label={tf.occName} error={errors.occupants?.[i]?.name?.message} {...register(`occupants.${i}.name`)} />
                         <TextField label={tf.occRelation} error={errors.occupants?.[i]?.relation?.message} {...register(`occupants.${i}.relation`)} />
                         <TextField label={tf.occAge} inputMode="numeric" maxLength={3} {...register(`occupants.${i}.age`)} />
@@ -163,7 +163,7 @@ export function TenantForm({ initial }: { initial?: Tenant }) {
               {step === 4 && (
                 <div className="space-y-3">
                   <p className="text-[13px] text-ink-500">{tf.review}</p>
-                  <dl className="grid gap-x-6 gap-y-3 rounded-[5px] border border-border-soft p-4 sm:grid-cols-2">
+                  <dl className="grid gap-x-6 gap-y-3 rounded-[5.75px] border border-border-soft p-4 sm:grid-cols-2">
                     {review.map(([k, val]) => <div key={k} className="min-w-0"><dt className="text-[12px] text-ink-500">{k}</dt><dd className="truncate text-[14px] font-medium text-ink-900" title={val}>{val || "—"}</dd></div>)}
                   </dl>
                 </div>

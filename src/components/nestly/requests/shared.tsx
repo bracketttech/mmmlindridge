@@ -48,7 +48,7 @@ export function AttachmentThumbs({ items, onRemove }: { items: Attachment[]; onR
     <ul className="grid grid-cols-3 gap-2 sm:grid-cols-5">
       {items.map((a) => (
         <li key={a.id} className="relative min-w-0">
-          <div className="aspect-square overflow-hidden rounded-[5px] border border-border-soft bg-olive-100">
+          <div className="aspect-square overflow-hidden rounded-[5.75px] border border-border-soft bg-olive-100">
             {a.url ? <img src={a.url} alt={a.name} className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center text-olive-700"><FileText className="h-7 w-7" aria-hidden /></div>}
           </div>
           <TruncatedText text={a.name} className="mt-1 block text-[11px] text-ink-500" />
@@ -72,7 +72,7 @@ export function Thread({ msgs, viewer }: { msgs: ThreadMsg[]; viewer: "tenant" |
         return (
           <li key={m.id} className={cn("flex items-end gap-2", mine && "flex-row-reverse")}>
             <NAvatar name={m.by} size={28} />
-            <div className={cn("max-w-[80%] min-w-0 rounded-[7px] px-3 py-2 text-[14px]",
+            <div className={cn("max-w-[80%] min-w-0 rounded-[8.05px] px-3 py-2 text-[14px]",
               m.internal ? "border border-dashed border-warning/50 bg-warning/10 text-ink-900" : mine ? "bg-olive-700 text-primary-foreground" : "bg-olive-100 text-ink-900")}>
               {m.internal && <span className="mb-1 inline-flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-warning"><Lock className="h-3 w-3" aria-hidden />{r.detail.internalChip}</span>}
               <p className="whitespace-pre-wrap break-words">{m.body}</p>
@@ -98,7 +98,7 @@ export function Stars({ value, onChange, size = 28 }: { value: number; onChange?
 
 function CatTip({ active, payload, label }: { active?: boolean; payload?: { value?: number }[]; label?: string }) {
   if (!active || !payload?.length) return null;
-  return <div className="rounded-[3px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft"><div className="font-medium">{label}</div><div className="tabular-nums">{fill(r.chartTip, { n: payload[0]?.value ?? 0 })}</div></div>;
+  return <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft"><div className="font-medium">{label}</div><div className="tabular-nums">{fill(r.chartTip, { n: payload[0]?.value ?? 0 })}</div></div>;
 }
 export function CategoryChart({ items }: { items: Pick<MaintRequest, "category">[] }) {
   const [active, setActive] = useState<number | null>(null);

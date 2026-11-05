@@ -43,7 +43,7 @@ export function TenantRequests({ selectedId, onSelect }: { selectedId?: string |
                 {list.map((x) => (
                   <li key={x.id}>
                     <button type="button" onClick={() => onSelect(x.id)} aria-current={x.id === sel?.id ? "true" : undefined}
-                      className={cn("w-full min-w-0 rounded-[5px] border border-border-soft p-3 text-left transition-colors", x.id === sel?.id ? "bg-olive-100" : "bg-surface-solid/80 hover:bg-surface-solid")}>
+                      className={cn("w-full min-w-0 rounded-[5.75px] border border-border-soft p-3 text-left transition-colors", x.id === sel?.id ? "bg-olive-100" : "bg-surface-solid/80 hover:bg-surface-solid")}>
                       <div className="flex items-start gap-2">
                         <div className="min-w-0 flex-1">
                           <TruncatedText text={x.title} className="font-medium text-ink-900" />
@@ -80,11 +80,11 @@ function TenantRequestDetail({ req, name }: { req: MaintRequest; name: string })
         {req.assignee && <p className="text-[13px] text-ink-500">{r.detail.assign}: {req.assignee.name}</p>}
       </div>
       {canRate(req) && (
-        <section className="animate-rise-in space-y-3 rounded-[7px] border border-olive-200 bg-olive-100/60 p-4">
+        <section className="animate-rise-in space-y-3 rounded-[8.05px] border border-olive-200 bg-olive-100/60 p-4">
           <h3 className="text-h3 text-ink-900">{r.rate.title}</h3>
           <p className="text-[13px] text-ink-500">{fill(r.rate.body, { ref: req.ref })}</p>
           <Stars value={stars} onChange={setStars} />
-          <textarea aria-label={r.rate.comment} placeholder={r.rate.comment} value={comment} onChange={(e) => setComment(e.target.value)} rows={2} className="w-full resize-none rounded-[5px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
+          <textarea aria-label={r.rate.comment} placeholder={r.rate.comment} value={comment} onChange={(e) => setComment(e.target.value)} rows={2} className="w-full resize-none rounded-[5.75px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
           <PillButton disabled={!stars} onClick={rate}>{r.rate.submit}</PillButton>
         </section>
       )}
@@ -95,7 +95,7 @@ function TenantRequestDetail({ req, name }: { req: MaintRequest; name: string })
         <h3 className="text-overline text-ink-500">{r.detail.thread}</h3>
         <Thread msgs={req.thread} viewer="tenant" />
         <div className="flex items-end gap-2">
-          <textarea aria-label={r.detail.msgPh} placeholder={r.detail.msgPh} value={msg} onChange={(e) => setMsg(e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-[5px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
+          <textarea aria-label={r.detail.msgPh} placeholder={r.detail.msgPh} value={msg} onChange={(e) => setMsg(e.target.value)} rows={2} className="min-w-0 flex-1 resize-none rounded-[5.75px] border border-input bg-surface-solid px-3 py-2 text-[14px] outline-none focus:border-olive-700" />
           <PillButton size="sm" disabled={!msg.trim()} onClick={send} icon={<Send className="h-3.5 w-3.5" />}>{r.detail.send}</PillButton>
         </div>
       </section>

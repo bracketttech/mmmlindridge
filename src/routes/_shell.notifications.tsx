@@ -36,7 +36,7 @@ function NotificationsPage() {
           <Stagger className="space-y-1" start={60} step={50}>
             {shown.map((n) => (
               <button key={n.id} type="button" onClick={() => setItems((xs) => xs!.map((x) => (x.id === n.id ? { ...x, unread: false } : x)))}
-                className={cn("flex w-full items-start gap-3 rounded-[5px] p-3 text-left transition-colors", n.unread ? "bg-olive-100" : "hover:bg-surface-solid/70")}>
+                className={cn("flex w-full items-start gap-3 rounded-[5.75px] p-3 text-left transition-colors", n.unread ? "bg-olive-100" : "hover:bg-surface-solid/70")}>
                 <span aria-hidden className={cn("mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full", n.unread ? "bg-olive-700" : "bg-olive-200")} />
                 <span className="min-w-0 flex-1">
                   <span className="block text-[15px] font-medium text-ink-900">{n.title}{n.unread && <span className="sr-only"> (unread)</span>}</span>
