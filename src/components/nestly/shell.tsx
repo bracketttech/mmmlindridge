@@ -14,7 +14,7 @@ import { propertyService, notificationService, type Property, type Notification 
 import { NAvatar, BottomSheet } from "./composites";
 import { SearchOverlay } from "./SearchOverlay";
 import { propertyThumb, avatarFor, preloadImages, allShellImages } from "@/images";
-import { TruncatedText, IconButton, useRipple } from "./primitives";
+import { TruncatedText, IconButton, useRipple, Skel } from "./primitives";
 
 function useActiveIndex(items: NavItem[]) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -66,6 +66,14 @@ function PropertySwitcher() {
   const [list, setList] = useState<Property[] | null>(null);
   useEffect(() => { propertyService.list().then(setList); }, []);
   if (role === "tenant") return null;
+  // A saved property is restoring: hold a same-size placeholder instead of flashing "All properties".
+  if (!list && propertyId !== "all")
+    return (
+      <div role="status" aria-label={t.shell.switchProperty} className="glass flex h-12 w-[240px] max-w-full min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3 shadow-none">
+        <Skel className="h-10 w-10 shrink-0 rounded-full" />
+        <span className="min-w-0 flex-1 space-y-1.5"><Skel className="h-3 w-3/4" /><Skel className="h-2.5 w-1/2" /></span>
+      </div>
+    );
   const current = list?.find((p) => p.id === propertyId);
   const name = current?.name ?? t.shell.allProperties;
   const sub = current ? `${current.address}, ${current.suburb}` : t.shell.allPropertiesSub;
