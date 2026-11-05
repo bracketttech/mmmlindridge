@@ -18,17 +18,17 @@ import { pageHead } from "@/lib/seo";
 import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
 
-type Search = { q?: string; type?: string; province?: string; status?: "all" | OccupancyStatus; demo?: "empty" };
+type Search = { q?: string | undefined; type?: string | undefined; province?: string | undefined; status?: OccupancyStatus | undefined; demo?: "empty" | undefined };
 const STATUSES = ["all", "fully_let", "vacancies", "maintenance", "setup"] as const;
 
 export const Route = createFileRoute("/_shell/properties/")({
   head: () => pageHead("Properties", "Every building in your portfolio with occupancy, units and rent roll."),
   validateSearch: (s: Record<string, unknown>): Search => ({
-    q: typeof s.q === "string" && s.q ? s.q : undefined,
-    type: typeof s.type === "string" && s.type ? s.type : undefined,
-    province: typeof s.province === "string" && s.province ? s.province : undefined,
-    status: STATUSES.includes(s.status as never) && s.status !== "all" ? (s.status as OccupancyStatus) : undefined,
-    demo: s.demo === "empty" ? "empty" : undefined,
+    q: typeof s["q"] === "string" && s["q"] ? s["q"] : undefined,
+    type: typeof s["type"] === "string" && s["type"] ? s["type"] : undefined,
+    province: typeof s["province"] === "string" && s["province"] ? s["province"] : undefined,
+    status: STATUSES.includes(s["status"] as never) && s["status"] !== "all" ? (s["status"] as OccupancyStatus) : undefined,
+    demo: s["demo"] === "empty" ? "empty" : undefined,
   }),
   component: PropertiesPage,
 });

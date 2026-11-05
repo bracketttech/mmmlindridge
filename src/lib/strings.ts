@@ -226,7 +226,7 @@ export const t = {
     },
     detail: {
       tabs: { overview: "Overview", units: "Units", tenants: "Tenants", documents: "Documents", maintenance: "Maintenance", finance: "Finance snapshot", staff: "Staff assigned" },
-      edit: "Edit", delete: "Delete property", actions: "Property actions",
+      edit: "Edit", delete: "Delete property", actions: "Property actions", sections: "Property sections", unitMixTip: "{n} units {s}",
       deleteTitle: "Delete {name}?", deleteBody: "This removes the property, its {u} units and {d} documents. Tenants stay on file but lose their unit link. This can't be undone.",
       deleted: "Property deleted", facts: "Key facts", type: "Type", built: "Built", erf: "Erf", units: "Units", occupancy: "Occupancy", rentRoll: "Monthly rent roll",
       address: "Address", amenities: "Amenities", noAmenities: "No amenities added yet.", municipal: "Municipal & meters", municipality: "Municipality", account: "Account", rates: "Rates & taxes", electricity: "Electricity", elecMeter: "Electricity meter", waterMeter: "Water meter",
