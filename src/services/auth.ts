@@ -1,5 +1,6 @@
 // Mock auth service. Same signatures will be backed by Lovable Cloud later.
 import * as fx from "@/mocks/auth";
+import { findSentLink, markRegistered } from "./index";
 import type { Role } from "@/lib/nav";
 import { writeSession, type MockSession } from "@/lib/session";
 
@@ -59,11 +60,12 @@ export const authService = {
   },
   async getTenantLink(token: string): Promise<{ status: fx.InviteStatus; link?: fx.TenantLink }> {
     await wait(500);
-    const link = fx.tenantLinks.find((l) => l.token === token);
+    const link = fx.tenantLinks.find((l) => l.token === token) ?? findSentLink(token);
     return link ? { status: link.status, link } : { status: "invalid" };
   },
   async registerTenant(link: fx.TenantLink) {
     await wait();
+    markRegistered(link.token);
     return startSession(link.email, "tenant", link.name);
   },
   async completeOnboarding(_data: unknown) {

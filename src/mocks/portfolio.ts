@@ -1,3 +1,4 @@
+import { getTenancy } from "./tenancy-store";
 // Portfolio mock seed (properties, units, documents). The browser store in ./portfolio-store.ts copies this on first run.
 import { properties as baseProps, units as baseUnits, tenants } from "./data";
 
@@ -132,4 +133,5 @@ export function seedDocuments(): DocumentRecord[] {
   ];
 }
 
-export const tenantForUnit = (unitId: string) => tenants.find((t) => t.unitId === unitId);
+/** Live tenant on a unit (reads the tenancy store so edits show everywhere). */
+export const tenantForUnit = (unitId: string) => getTenancy().tenants.find((t) => t.unitId === unitId && !t.archived);
