@@ -9,11 +9,11 @@
 @theme inline {
   --font-sans: "Hanken Grotesk", "Figtree", "Albert Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-sm: 3px;
-  --radius-md: 5px;
-  --radius-lg: 7px;
-  --radius-xl: 8px;
-  --radius-2xl: 8px;
+  --radius-sm: 3.45px;
+  --radius-md: 5.75px;
+  --radius-lg: 8.05px;
+  --radius-xl: 9.2px;
+  --radius-2xl: 9.2px;
 
   --color-olive-900: var(--olive-900);
   --color-olive-800: var(--olive-800);
@@ -74,7 +74,7 @@
 }
 
 :root {
-  --radius: 7px;
+  --radius: 8.05px;
   --white: #ffffff;
   --olive-900: #2e361d;
   --olive-800: #363c26;

@@ -44,7 +44,7 @@ function PropertyDetailPage() {
   const del = usePropertyDelete(() => navigate({ to: "/properties", replace: true }));
 
   if (!roleCanSee(role, "properties")) return <Placeholder navKey="properties" title={t.props.title} muted={t.props.muted} />;
-  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-11 w-full rounded-full" /><Skel className="h-80 rounded-[7px]" /></div>;
+  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-11 w-full rounded-full" /><Skel className="h-80 rounded-[8.05px]" /></div>;
   if (error) return <GlassCard hover={false}><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={<PillButton variant="secondary" onClick={reload}>{t.common.retry}</PillButton>} /></GlassCard>;
   if (!p) return <GlassCard hover={false}><EmptyState icon={<Building2 className="h-6 w-6" />} title={t.props.notFound} body={t.props.notFoundBody} action={<Link to="/properties" className="text-[14px] font-medium text-olive-700 underline">{t.props.back}</Link>} /></GlassCard>;
 
@@ -96,10 +96,10 @@ function Gallery({ p }: { p: Property }) {
   const d = t.props.detail;
   const [i, setI] = useState(0);
   const n = p.photos.length;
-  if (!n) return <div className="grid aspect-[16/9] place-items-center rounded-[5px] bg-olive-200 text-olive-700"><Building2 aria-hidden className="h-10 w-10" /></div>;
+  if (!n) return <div className="grid aspect-[16/9] place-items-center rounded-[5.75px] bg-olive-200 text-olive-700"><Building2 aria-hidden className="h-10 w-10" /></div>;
   const src = resolvePhoto(p.photos[i]);
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-[5px] bg-olive-200">
+    <div className="relative aspect-[16/9] overflow-hidden rounded-[5.75px] bg-olive-200">
       {src && <FadeImage key={i} src={src} alt={fill(d.gallery, { i: i + 1, n })} width={1280} height={720} loading="eager" className="absolute inset-0 h-full w-full object-cover" />}
       <div className="absolute left-3 top-3"><PropertyBadges p={p} onDark /></div>
       {n > 1 && (
@@ -286,12 +286,12 @@ function StaffTab({ p, canManage }: { p: Property; canManage: boolean }) {
     <GlassCard hover={false} className="p-4 md:p-5">
       <div className="mb-4 flex items-center justify-between gap-3"><h2 className="text-h3 text-ink-900">{d.staffTitle}</h2>{assigned.length > 0 && btn}</div>
       {error ? <EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={<PillButton variant="secondary" onClick={reload}>{t.common.retry}</PillButton>} />
-        : loading ? <div className="grid gap-3 sm:grid-cols-2">{[0, 1].map((i) => <Skel key={i} className="h-20 rounded-[5px]" />)}</div>
+        : loading ? <div className="grid gap-3 sm:grid-cols-2">{[0, 1].map((i) => <Skel key={i} className="h-20 rounded-[5.75px]" />)}</div>
         : assigned.length === 0 ? <EmptyState icon={<Users className="h-6 w-6" />} title={d.staffEmpty} body={d.staffEmptyBody} action={btn || undefined} />
         : (
           <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {assigned.map((s: Staff) => (
-              <li key={s.id} className="flex min-w-0 items-center gap-3 rounded-[5px] border border-border-soft bg-surface-solid/70 p-3">
+              <li key={s.id} className="flex min-w-0 items-center gap-3 rounded-[5.75px] border border-border-soft bg-surface-solid/70 p-3">
                 <NAvatar name={s.name} size={40} />
                 <div className="min-w-0 flex-1">
                   <TruncatedText text={s.name} className="font-medium text-ink-900" />

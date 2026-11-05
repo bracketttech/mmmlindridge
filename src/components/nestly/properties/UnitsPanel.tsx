@@ -39,7 +39,7 @@ export function UnitsPanel({ property, canManage }: { property: Property; canMan
   const menu = (x: Unit) => canManage && (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={`${u.actions}: ${x.label}`} onClick={(e) => e.stopPropagation()} className="grid h-8 w-8 place-items-center rounded-full text-ink-500 hover:bg-olive-100"><MoreHorizontal className="h-4 w-4" /></DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40 rounded-[4px] p-1.5">
+      <DropdownMenuContent align="end" className="w-40 rounded-[4.6px] p-1.5">
         <DropdownMenuItem onSelect={() => setEditing(x)}><Pencil className="h-4 w-4" />{u.edit}</DropdownMenuItem>
         <DropdownMenuItem onSelect={() => askDelete(x)} className="text-danger focus:text-danger"><Trash2 className="h-4 w-4" />{u.delete}</DropdownMenuItem>
       </DropdownMenuContent>
@@ -96,12 +96,12 @@ export function UnitsPanel({ property, canManage }: { property: Property; canMan
         </GlassCard>
       ) : view === "grid" ? (
         <div className="hidden md:block">
-          {loading ? <div className="grid grid-cols-3 gap-3 xl:grid-cols-5">{Array.from({ length: 10 }).map((_, i) => <Skel key={i} className="h-32 rounded-[5px]" />)}</div>
+          {loading ? <div className="grid grid-cols-3 gap-3 xl:grid-cols-5">{Array.from({ length: 10 }).map((_, i) => <Skel key={i} className="h-32 rounded-[5.75px]" />)}</div>
             : rows.length === 0 ? <GlassCard hover={false}><EmptyState title={u.noMatch} /></GlassCard>
             : (
               <ul className="grid grid-cols-3 gap-3 xl:grid-cols-5">
                 {rows.map((x) => (
-                  <li key={x.id} className="glass lift relative flex min-h-32 flex-col justify-between rounded-[5px] p-4">
+                  <li key={x.id} className="glass lift relative flex min-h-32 flex-col justify-between rounded-[5.75px] p-4">
                     <div className="flex items-start justify-between gap-2">
                       <div className="min-w-0"><p className="truncate text-[18px] text-ink-900">{x.label}</p><p className="flex items-center gap-1 text-[12px] text-ink-500"><BedDouble aria-hidden className="h-3.5 w-3.5" />{fill(u.bedBath, { b: x.beds, ba: x.baths })}</p></div>
                       {menu(x)}
@@ -210,7 +210,7 @@ function BulkUnitsModal({ propertyId, existing, onClose }: { propertyId: string;
           <div className="sm:col-span-2"><TextField label={u.form.rent} type="number" inputMode="numeric" min={500} value={rent} onChange={(e) => setRent(Number(e.target.value))} error={rent < 500 ? u.form.rentRange : undefined} /></div>
         </div>
         <ToggleRow label={b.pad} checked={pad} onChange={setPad} />
-        <div className="rounded-[5px] border border-border-soft bg-olive-100/50 p-4" aria-live="polite">
+        <div className="rounded-[5.75px] border border-border-soft bg-olive-100/50 p-4" aria-live="polite">
           <p className="text-overline text-ink-500">{b.preview}</p>
           <p className="mt-1 text-[14px] font-medium text-ink-900">{fill(b.willCreate, { n: labels.length })}</p>
           <div className="mt-2 flex max-h-28 flex-wrap gap-1.5 overflow-y-auto">

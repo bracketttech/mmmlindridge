@@ -47,7 +47,7 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
         {canManage && (
           <DropdownMenu>
             <DropdownMenuTrigger aria-label={r.actions} className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-ink-700 hover:bg-olive-100"><MoreHorizontal className="h-4 w-4" /></DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 rounded-[4px] p-1.5">
+            <DropdownMenuContent align="end" className="w-48 rounded-[4.6px] p-1.5">
               <DropdownMenuItem asChild><Link to="/tenants/$tenantId/edit" params={{ tenantId: x.id }}><Pencil className="h-4 w-4" />{r.edit}</Link></DropdownMenuItem>
               <DropdownMenuItem onSelect={onSendLink}><Send className="h-4 w-4" />{r.sendLink}</DropdownMenuItem>
               <DropdownMenuItem onSelect={onArchive}>{x.archived ? <ArchiveRestore className="h-4 w-4" /> : <Archive className="h-4 w-4" />}{x.archived ? r.restore : r.archive}</DropdownMenuItem>
@@ -68,7 +68,7 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
       </div>
 
       {pending && (
-        <div className="flex items-center justify-between gap-3 rounded-[5px] border border-warning/30 bg-warning/10 px-3 py-2.5 text-[13px]">
+        <div className="flex items-center justify-between gap-3 rounded-[5.75px] border border-warning/30 bg-warning/10 px-3 py-2.5 text-[13px]">
           <span className="text-ink-900">{r.pendingChange}</span>
           {canManage && <Link to="/change-requests" search={{ id: pending.id }} className="font-medium text-olive-700 underline">{r.review}</Link>}
         </div>
@@ -76,7 +76,7 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
 
       <dl className="grid grid-cols-3 gap-2">
         {[{ k: r.rent, v: formatZAR(x.rent) }, { k: r.balance, v: x.balance ? formatZAR(x.balance) : t.tenants.upToDate }, { k: r.deposit, v: formatZAR(x.deposit) }].map((s) => (
-          <div key={s.k} className="min-w-0 rounded-[5px] bg-surface-solid/80 p-3">
+          <div key={s.k} className="min-w-0 rounded-[5.75px] bg-surface-solid/80 p-3">
             <dt className="text-[12px] text-ink-500">{s.k}</dt>
             <dd className={s.k === r.balance && x.balance ? "mt-0.5 text-[14px] font-semibold text-danger" : "mt-0.5 text-[14px] font-semibold text-ink-900"}><TruncatedText text={s.v} /></dd>
           </div>
@@ -108,8 +108,8 @@ export function ProfileRail({ x, place, canManage, onClose, onSendLink, onArchiv
       <Section title={r.documents}>
         {x.docs.length === 0 ? <p className="text-[13px] text-ink-500">{r.noDocs}</p> : (
           <ul className="space-y-2">{x.docs.map((d) => (
-            <li key={d.id} className="flex min-w-0 items-center gap-3 rounded-[4px] bg-surface-solid/80 p-2.5">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[3px] bg-olive-100 text-olive-700"><FileText className="h-4 w-4" /></span>
+            <li key={d.id} className="flex min-w-0 items-center gap-3 rounded-[4.6px] bg-surface-solid/80 p-2.5">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[3.45px] bg-olive-100 text-olive-700"><FileText className="h-4 w-4" /></span>
               <div className="min-w-0 flex-1"><TruncatedText text={d.name} className="text-[13px] font-medium text-ink-900" /><p className="text-[12px] text-ink-500">{`${t.tenants.docKinds[d.kind]} · ${kb(d.size)} · ${formatDate(d.uploadedAt)}`}</p></div>
             </li>
           ))}</ul>

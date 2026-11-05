@@ -27,7 +27,7 @@ function Sidebar() {
   const { items } = navForRole(role);
   const active = useActiveIndex(items);
   return (
-    <aside aria-label={t.shell.mainNav} className={cn("sticky top-3 hidden h-[calc(100vh-1.5rem)] shrink-0 flex-col rounded-[8px] bg-sidebar-bg p-3 text-on-dark transition-[width] duration-300 ease-out lg:flex", collapsed ? "w-[76px]" : "w-[264px]")}>
+    <aside aria-label={t.shell.mainNav} className={cn("sticky top-3 hidden h-[calc(100vh-1.5rem)] shrink-0 flex-col rounded-[9.2px] bg-sidebar-bg p-3 text-on-dark transition-[width] duration-300 ease-out lg:flex", collapsed ? "w-[76px]" : "w-[264px]")}>
       <div className={cn("flex h-12 items-center", collapsed ? "justify-center" : "justify-between px-2")}>
         <Logo showText={!collapsed} />
       </div>
@@ -87,9 +87,9 @@ function PropertySwitcher() {
         </span>
         <ChevronDown className="h-4 w-4 shrink-0 text-ink-500" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-72 rounded-[5px] p-1.5">
+      <DropdownMenuContent align="start" className="w-72 rounded-[5.75px] p-1.5">
         {[{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }, ...(list ?? [])].map((p) => (
-          <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[4px] py-2">
+          <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[4.6px] py-2">
             {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyThumb(p.id)} size={32} />}
             <span className="min-w-0 flex-1">
               <TruncatedText text={p.name} className="text-[14px] font-medium" />
@@ -116,11 +116,11 @@ function NotificationsBell() {
           {unread && <span aria-hidden className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-danger ring-2 ring-surface-solid" />}
         </IconButton>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 rounded-[5px] p-2">
+      <DropdownMenuContent align="end" className="w-80 rounded-[5.75px] p-2">
         <DropdownMenuLabel>{t.shell.notifications}</DropdownMenuLabel>
         {items.length === 0 && <p className="p-3 text-[13px] text-ink-500">{t.shell.noNotifications}</p>}
         {items.map((n) => (
-          <div key={n.id} className="flex gap-3 rounded-[4px] p-2 hover:bg-olive-100">
+          <div key={n.id} className="flex gap-3 rounded-[4.6px] p-2 hover:bg-olive-100">
             <span aria-hidden className={cn("mt-1.5 h-2 w-2 shrink-0 rounded-full", n.unread ? "bg-olive-700" : "bg-olive-200")} />
             <div className="min-w-0">
               <p className="text-[14px] font-medium">{n.title}</p>
@@ -130,7 +130,7 @@ function NotificationsBell() {
           </div>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild><Link to="/notifications" className="justify-center rounded-[4px] font-medium text-olive-700">{t.shell.viewAll}</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link to="/notifications" className="justify-center rounded-[4.6px] font-medium text-olive-700">{t.shell.viewAll}</Link></DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -155,7 +155,7 @@ function AvatarMenu() {
       <DropdownMenuTrigger aria-label={t.shell.account} className="shrink-0 rounded-full">
         <NAvatar name={user.name} src={avatarFor(user.email)} size={40} className="bg-olive-800 text-primary-foreground" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64 rounded-[5px] p-1.5">
+      <DropdownMenuContent align="end" className="w-64 rounded-[5.75px] p-1.5">
         <DropdownMenuLabel className="font-normal">
           <p className="truncate text-[14px] font-medium">{user.name}</p>
           <p className="truncate text-[12px] text-ink-500">{t.shell.signedInAs}: {t.roles[role]}</p>
@@ -234,7 +234,7 @@ function MobileTabBar() {
         <ul className="grid gap-1">
           {more.map((m) => (
             <li key={m.key}>
-              <Link to={m.to} onClick={() => setOpen(false)} className="flex h-12 items-center gap-3 rounded-[5px] px-3 text-[15px] hover:bg-olive-100">
+              <Link to={m.to} onClick={() => setOpen(false)} className="flex h-12 items-center gap-3 rounded-[5.75px] px-3 text-[15px] hover:bg-olive-100">
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-olive-200 text-olive-900"><m.icon className="h-4 w-4" /></span>
                 <span className="truncate">{m.label}</span>
               </Link>
@@ -253,7 +253,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen w-full gap-3 bg-outer p-0 md:p-3">
       <Sidebar />
-      <div className="relative min-w-0 flex-1 overflow-hidden bg-canvas md:rounded-[8px] md:border md:border-surface-solid md:shadow-soft">
+      <div className="relative min-w-0 flex-1 overflow-hidden bg-canvas md:rounded-[9.2px] md:border md:border-surface-solid md:shadow-soft">
         <div className="mx-auto w-full max-w-[1400px] px-4 pb-32 pt-4 md:px-8 md:pt-6 lg:pb-10">
           <TopBar />
           <main key={path} className="mt-6 animate-page-in md:mt-8">{children}</main>

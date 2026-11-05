@@ -153,7 +153,7 @@ export function PropertyForm({ initial }: { initial?: PropertyRecord }) {
                   <p className="text-[13px] text-ink-500">{f.photosHint}</p>
                   <input ref={fileRef} type="file" multiple accept={UPLOAD_RULES.photo.types.join(",")} className="sr-only" aria-label={f.addPhotos} onChange={(e) => void addPhotos(e.target.files)} />
                   {photoErrors.length > 0 && (
-                    <ul role="alert" className="space-y-1 rounded-[5px] border border-danger/25 bg-danger/10 px-4 py-3 text-[13px] text-danger">
+                    <ul role="alert" className="space-y-1 rounded-[5.75px] border border-danger/25 bg-danger/10 px-4 py-3 text-[13px] text-danger">
                       {photoErrors.map((e) => <li key={e} className="break-words">{e}</li>)}
                     </ul>
                   )}
@@ -161,7 +161,7 @@ export function PropertyForm({ initial }: { initial?: PropertyRecord }) {
                     {photos.map((ph, i) => {
                       const src = resolvePhoto(ph);
                       return (
-                        <figure key={`${i}-${ph.slice(-12)}`} className="group relative aspect-[4/3] overflow-hidden rounded-[5px] bg-olive-200">
+                        <figure key={`${i}-${ph.slice(-12)}`} className="group relative aspect-[4/3] overflow-hidden rounded-[5.75px] bg-olive-200">
                           {src && <FadeImage src={src} alt={`${f.photos} ${i + 1}`} className="absolute inset-0 h-full w-full object-cover" />}
                           {i === 0 && <span className="absolute left-2 top-2 inline-flex h-6 items-center gap-1 rounded-full bg-olive-700 px-2 text-[11px] font-medium text-primary-foreground"><Star aria-hidden className="h-3 w-3" />{f.cover}</span>}
                           <div className="absolute inset-x-2 bottom-2 flex justify-end gap-1.5">
@@ -174,7 +174,7 @@ export function PropertyForm({ initial }: { initial?: PropertyRecord }) {
                       );
                     })}
                     {photos.length < UPLOAD_RULES.photo.maxFiles && (
-                      <button type="button" onClick={() => fileRef.current?.click()} className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-[5px] border-2 border-dashed border-olive-500/40 bg-surface-solid/60 text-[13px] font-medium text-olive-700 transition hover:bg-olive-100">
+                      <button type="button" onClick={() => fileRef.current?.click()} className="flex aspect-[4/3] flex-col items-center justify-center gap-2 rounded-[5.75px] border-2 border-dashed border-olive-500/40 bg-surface-solid/60 text-[13px] font-medium text-olive-700 transition hover:bg-olive-100">
                         <ImagePlus aria-hidden className="h-6 w-6" />{f.addPhotos}
                       </button>
                     )}

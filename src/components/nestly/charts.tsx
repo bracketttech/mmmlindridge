@@ -12,7 +12,7 @@ type TipPayload = { name?: string; value?: number; dataKey?: string | number; co
 function ChipTooltip({ active, payload, label, names }: { active?: boolean; payload?: TipPayload[]; label?: string; names?: Record<string, string> }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-[3px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft">
+    <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft">
       <div className="mb-0.5 font-medium">{label}</div>
       {payload.map((p) => (
         <div key={String(p.dataKey)} className="flex items-center gap-2 tabular-nums">
@@ -90,7 +90,7 @@ export function GaugeChart({ value, label, detail }: { value: number; label: str
     <div className="flex flex-col items-center">
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>
-          <button type="button" aria-label={`${label}: ${pct}%. ${detail}`} onClick={() => setOpen((o) => !o)} className="rounded-[5px]">
+          <button type="button" aria-label={`${label}: ${pct}%. ${detail}`} onClick={() => setOpen((o) => !o)} className="rounded-[5.75px]">
             <svg viewBox="0 0 200 110" className="w-56 max-w-full">
               <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke={OLIVE_SOFT} strokeWidth="16" strokeLinecap="round" />
               <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke={OLIVE_DARK} strokeWidth="16" strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - pct / 100)} style={{ transition: "stroke-dashoffset 1s ease" }} />

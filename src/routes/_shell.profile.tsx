@@ -59,7 +59,7 @@ function MyDetails() {
   const email = readSession()?.email;
   const { data: me, loading, error, reload } = useData(() => tenantService.me(email), [email]);
   const dir = useUnitDirectory();
-  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-80 rounded-[7px]" /></div>;
+  if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-80 rounded-[8.05px]" /></div>;
   if (error || !me) return <GlassCard hover={false}><EmptyState tone="error" title={t.common.errorTitle} body={t.common.errorBody} action={<PillButton variant="secondary" onClick={reload}>{t.common.retry}</PillButton>} /></GlassCard>;
   return <MyDetailsView key={me.id} me={me} property={dir.propertyName(me.propertyId)} unit={dir.unitLabel(me.unitId)} />;
 }
@@ -90,14 +90,14 @@ function MyDetailsView({ me, property, unit }: { me: Tenant; property: string; u
         actions={!editing && <PillButton icon={<Pencil className="h-4 w-4" />} disabled={!!pending} onClick={() => { reset(current); setEditing(true); }}>{m.change}</PillButton>} />
 
       {pending && (
-        <div role="status" className="flex items-start gap-3 rounded-[5px] border border-warning/30 bg-warning/10 p-4">
+        <div role="status" className="flex items-start gap-3 rounded-[5.75px] border border-warning/30 bg-warning/10 p-4">
           <Clock aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-warning-ink" />
           <div className="min-w-0"><p className="font-medium text-ink-900">{m.pending}</p><p className="text-[13px] text-ink-700">{fill(m.pendingBody, { date: formatDate(pending.submittedAt) })}</p>
             <ul className="mt-2 space-y-0.5 text-[13px] text-ink-700">{pending.changes.map((c) => <li key={c.field} className="truncate">{`${f[c.field]}: ${c.from || "—"} → ${c.to || "—"}`}</li>)}</ul></div>
         </div>
       )}
       {latest?.status === "rejected" && (
-        <div role="status" className="flex items-start gap-3 rounded-[5px] border border-danger/25 bg-danger/10 p-4">
+        <div role="status" className="flex items-start gap-3 rounded-[5.75px] border border-danger/25 bg-danger/10 p-4">
           <XCircle aria-hidden className="mt-0.5 h-5 w-5 shrink-0 text-danger" />
           <div className="min-w-0"><p className="font-medium text-ink-900">{m.rejected}</p><p className="break-words text-[13px] text-ink-700">{fill(m.rejectedBody, { reason: latest.reason ?? "" })}</p></div>
         </div>

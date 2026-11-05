@@ -46,14 +46,14 @@ export function SendLinkDialog({ tenant, place, onClose }: { tenant: Tenant | nu
       <SegmentedChips label={l.title} value={channel} onChange={setChannel} wrap options={(["email", "whatsapp", "sms", "copy"] as const).map((c) => ({ value: c, label: l.channels[c] }))} />
       <div className="mt-4 space-y-2">
         <p className="text-overline text-ink-500">{l.preview}</p>
-        <div className="rounded-[5px] border border-border-soft bg-surface-solid p-4">
+        <div className="rounded-[5.75px] border border-border-soft bg-surface-solid p-4">
           {channel !== "copy" && (
             <p className="mb-2 flex min-w-0 items-center gap-2 text-[13px] text-ink-500"><Icon aria-hidden className="h-4 w-4 shrink-0" /><span className="shrink-0">{l.to}:</span><span className="truncate text-ink-900">{to}</span></p>
           )}
           {channel === "email" && <p className="mb-2 truncate text-[13px] text-ink-500">{l.subject}: <span className="text-ink-900">{fill(l.subjectText, { property: place.property })}</span></p>}
           {channel === "copy"
             ? <p className="break-all font-mono text-[13px] text-ink-900">{url}</p>
-            : <p className={channel === "whatsapp" ? "whitespace-pre-line rounded-[5px] bg-olive-100 p-3 text-[14px] text-ink-900" : "whitespace-pre-line break-words text-[14px] text-ink-900"}>{msg}</p>}
+            : <p className={channel === "whatsapp" ? "whitespace-pre-line rounded-[5.75px] bg-olive-100 p-3 text-[14px] text-ink-900" : "whitespace-pre-line break-words text-[14px] text-ink-900"}>{msg}</p>}
         </div>
         <p className="text-[12px] text-ink-500">{fill(l.expires, { date: expires })}</p>
       </div>

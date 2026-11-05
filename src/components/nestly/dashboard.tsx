@@ -21,13 +21,13 @@ export function FeaturedProperty({ data }: { data: DashboardData }) {
   const p = data.featured;
   const all = data.propertyId === "all";
   return (
-    <article className="lift relative h-[320px] overflow-hidden rounded-[7px] bg-olive-200 shadow-soft lg:h-full lg:min-h-[340px]">
+    <article className="lift relative h-[320px] overflow-hidden rounded-[8.05px] bg-olive-200 shadow-soft lg:h-full lg:min-h-[340px]">
       {propertyImage(p.id) && <FadeImage src={propertyImage(p.id)!} alt={p.name} width={1024} height={768} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />}
       <div className="absolute inset-0 bg-linear-to-t from-olive-900/50 via-transparent to-transparent" />
       <span className="glass absolute left-3 top-3 inline-flex h-7 items-center gap-1.5 rounded-full border-surface-solid/40 bg-surface-solid/25 px-3 text-[12px] font-medium text-on-dark shadow-none">
         <Home className="h-3.5 w-3.5" aria-hidden />{all ? fill(d.allProps, { n: data.properties.length }) : d.featured}
       </span>
-      <div className="glass absolute inset-x-3 bottom-3 rounded-[5px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark shadow-none">
+      <div className="glass absolute inset-x-3 bottom-3 rounded-[5.75px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark shadow-none">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <TruncatedText text={p.name} className="text-h3" />
@@ -64,7 +64,7 @@ export function AgeingCard({ data }: { data: DashboardData }) {
         {data.arrears.ageing.map((v, i) => (
           <Tooltip key={i}>
             <TooltipTrigger asChild>
-              <button type="button" className="min-w-0 rounded-[3px] p-1 text-center hover:bg-olive-100">
+              <button type="button" className="min-w-0 rounded-[3.45px] p-1 text-center hover:bg-olive-100">
                 <span className="block text-[16px] tabular-nums text-ink-900">{Math.round((v / total) * 100)}%</span>
                 <span className="block truncate text-[11px] text-ink-500">{d.buckets[i]}</span>
               </button>
@@ -101,7 +101,7 @@ export function AttentionList({ data }: { data: DashboardData }) {
           {data.attention.map((a) => {
             const Icon = toneIcon[a.tone];
             return (
-              <li key={a.id} className="flex items-center gap-3 rounded-[4px] p-2 hover:bg-surface-solid/70">
+              <li key={a.id} className="flex items-center gap-3 rounded-[4.6px] p-2 hover:bg-surface-solid/70">
                 <span className={cn("grid h-9 w-9 shrink-0 place-items-center rounded-full", toneCls[a.tone])}><Icon aria-hidden className="h-4 w-4" /></span>
                 <div className="min-w-0 flex-1">
                   <TruncatedText text={a.title} className="text-[14px] font-medium text-ink-900" />
@@ -141,7 +141,7 @@ export function ExpiryList({ data }: { data: DashboardData }) {
       {data.expiries.length === 0 ? <EmptyState body={d.none} /> : (
         <ul className="space-y-1">
           {data.expiries.map((x) => (
-            <li key={x.id} className="flex items-center gap-3 rounded-[4px] p-2 hover:bg-surface-solid/70">
+            <li key={x.id} className="flex items-center gap-3 rounded-[4.6px] p-2 hover:bg-surface-solid/70">
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-olive-200 text-olive-900"><CalendarClock aria-hidden className="h-4 w-4" /></span>
               <div className="min-w-0 flex-1">
                 <TruncatedText text={x.tenant} className="text-[14px] font-medium text-ink-900" />
@@ -163,7 +163,7 @@ function RequestsList({ data }: { data: DashboardData }) {
       {open.length === 0 ? <EmptyState body={d.none} /> : (
         <ul className="space-y-1">
           {open.map((r) => (
-            <li key={r.id} className="flex items-center gap-3 rounded-[4px] p-2 hover:bg-surface-solid/70">
+            <li key={r.id} className="flex items-center gap-3 rounded-[4.6px] p-2 hover:bg-surface-solid/70">
               <div className="min-w-0 flex-1">
                 <TruncatedText text={r.title} className="text-[14px] font-medium text-ink-900" />
                 <p className="text-[12px] text-ink-500">{formatDate(r.createdAt)} · {r.priority} priority</p>
@@ -183,7 +183,7 @@ function OverdueList({ data }: { data: DashboardData }) {
       {data.overdue.length === 0 ? <EmptyState body={d.none} /> : (
         <ul className="space-y-1">
           {data.overdue.map((i) => (
-            <li key={i.id} className="flex items-center gap-3 rounded-[4px] p-2 hover:bg-surface-solid/70">
+            <li key={i.id} className="flex items-center gap-3 rounded-[4.6px] p-2 hover:bg-surface-solid/70">
               <div className="min-w-0 flex-1"><p className="text-[14px] font-medium">{i.id}</p><p className="text-[12px] text-ink-500">Due {formatDate(i.dueDate)}</p></div>
               <span className="shrink-0 text-[14px] tabular-nums">{formatZAR(i.amount)}</span>
               <StatusCell status={i.status} />
@@ -201,7 +201,7 @@ function VacantList({ data }: { data: DashboardData }) {
       {data.vacantUnits.length === 0 ? <EmptyState body={d.none} /> : (
         <ul className="space-y-1">
           {data.vacantUnits.map((u) => (
-            <li key={u.id} className="flex items-center gap-3 rounded-[4px] p-2 hover:bg-surface-solid/70">
+            <li key={u.id} className="flex items-center gap-3 rounded-[4.6px] p-2 hover:bg-surface-solid/70">
               <div className="min-w-0 flex-1"><p className="text-[14px] font-medium">{u.label}</p><p className="text-[12px] text-ink-500">{u.beds} bed · {formatZAR(u.rent)} / month</p></div>
               <StatusCell status={u.status} />
             </li>
@@ -304,13 +304,13 @@ export function DashboardSkeleton() {
   return (
     <div className="space-y-4" aria-busy="true" aria-label="Loading dashboard">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <Skel className="h-[320px] rounded-[7px] lg:col-span-4" />
+        <Skel className="h-[320px] rounded-[8.05px] lg:col-span-4" />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-5">{[0, 1, 2, 3].map((i) => <KpiTile key={i} label="" value="" loading />)}</div>
-        <Skel className="h-[320px] rounded-[7px] lg:col-span-3" />
+        <Skel className="h-[320px] rounded-[8.05px] lg:col-span-3" />
       </div>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <Skel className="h-72 rounded-[7px] lg:col-span-8" />
-        <Skel className="h-72 rounded-[7px] lg:col-span-4" />
+        <Skel className="h-72 rounded-[8.05px] lg:col-span-8" />
+        <Skel className="h-72 rounded-[8.05px] lg:col-span-4" />
       </div>
     </div>
   );

@@ -73,7 +73,7 @@ function ChangeRequestsPage() {
                   return (
                     <li key={r.id}>
                       <button type="button" onClick={() => set({ id: r.id }, false)} aria-current={r.id === sel?.id ? "true" : undefined}
-                        className={cn("flex w-full min-w-0 items-center gap-3 rounded-[5px] border border-border-soft p-3 text-left transition-colors", r.id === sel?.id ? "bg-olive-100" : "bg-surface-solid/80 hover:bg-surface-solid")}>
+                        className={cn("flex w-full min-w-0 items-center gap-3 rounded-[5.75px] border border-border-soft p-3 text-left transition-colors", r.id === sel?.id ? "bg-olive-100" : "bg-surface-solid/80 hover:bg-surface-solid")}>
                         <NAvatar name={x.name} src={x.avatar} size={40} />
                         <div className="min-w-0 flex-1">
                           <TruncatedText text={x.name} className="font-medium text-ink-900" />
@@ -118,19 +118,19 @@ function RequestDetail({ r, x, place }: { r: ChangeRequest; x: Tenant; place: st
 
       <div>
         <p className="mb-2 text-overline text-ink-500">{fill(c.fieldsChanged, { n: r.changes.length })}</p>
-        <div className="overflow-hidden rounded-[5px] border border-border-soft">
+        <div className="overflow-hidden rounded-[5.75px] border border-border-soft">
           <div className="hidden grid-cols-[1fr_1fr_1fr] gap-3 bg-surface-solid/70 px-3 py-2 text-overline text-ink-500 sm:grid"><span /><span>{c.old}</span><span>{c.new}</span></div>
           {r.changes.map((f) => (
             <div key={f.field} className="grid gap-1 border-t border-border-soft px-3 py-3 first:border-t-0 sm:grid-cols-[1fr_1fr_1fr] sm:gap-3 sm:first:border-t">
               <span className="text-[13px] font-medium text-ink-900">{c.fields[f.field]}</span>
               <span className="min-w-0 text-[13px] text-ink-500 line-through decoration-danger/60"><span className="sr-only">{c.old}: </span><TruncatedText text={f.from || "—"} /></span>
-              <span className="min-w-0 rounded-[3px] bg-success/10 px-1.5 text-[13px] font-medium text-ink-900"><span className="sr-only">{c.new}: </span><TruncatedText text={f.to || "—"} /></span>
+              <span className="min-w-0 rounded-[3.45px] bg-success/10 px-1.5 text-[13px] font-medium text-ink-900"><span className="sr-only">{c.new}: </span><TruncatedText text={f.to || "—"} /></span>
             </div>
           ))}
         </div>
       </div>
 
-      {r.status === "rejected" && r.reason && <p className="rounded-[5px] border border-danger/25 bg-danger/10 px-3 py-2.5 text-[13px] text-danger">{r.reason}</p>}
+      {r.status === "rejected" && r.reason && <p className="rounded-[5.75px] border border-danger/25 bg-danger/10 px-3 py-2.5 text-[13px] text-danger">{r.reason}</p>}
 
       <div className="flex flex-wrap gap-2">
         {r.status === "pending" && <>
@@ -184,8 +184,8 @@ function ChangeEmail({ r, x, place }: { r: ChangeRequest; x: Tenant; place: stri
         <div className="flex gap-2"><dt className="w-16 shrink-0 text-ink-500">To</dt><dd className="truncate text-ink-900">Janice Tinto &lt;janice@tintoproperty.co.za&gt;</dd></div>
         <div className="flex gap-2"><dt className="w-16 shrink-0 text-ink-500">Subject</dt><dd className="min-w-0 truncate font-medium text-ink-900">{fill(c.emailSubject, { name: x.name, unit: unit ?? "" })}</dd></div>
       </dl>
-      <div className="rounded-[5px] border border-border-soft bg-olive-100/50 p-3 sm:p-6">
-        <div className="mx-auto max-w-[520px] space-y-4 rounded-[5px] bg-surface-solid p-5 sm:p-7">
+      <div className="rounded-[5.75px] border border-border-soft bg-olive-100/50 p-3 sm:p-6">
+        <div className="mx-auto max-w-[520px] space-y-4 rounded-[5.75px] bg-surface-solid p-5 sm:p-7">
           <Logo />
           <p className="text-[15px] text-ink-900">{fill(c.emailIntro, { name: x.name, property: property ?? "", unit: unit ?? "" })}</p>
           <table className="w-full border-collapse text-left text-[13px]">

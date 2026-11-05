@@ -102,7 +102,7 @@ function OwnerRequests({ view, id, set }: { view: View; id?: string | undefined;
               <label className="relative sm:col-span-2 lg:col-span-1 lg:self-end">
                 <span className="sr-only">{r.filters.search}</span>
                 <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-500" />
-                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={r.filters.search} className="h-12 w-full rounded-[5px] border border-input bg-surface-solid pl-9 pr-3 text-[15px] outline-none focus:border-olive-700" />
+                <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={r.filters.search} className="h-12 w-full rounded-[5.75px] border border-input bg-surface-solid pl-9 pr-3 text-[15px] outline-none focus:border-olive-700" />
               </label>
               <SelectField label={r.filters.property} value={prop} onChange={(e) => setProp(e.target.value)}><option value="all">{r.filters.all}</option>{dir.properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</SelectField>
               <SelectField label={r.filters.priority} value={prio} onChange={(e) => setPrio(e.target.value)}><option value="all">{r.filters.all}</option>{PRIORITIES.map((p) => <option key={p} value={p}>{r.priorities[p]}</option>)}</SelectField>
@@ -136,11 +136,11 @@ function Board({ rows, loading, selectedId, onSelect, place }: { rows: MaintRequ
   return (
     <div className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2" aria-label={r.views.board}>
       {groupByStatus(rows).map((col) => (
-        <section key={col.status} className="glass w-[260px] shrink-0 snap-start space-y-2 rounded-[7px] p-2.5" aria-label={r.statuses[col.status]}>
+        <section key={col.status} className="glass w-[260px] shrink-0 snap-start space-y-2 rounded-[8.05px] p-2.5" aria-label={r.statuses[col.status]}>
           <header className="flex items-center justify-between px-1"><ReqStatusChip s={col.status} /><span className="text-[12px] tabular-nums text-ink-500">{col.items.length}</span></header>
-          {col.items.length === 0 ? <p className="rounded-[5px] border border-dashed border-border-soft p-3 text-center text-[12px] text-ink-500">—</p> : col.items.map((x) => (
+          {col.items.length === 0 ? <p className="rounded-[5.75px] border border-dashed border-border-soft p-3 text-center text-[12px] text-ink-500">—</p> : col.items.map((x) => (
             <button key={x.id} type="button" onClick={() => onSelect(x.id)} aria-current={x.id === selectedId ? "true" : undefined}
-              className={cn("w-full min-w-0 space-y-1.5 rounded-[5px] border border-border-soft p-2.5 text-left shadow-soft transition", x.id === selectedId ? "bg-olive-100 ring-2 ring-olive-700" : "bg-surface-solid hover:bg-olive-100/50")}>
+              className={cn("w-full min-w-0 space-y-1.5 rounded-[5.75px] border border-border-soft p-2.5 text-left shadow-soft transition", x.id === selectedId ? "bg-olive-100 ring-2 ring-olive-700" : "bg-surface-solid hover:bg-olive-100/50")}>
               <TruncatedText text={x.title} lines={2} className="text-[13px] font-medium text-ink-900" />
               <TruncatedText text={place(x)} className="block text-[11px] text-ink-500" />
               <div className="flex items-center justify-between gap-1"><PriorityChip p={x.priority} />{x.assignee && <NAvatar name={x.assignee.name} size={22} />}</div>
@@ -195,8 +195,8 @@ function Schedule() {
           {items.map((x) => {
             const d = new Date(x.nextDue);
             return (
-              <li key={x.id} className="flex min-w-0 items-center gap-3 rounded-[5px] border border-border-soft bg-surface-solid/80 p-3">
-                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-[5px] bg-olive-700 text-center text-primary-foreground">
+              <li key={x.id} className="flex min-w-0 items-center gap-3 rounded-[5.75px] border border-border-soft bg-surface-solid/80 p-3">
+                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-[5.75px] bg-olive-700 text-center text-primary-foreground">
                   <div><div className="text-[18px] font-semibold leading-none">{d.getDate()}</div><div className="text-[11px] uppercase">{d.toLocaleDateString("en-ZA", { month: "short" })}</div></div>
                 </div>
                 <div className="min-w-0 flex-1">
