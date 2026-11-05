@@ -103,7 +103,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
   );
 }
 
-export function PersonCell({ name, email, src }: { name: string; email: string; src?: string }) {
+export function PersonCell({ name, email, src }: { name: string; email: string; src?: string | undefined }) {
   return (
     <div className="flex min-w-0 max-w-[260px] items-center gap-3">
       <NAvatar name={name} src={src} />

@@ -2,7 +2,7 @@
 import { avatarFor } from "@/images";
 export type Property = { id: string; name: string; address: string; suburb: string; province: string; units: number; occupied: number; image?: string };
 export type Unit = { id: string; propertyId: string; label: string; beds: number; rent: number; status: "occupied" | "vacant" | "notice" };
-export type Tenant = { id: string; name: string; email: string; phone: string; propertyId: string; unitId: string; rent: number; status: "active" | "arrears" | "notice" | "pending"; paidPct: number; lastPayment: string; avatar?: string };
+export type Tenant = { id: string; name: string; email: string; phone: string; propertyId: string; unitId: string; rent: number; status: "active" | "arrears" | "notice" | "pending"; paidPct: number; lastPayment: string; avatar?: string | undefined };
 export type Request = { id: string; title: string; type: "fault" | "upgrade"; priority: "low" | "medium" | "high"; status: "open" | "in_progress" | "resolved"; tenantId: string; createdAt: string };
 export type Invoice = { id: string; tenantId: string; amount: number; dueDate: string; status: "paid" | "pending" | "overdue" | "failed" };
 export type Staff = { id: string; name: string; email: string; role: "caretaker" | "agent" | "finance" | "legal"; phone: string };
