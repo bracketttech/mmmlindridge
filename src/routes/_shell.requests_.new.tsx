@@ -43,14 +43,14 @@ function NewRequestPage() {
   const [fileErrs, setFileErrs] = useState<string[]>([]);
   const [priority, setPriority] = useState<Priority>("medium");
   const [access, setAccess] = useState<string>(r.f.accessOptions[0]);
-  const [errs, setErrs] = useState<Record<string, string>>({});
+  const [errs, setErrs] = useState<Partial<Record<"category" | "title" | "description" | "moveOutDate", string>>>({});
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<MaintRequest | null>(null);
 
   if (role !== "tenant") return <Placeholder navKey="requests" title={r.newRequest} />;
 
   const validate = () => {
-    const e: Record<string, string> = {};
+    const e: Partial<Record<"category" | "title" | "description" | "moveOutDate", string>> = {};
     if (step === 0 && !cat) e.category = r.errs.category;
     if (step === 1) {
       if (title.trim().length < 4) e.title = r.errs.title;
