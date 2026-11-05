@@ -25,8 +25,8 @@ describe("reject reason", () => {
 });
 
 describe("SA ID number", () => {
-  it("accepts a valid 13-digit ID", () => expect(isSaIdNumber("9203150123088")).toBe(true));
-  it("rejects a bad check digit", () => expect(isSaIdNumber("9203150123089")).toBe(false));
+  it("accepts a valid 13-digit ID", () => expect(isSaIdNumber("9203150123082")).toBe(true));
+  it("rejects a bad check digit", () => expect(isSaIdNumber("9203150123083")).toBe(false));
   it("rejects wrong length", () => expect(isSaIdNumber("920315012308")).toBe(false));
 });
 

@@ -34,22 +34,22 @@ export type HistoryEntry = { id: string; tenantId: string; at: string; kind: His
 export type SentLink = TenantLink & { tenantId: string };
 
 const EXTRA: Record<string, Omit<TenantRecord, keyof Tenant | "balance" | "archived" | "registered">> = {
-  t1: { idNumber: "9203150123088", employer: "Discovery Health", leaseStart: "2025-12-01", leaseEnd: "2026-11-30", deposit: 12500, createdAt: "2025-11-10",
+  t1: { idNumber: "9203150123082", employer: "Discovery Health", leaseStart: "2025-12-01", leaseEnd: "2026-11-30", deposit: 12500, createdAt: "2025-11-10",
     occupants: [{ name: "Ayanda Nkosi", relation: "Partner", age: "33" }], emergency: { name: "Nomsa Nkosi", relation: "Mother", phone: "+27 82 555 0900" }, surety: null,
     docs: [{ id: "td1", name: "ID copy — T Nkosi.pdf", kind: "id", size: 420_000, uploadedAt: "2025-11-10" }, { id: "td2", name: "Payslip Oct 2025.pdf", kind: "income", size: 210_000, uploadedAt: "2025-11-10" }, { id: "td3", name: "Signed lease A101.pdf", kind: "lease", size: 1_200_000, uploadedAt: "2025-11-24" }] },
-  t2: { idNumber: "8507225089083", employer: "Self-employed (plumbing)", leaseStart: "2025-03-01", leaseEnd: "2027-02-28", deposit: 8900, createdAt: "2025-02-12",
-    occupants: [], emergency: { name: "Anneke van der Merwe", relation: "Sister", phone: "+27 83 555 0911" }, surety: { name: "Hendrik van der Merwe", idNumber: "5806115084081", phone: "+27 82 555 0912", email: "hendrik.vdm@mail.co.za" },
+  t2: { idNumber: "8507225089081", employer: "Self-employed (plumbing)", leaseStart: "2025-03-01", leaseEnd: "2027-02-28", deposit: 8900, createdAt: "2025-02-12",
+    occupants: [], emergency: { name: "Anneke van der Merwe", relation: "Sister", phone: "+27 83 555 0911" }, surety: { name: "Hendrik van der Merwe", idNumber: "5806115084084", phone: "+27 82 555 0912", email: "hendrik.vdm@mail.co.za" },
     docs: [{ id: "td4", name: "ID copy — P van der Merwe.pdf", kind: "id", size: 380_000, uploadedAt: "2025-02-12" }, { id: "td5", name: "Bank statements (3 months).pdf", kind: "income", size: 940_000, uploadedAt: "2025-02-12" }] },
-  t3: { idNumber: "9611030456081", employer: "Standard Bank", leaseStart: "2026-02-01", leaseEnd: "2027-01-31", deposit: 11200, createdAt: "2026-01-08",
+  t3: { idNumber: "9611030456086", employer: "Standard Bank", leaseStart: "2026-02-01", leaseEnd: "2027-01-31", deposit: 11200, createdAt: "2026-01-08",
     occupants: [], emergency: { name: "Kabelo Mokoena", relation: "Brother", phone: "+27 71 555 0920" }, surety: null,
     docs: [{ id: "td6", name: "Signed lease Loft 3.pdf", kind: "lease", size: 1_100_000, uploadedAt: "2026-01-20" }] },
-  t4: { idNumber: "8812125398084", employer: "Eskom", leaseStart: "2024-12-01", leaseEnd: "2026-11-30", deposit: 16800, createdAt: "2024-11-02",
+  t4: { idNumber: "8812125398081", employer: "Eskom", leaseStart: "2024-12-01", leaseEnd: "2026-11-30", deposit: 16800, createdAt: "2024-11-02",
     occupants: [{ name: "Zinhle Dlamini", relation: "Spouse", age: "35" }, { name: "Lwazi Dlamini", relation: "Son", age: "7" }], emergency: { name: "Thabo Dlamini", relation: "Brother", phone: "+27 72 555 0930" }, surety: null, docs: [] },
-  t5: { idNumber: "9004040567085", employer: "Netcare", leaseStart: "2025-09-01", leaseEnd: "2026-08-31", deposit: 28000, createdAt: "2025-08-01",
+  t5: { idNumber: "9004040567086", employer: "Netcare", leaseStart: "2025-09-01", leaseEnd: "2026-08-31", deposit: 28000, createdAt: "2025-08-01",
     occupants: [{ name: "Imran Patel", relation: "Spouse", age: "38" }], emergency: { name: "Fatima Patel", relation: "Mother", phone: "+27 84 555 0940" }, surety: null, docs: [] },
-  t6: { idNumber: "7901015800086", employer: "Mahlangu Botha Fitzgerald Attorneys Incorporated", leaseStart: "2026-12-01", leaseEnd: "2027-11-30", deposit: 26500, createdAt: "2026-10-15",
+  t6: { idNumber: "7901015800081", employer: "Mahlangu Botha Fitzgerald Attorneys Incorporated", leaseStart: "2026-12-01", leaseEnd: "2027-11-30", deposit: 26500, createdAt: "2026-10-15",
     occupants: [], emergency: { name: "Grace Mahlangu", relation: "Spouse", phone: "+27 76 555 0950" }, surety: null, docs: [] },
-  t7: { idNumber: "0107120345087", employer: "University of Johannesburg (student)", leaseStart: "2026-01-15", leaseEnd: "2026-12-14", deposit: 6500, createdAt: "2026-01-05",
+  t7: { idNumber: "0107120345080", employer: "University of Johannesburg (student)", leaseStart: "2026-01-15", leaseEnd: "2026-12-14", deposit: 6500, createdAt: "2026-01-05",
     occupants: [], emergency: { name: "Sibusiso Khumalo", relation: "Father", phone: "+27 79 555 0960" }, surety: { name: "Sibusiso Khumalo", idNumber: "7203035123085", phone: "+27 79 555 0960", email: "s.khumalo@mail.co.za" }, docs: [] },
 };
 
