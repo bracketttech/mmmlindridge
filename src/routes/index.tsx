@@ -1,8 +1,9 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
+// No landing page: the app opens at sign-in.
 export const Route = createFileRoute("/")({
   beforeLoad: () => {
-    throw redirect({ to: "/dashboard" });
+    throw redirect({ to: "/login" });
   },
   head: () => ({
     meta: [
