@@ -59,7 +59,7 @@ export function TenantForm({ initial }: { initial?: Tenant }) {
   const last = step === tf.steps.length - 1;
   const pid = watch("propertyId");
   const hasSurety = watch("hasSurety");
-  const units = dir.units.filter((u) => u.propertyId === pid && (u.status === "vacant" || u.status === "notice" || u.id === initial?.unitId || !u.tenantId));
+  const units = dir.units.filter((u) => u.propertyId === pid && (u.status === "vacant" || u.status === "notice" || u.id === initial?.unitId));
 
   const leave = () => navigate({ to: "/tenants", search: initial ? { t: initial.id } : {} });
   const next = async () => { if (await trigger(STEP_FIELDS[step], { shouldFocus: true })) setStep((s) => Math.min(s + 1, tf.steps.length - 1)); };
