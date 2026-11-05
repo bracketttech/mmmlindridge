@@ -21,7 +21,7 @@ export function useData<T>(load: () => Promise<T>, deps: unknown[]) {
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => run(), deps);
+  useEffect(() => { setData(null); return run(); }, deps);
   useEffect(() => {
     const on = () => run(true);
     window.addEventListener(PORTFOLIO_EVENT, on);
