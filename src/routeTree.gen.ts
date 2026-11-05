@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShellRouteImport } from './routes/_shell'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SessionExpiredRouteImport } from './routes/session-expired'
 import { Route as SignupRouteImport } from './routes/signup'
@@ -53,6 +54,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
@@ -197,6 +204,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/_shell': typeof ShellRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/reset-password': typeof ResetPasswordRoute
   '/session-expired': typeof SessionExpiredRoute
   '/signup': typeof SignupRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/'
     | '/forgot-password'
     | '/login'
+    | '/onboarding'
     | '/reset-password'
     | '/session-expired'
     | '/signup'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/'
     | '/forgot-password'
     | '/login'
+    | '/onboarding'
     | '/reset-password'
     | '/session-expired'
     | '/signup'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/_shell'
     | '/forgot-password'
     | '/login'
+    | '/onboarding'
     | '/reset-password'
     | '/session-expired'
     | '/signup'
@@ -339,6 +351,7 @@ export interface RootRouteChildren {
   ShellRoute: typeof ShellRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SessionExpiredRoute: typeof SessionExpiredRoute
   SignupRoute: typeof SignupRoute
@@ -376,6 +389,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -578,6 +598,7 @@ const rootRouteChildren: RootRouteChildren = {
   ShellRoute: ShellRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SessionExpiredRoute: SessionExpiredRoute,
   SignupRoute: SignupRoute,
