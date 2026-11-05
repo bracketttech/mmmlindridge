@@ -207,9 +207,9 @@ function OnboardingPage() {
           <div className="flex flex-wrap gap-3">
             {step === 3 && <PillButton type="button" variant="secondary" disabled={isSubmitting} onClick={handleSubmit((d) => finish(d, true))}>{o.staff.skip}</PillButton>}
             {step < 3 ? (
-              <PillButton type="button" onClick={next} icon={<ArrowRight className="h-4 w-4" />}>{o.next}</PillButton>
+              <PillButton key="next" type="button" onClick={next} icon={<ArrowRight className="h-4 w-4" />}>{o.next}</PillButton>
             ) : (
-              <PillButton type="submit" disabled={isSubmitting} icon={<Send className="h-4 w-4" />}>{o.staff.send}</PillButton>
+              <PillButton key="send" type="submit" disabled={isSubmitting} icon={<Send className="h-4 w-4" />}>{o.staff.send}</PillButton>
             )}
           </div>
         </div>

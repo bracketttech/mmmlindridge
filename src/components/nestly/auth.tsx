@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { t } from "@/lib/strings";
 import { passwordScore } from "@/lib/validation";
 import { Logo } from "./logo";
-import { GlassCard, Skel } from "./primitives";
+import { GlassCard, Skel, TruncatedText } from "./primitives";
 
 /* ---------- Layout ---------- */
 export function AuthLayout({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
@@ -132,7 +132,7 @@ export function LockedField({ label, value }: { label: string; value: string }) 
       <p className="flex items-center gap-1.5 text-[12px] text-ink-500">
         <Lock aria-hidden className="h-3 w-3" /> {label}
       </p>
-      <p className="truncate text-[15px] font-medium text-ink-900" title={value}>{value}</p>
+      <TruncatedText text={value} className="text-[15px] font-medium text-ink-900" />
     </div>
   );
 }

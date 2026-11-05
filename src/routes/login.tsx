@@ -50,7 +50,7 @@ function LoginPage() {
         </div>
         <div className="space-y-2 pt-1">
           <p className="text-overline text-ink-500" id="role-label">{s.roleLabel}</p>
-          <SegmentedChips label={s.roleLabel} value={asRole} onChange={setAsRole} options={ROLES.map((r) => ({ value: r, label: t.roles[r].split(" /")[0]! }))} />
+          <SegmentedChips wrap label={s.roleLabel} value={asRole} onChange={setAsRole} options={ROLES.map((r) => ({ value: r, label: t.roles[r].split(" /")[0]! }))} />
         </div>
         <PillButton type="submit" size="lg" className="w-full" disabled={isSubmitting} icon={<ArrowRight className="h-4 w-4" />}>
           {isSubmitting ? "Signing in…" : s.submit}

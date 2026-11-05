@@ -34,3 +34,5 @@ use the editor.
 - All UI copy lives in `src/lib/strings.ts`; en-ZA formatting helpers in `src/lib/format.ts`.
 - Role-aware navigation is defined once in `src/lib/nav.ts`; shell, tab bar and route guards read from it.
 - App pages live under the `_shell` pathless layout; product docs are in `DOCS/`.
+- Auth screens are top-level public routes; the `_shell` layout is gated by a mock browser session (`src/lib/session.ts`, `ssr: false`) until real auth replaces `src/services/auth.ts`.
+- Form validation rules (password strength, SA phone, matching passwords) live in `src/lib/validation.ts` and are covered by tests.
