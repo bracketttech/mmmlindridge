@@ -5,7 +5,8 @@ import { ArrowLeft, Building2, ChevronLeft, ChevronRight, MapPin, Pencil, Trash2
 import { Placeholder } from "@/components/nestly/Placeholder";
 import { EmptyState, GlassCard, PageHeader, PillButton, Skel, StatusChip, TruncatedText } from "@/components/nestly/primitives";
 import { DataTable, KpiTile, Modal, NAvatar, PersonCell, StatusCell, type Column } from "@/components/nestly/composites";
-import { ChartCard, TickBarChart } from "@/components/nestly/charts";
+import { ChartCard } from "@/components/nestly/charts";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { ChipMultiSelect } from "@/components/nestly/forms";
 import { FadeImage } from "@/components/nestly/fade-image";
 import { UnitsPanel } from "@/components/nestly/properties/UnitsPanel";
@@ -168,7 +169,21 @@ function Overview({ p }: { p: Property }) {
           <p className="flex min-w-0 items-center gap-1 border-t border-border-soft pt-3 text-[13px] text-ink-500"><MapPin aria-hidden className="h-3.5 w-3.5 shrink-0" /><TruncatedText text={`${p.address}, ${p.suburb}, ${p.city}, ${p.province}, ${p.postalCode}`} /></p>
         </GlassCard>
         <ChartCard title={d.unitMix} state={p.units ? "ready" : "empty"}>
-          <TickBarChart data={mix} />
+          <ul className="space-y-3">
+            {mix.map((x) => (
+              <li key={x.label}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button type="button" className="block w-full rounded-md text-left">
+                      <span className="flex justify-between text-[13px]"><span className="text-ink-700">{x.label}</span><span className="tabular-nums font-medium text-ink-900">{x.value}</span></span>
+                      <span className="mt-1.5 block h-2.5 overflow-hidden rounded-full bg-olive-100"><span className="block h-full rounded-full bg-olive-700 transition-[width] duration-700 motion-reduce:transition-none" style={{ width: `${p.units ? (x.value / p.units) * 100 : 0}%` }} /></span>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>{fill(d.unitMixTip, { n: x.value, s: x.label.toLowerCase() })} · {p.units ? Math.round((x.value / p.units) * 100) : 0}%</TooltipContent>
+                </Tooltip>
+              </li>
+            ))}
+          </ul>
         </ChartCard>
       </div>
     </div>
@@ -234,7 +249,7 @@ function FinanceTab({ p }: { p: Property }) {
   ];
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <KpiTile label={d.rentRoll} value={formatZAR(p.rentRoll)} unit="" variant="plain" />
         <KpiTile loading={loading} label={d.collected} value={formatZAR(collected)} unit="" variant="plain" />
         <KpiTile loading={loading} label={d.arrears} value={formatZAR(arrears)} unit="" variant="plain" />
