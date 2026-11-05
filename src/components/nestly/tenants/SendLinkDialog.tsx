@@ -46,7 +46,7 @@ export function SendLinkDialog({ tenant, place, onClose }: { tenant: Tenant | nu
       <SegmentedChips label={l.title} value={channel} onChange={setChannel} wrap options={(["email", "whatsapp", "sms", "copy"] as const).map((c) => ({ value: c, label: l.channels[c] }))} />
       <div className="mt-4 space-y-2">
         <p className="text-overline text-ink-500">{l.preview}</p>
-        <div className="rounded-[5px] border border-border-soft bg-canvas p-4">
+        <div className="rounded-[5px] border border-border-soft bg-surface-solid p-4">
           {channel !== "copy" && (
             <p className="mb-2 flex min-w-0 items-center gap-2 text-[13px] text-ink-500"><Icon aria-hidden className="h-4 w-4 shrink-0" /><span className="shrink-0">{l.to}:</span><span className="truncate text-ink-900">{to}</span></p>
           )}
