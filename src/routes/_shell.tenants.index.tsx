@@ -68,8 +68,8 @@ function TenantsPage() {
   const owing = arrears.reduce((a, x) => a + x.balance, 0);
 
   const cols: Column<Tenant>[] = [
-    { key: "tenant", header: tt.cols.tenant, render: (x) => <div className="max-w-[220px]"><PersonCell name={x.name} email={x.email} src={x.avatar} /></div> },
-    { key: "unit", header: tt.cols.unit, render: (x) => <div className="min-w-0 max-w-[160px]"><p className="font-medium text-ink-900">{dir.unitLabel(x.unitId)}</p><TruncatedText text={dir.propertyName(x.propertyId)} className="text-[12px] text-ink-500" /></div> },
+    { key: "tenant", header: tt.cols.tenant, render: (x) => <div className="max-w-[240px] xl:max-w-[200px]"><PersonCell name={x.name} email={x.email} src={x.avatar} /></div> },
+    { key: "unit", className: "xl:hidden 2xl:table-cell", header: tt.cols.unit, render: (x) => <div className="min-w-0 max-w-[160px]"><p className="font-medium text-ink-900">{dir.unitLabel(x.unitId)}</p><TruncatedText text={dir.propertyName(x.propertyId)} className="text-[12px] text-ink-500" /></div> },
     { key: "lease", className: "xl:hidden 2xl:table-cell", header: tt.cols.leaseEnd, render: (x) => <span className="text-ink-700">{x.leaseEnd ? formatDate(x.leaseEnd) : "—"}</span> },
     { key: "balance", header: tt.cols.balance, render: (x) => <span className={x.balance ? "font-medium tabular-nums text-danger" : "tabular-nums text-ink-500"}>{x.balance ? formatZAR(x.balance) : tt.upToDate}</span> },
     { key: "status", header: tt.cols.status, render: (x) => <TenantStatus x={x} /> },
