@@ -13,3 +13,4 @@
   - [x] Documents folders/list, upload dialog (progress + validation), preview drawer
   - [x] Tests for upload rules, bulk unit labels, SA postal code
   - [x] Browser verification desktop + 360px
+- [x] Phase 5 — Tenants & change-of-details (awaiting sign-off)

@@ -57,7 +57,7 @@ export function NAvatar({ name, src, size = 36, className }: { name: string; src
 
 /* ---------- DataTable ---------- */
 export type Column<T> = { key: string; header: string; className?: string; render: (row: T) => ReactNode };
-export function DataTable<T extends { id: string }>({ rows, columns, selectedId, onSelect, loading, error, onRetry, caption, card, empty }: { rows: T[]; columns: Column<T>[]; selectedId?: string | undefined; onSelect?: (id: string) => void; loading?: boolean; error?: boolean; onRetry?: () => void; caption: string; card?: (row: T) => ReactNode; empty?: ReactNode }) {
+export function DataTable<T extends { id: string }>({ rows, columns, selectedId, onSelect, loading, error, onRetry, caption, card, empty, tableClassName }: { tableClassName?: string; rows: T[]; columns: Column<T>[]; selectedId?: string | undefined; onSelect?: (id: string) => void; loading?: boolean; error?: boolean; onRetry?: () => void; caption: string; card?: (row: T) => ReactNode; empty?: ReactNode }) {
   const emptyNode = empty ?? <EmptyState body="No rows match this filter." />;
   return (
     <>
@@ -72,7 +72,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
       </ul>
     )}
     <div className={cn("w-full overflow-x-auto", card && "hidden md:block")}>
-      <table className="w-full min-w-[640px] border-separate border-spacing-y-1 text-left text-[14px]">
+      <table className={cn("w-full min-w-[640px] border-separate border-spacing-y-1 text-left text-[14px]", tableClassName)}>
         <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="bg-surface-solid/70">

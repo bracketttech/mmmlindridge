@@ -21,6 +21,7 @@ import { Route as TwoFactorRouteImport } from './routes/two-factor'
 import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as ShellAnnouncementsRouteImport } from './routes/_shell.announcements'
 import { Route as ShellApplicationsRouteImport } from './routes/_shell.applications'
+import { Route as ShellChangeRequestsRouteImport } from './routes/_shell.change-requests'
 import { Route as ShellDashboardRouteImport } from './routes/_shell.dashboard'
 import { Route as ShellDesignRouteImport } from './routes/_shell.design'
 import { Route as ShellInvoicesRouteImport } from './routes/_shell.invoices'
@@ -33,13 +34,15 @@ import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
 import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
-import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
 import { Route as ShellPropertiesPropertyIdRouteImport } from './routes/_shell.properties.$propertyId'
 import { Route as ShellPropertiesNewRouteImport } from './routes/_shell.properties.new'
+import { Route as ShellTenantsIndexRouteImport } from './routes/_shell.tenants.index'
+import { Route as ShellTenantsNewRouteImport } from './routes/_shell.tenants.new'
 import { Route as ShellPropertiesPropertyIdEditRouteImport } from './routes/_shell.properties.$propertyId_.edit'
+import { Route as ShellTenantsTenantIdEditRouteImport } from './routes/_shell.tenants.$tenantId.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -98,6 +101,11 @@ const ShellAnnouncementsRoute = ShellAnnouncementsRouteImport.update({
 const ShellApplicationsRoute = ShellApplicationsRouteImport.update({
   id: '/applications',
   path: '/applications',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellChangeRequestsRoute = ShellChangeRequestsRouteImport.update({
+  id: '/change-requests',
+  path: '/change-requests',
   getParentRoute: () => ShellRoute,
 } as any)
 const ShellDashboardRoute = ShellDashboardRouteImport.update({
@@ -160,11 +168,6 @@ const ShellStaffRoute = ShellStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => ShellRoute,
 } as any)
-const ShellTenantsRoute = ShellTenantsRouteImport.update({
-  id: '/tenants',
-  path: '/tenants',
-  getParentRoute: () => ShellRoute,
-} as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
@@ -191,10 +194,26 @@ const ShellPropertiesNewRoute = ShellPropertiesNewRouteImport.update({
   path: '/properties/new',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellTenantsIndexRoute = ShellTenantsIndexRouteImport.update({
+  id: '/tenants/',
+  path: '/tenants/',
+  getParentRoute: () => ShellRoute,
+} as any)
+const ShellTenantsNewRoute = ShellTenantsNewRouteImport.update({
+  id: '/tenants/new',
+  path: '/tenants/new',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellPropertiesPropertyIdEditRoute =
   ShellPropertiesPropertyIdEditRouteImport.update({
     id: '/properties/$propertyId_/edit',
     path: '/properties/$propertyId/edit',
+    getParentRoute: () => ShellRoute,
+  } as any)
+const ShellTenantsTenantIdEditRoute =
+  ShellTenantsTenantIdEditRouteImport.update({
+    id: '/tenants/$tenantId/edit',
+    path: '/tenants/$tenantId/edit',
     getParentRoute: () => ShellRoute,
   } as any)
 
@@ -210,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
+  '/change-requests': typeof ShellChangeRequestsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
@@ -222,13 +242,15 @@ export interface FileRoutesByFullPath {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
-  '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
+  '/tenants/new': typeof ShellTenantsNewRoute
   '/properties/': typeof ShellPropertiesIndexRoute
+  '/tenants/': typeof ShellTenantsIndexRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
+  '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -242,6 +264,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof VerifyEmailRoute
   '/announcements': typeof ShellAnnouncementsRoute
   '/applications': typeof ShellApplicationsRoute
+  '/change-requests': typeof ShellChangeRequestsRoute
   '/dashboard': typeof ShellDashboardRoute
   '/design': typeof ShellDesignRoute
   '/invoices': typeof ShellInvoicesRoute
@@ -254,13 +277,15 @@ export interface FileRoutesByTo {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
-  '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
+  '/tenants/new': typeof ShellTenantsNewRoute
   '/properties': typeof ShellPropertiesIndexRoute
+  '/tenants': typeof ShellTenantsIndexRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
+  '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -276,6 +301,7 @@ export interface FileRoutesById {
   '/verify-email': typeof VerifyEmailRoute
   '/_shell/announcements': typeof ShellAnnouncementsRoute
   '/_shell/applications': typeof ShellApplicationsRoute
+  '/_shell/change-requests': typeof ShellChangeRequestsRoute
   '/_shell/dashboard': typeof ShellDashboardRoute
   '/_shell/design': typeof ShellDesignRoute
   '/_shell/invoices': typeof ShellInvoicesRoute
@@ -288,13 +314,15 @@ export interface FileRoutesById {
   '/_shell/schedule': typeof ShellScheduleRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/staff': typeof ShellStaffRoute
-  '/_shell/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/_shell/properties/new': typeof ShellPropertiesNewRoute
+  '/_shell/tenants/new': typeof ShellTenantsNewRoute
   '/_shell/properties/': typeof ShellPropertiesIndexRoute
+  '/_shell/tenants/': typeof ShellTenantsIndexRoute
   '/_shell/properties/$propertyId_/edit': typeof ShellPropertiesPropertyIdEditRoute
+  '/_shell/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -310,6 +338,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/announcements'
     | '/applications'
+    | '/change-requests'
     | '/dashboard'
     | '/design'
     | '/invoices'
@@ -322,13 +351,15 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
-    | '/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/properties/$propertyId'
     | '/properties/new'
+    | '/tenants/new'
     | '/properties/'
+    | '/tenants/'
     | '/properties/$propertyId/edit'
+    | '/tenants/$tenantId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -342,6 +373,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/announcements'
     | '/applications'
+    | '/change-requests'
     | '/dashboard'
     | '/design'
     | '/invoices'
@@ -354,13 +386,15 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
-    | '/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/properties/$propertyId'
     | '/properties/new'
+    | '/tenants/new'
     | '/properties'
+    | '/tenants'
     | '/properties/$propertyId/edit'
+    | '/tenants/$tenantId/edit'
   id:
     | '__root__'
     | '/'
@@ -375,6 +409,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/_shell/announcements'
     | '/_shell/applications'
+    | '/_shell/change-requests'
     | '/_shell/dashboard'
     | '/_shell/design'
     | '/_shell/invoices'
@@ -387,13 +422,15 @@ export interface FileRouteTypes {
     | '/_shell/schedule'
     | '/_shell/settings'
     | '/_shell/staff'
-    | '/_shell/tenants'
     | '/invite/$token'
     | '/register/$token'
     | '/_shell/properties/$propertyId'
     | '/_shell/properties/new'
+    | '/_shell/tenants/new'
     | '/_shell/properties/'
+    | '/_shell/tenants/'
     | '/_shell/properties/$propertyId_/edit'
+    | '/_shell/tenants/$tenantId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -497,6 +534,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellApplicationsRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/change-requests': {
+      id: '/_shell/change-requests'
+      path: '/change-requests'
+      fullPath: '/change-requests'
+      preLoaderRoute: typeof ShellChangeRequestsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/dashboard': {
       id: '/_shell/dashboard'
       path: '/dashboard'
@@ -581,13 +625,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellStaffRouteImport
       parentRoute: typeof ShellRoute
     }
-    '/_shell/tenants': {
-      id: '/_shell/tenants'
-      path: '/tenants'
-      fullPath: '/tenants'
-      preLoaderRoute: typeof ShellTenantsRouteImport
-      parentRoute: typeof ShellRoute
-    }
     '/invite/$token': {
       id: '/invite/$token'
       path: '/invite/$token'
@@ -623,11 +660,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellPropertiesNewRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/tenants/': {
+      id: '/_shell/tenants/'
+      path: '/tenants'
+      fullPath: '/tenants/'
+      preLoaderRoute: typeof ShellTenantsIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/tenants/new': {
+      id: '/_shell/tenants/new'
+      path: '/tenants/new'
+      fullPath: '/tenants/new'
+      preLoaderRoute: typeof ShellTenantsNewRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/$propertyId_/edit': {
       id: '/_shell/properties/$propertyId_/edit'
       path: '/properties/$propertyId/edit'
       fullPath: '/properties/$propertyId/edit'
       preLoaderRoute: typeof ShellPropertiesPropertyIdEditRouteImport
+      parentRoute: typeof ShellRoute
+    }
+    '/_shell/tenants/$tenantId/edit': {
+      id: '/_shell/tenants/$tenantId/edit'
+      path: '/tenants/$tenantId/edit'
+      fullPath: '/tenants/$tenantId/edit'
+      preLoaderRoute: typeof ShellTenantsTenantIdEditRouteImport
       parentRoute: typeof ShellRoute
     }
   }
@@ -636,6 +694,7 @@ declare module '@tanstack/react-router' {
 interface ShellRouteChildren {
   ShellAnnouncementsRoute: typeof ShellAnnouncementsRoute
   ShellApplicationsRoute: typeof ShellApplicationsRoute
+  ShellChangeRequestsRoute: typeof ShellChangeRequestsRoute
   ShellDashboardRoute: typeof ShellDashboardRoute
   ShellDesignRoute: typeof ShellDesignRoute
   ShellInvoicesRoute: typeof ShellInvoicesRoute
@@ -648,16 +707,19 @@ interface ShellRouteChildren {
   ShellScheduleRoute: typeof ShellScheduleRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
-  ShellTenantsRoute: typeof ShellTenantsRoute
   ShellPropertiesPropertyIdRoute: typeof ShellPropertiesPropertyIdRoute
   ShellPropertiesNewRoute: typeof ShellPropertiesNewRoute
+  ShellTenantsNewRoute: typeof ShellTenantsNewRoute
   ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
+  ShellTenantsIndexRoute: typeof ShellTenantsIndexRoute
   ShellPropertiesPropertyIdEditRoute: typeof ShellPropertiesPropertyIdEditRoute
+  ShellTenantsTenantIdEditRoute: typeof ShellTenantsTenantIdEditRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
   ShellAnnouncementsRoute: ShellAnnouncementsRoute,
   ShellApplicationsRoute: ShellApplicationsRoute,
+  ShellChangeRequestsRoute: ShellChangeRequestsRoute,
   ShellDashboardRoute: ShellDashboardRoute,
   ShellDesignRoute: ShellDesignRoute,
   ShellInvoicesRoute: ShellInvoicesRoute,
@@ -670,11 +732,13 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellScheduleRoute: ShellScheduleRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
-  ShellTenantsRoute: ShellTenantsRoute,
   ShellPropertiesPropertyIdRoute: ShellPropertiesPropertyIdRoute,
   ShellPropertiesNewRoute: ShellPropertiesNewRoute,
+  ShellTenantsNewRoute: ShellTenantsNewRoute,
   ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
+  ShellTenantsIndexRoute: ShellTenantsIndexRoute,
   ShellPropertiesPropertyIdEditRoute: ShellPropertiesPropertyIdEditRoute,
+  ShellTenantsTenantIdEditRoute: ShellTenantsTenantIdEditRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { t } from "./strings";
 import { PROPERTY_TYPES, UNIT_STATUSES } from "@/mocks/portfolio";
 import { isSaPostalCode } from "./portfolio-rules";
+import { isSaIdNumber } from "./tenancy-rules";
 
 const v = t.auth.validation;
 
@@ -109,3 +110,32 @@ export const unitSchema = z.object({
   features: optText(300),
 });
 export type UnitFormInput = z.infer<typeof unitSchema>;
+
+/* ---------- Tenants (Phase 5) ---------- */
+const tf = t.tenants.form;
+const optPhone = z.string().trim().refine((s) => !s || /^(\+27|0)[1-9]\d{8}$/.test(s.replace(/[\s-]/g, "")), v.phone);
+const randField = z.string().trim().min(1, v.required).refine((s) => /^\d+([.,]\d{1,2})?$/.test(s.replace(/\s/g, "")), tf.amount);
+export const tenantSchema = z.object({
+  name: nameField, email: emailField, phone: phoneField,
+  idNumber: z.string().trim().refine(isSaIdNumber, tf.idInvalid),
+  employer: optText(120),
+  propertyId: z.string().min(1, v.required), unitId: z.string().min(1, v.required),
+  rent: randField, deposit: randField,
+  leaseStart: z.string().min(1, v.required), leaseEnd: z.string().min(1, v.required),
+  occupants: z.array(z.object({ name: z.string().trim().min(2, v.name).max(100, v.tooLong), relation: z.string().trim().max(40, v.tooLong), age: z.string().trim().max(3, v.tooLong) })).max(10),
+  emName: optText(100), emRelation: optText(40), emPhone: optPhone,
+  hasSurety: z.boolean(),
+  suretyName: optText(100), suretyId: z.string().trim(), suretyPhone: z.string().trim(), suretyEmail: z.string().trim(),
+}).superRefine((d, ctx) => {
+  if (d.leaseStart && d.leaseEnd && d.leaseEnd <= d.leaseStart) ctx.addIssue({ code: "custom", path: ["leaseEnd"], message: tf.leaseOrder });
+  if (d.hasSurety) {
+    if (d.suretyName.trim().length < 2) ctx.addIssue({ code: "custom", path: ["suretyName"], message: v.name });
+    if (!isSaIdNumber(d.suretyId)) ctx.addIssue({ code: "custom", path: ["suretyId"], message: tf.idInvalid });
+    if (!phoneField.safeParse(d.suretyPhone).success) ctx.addIssue({ code: "custom", path: ["suretyPhone"], message: v.phone });
+    if (!emailField.safeParse(d.suretyEmail).success) ctx.addIssue({ code: "custom", path: ["suretyEmail"], message: v.email });
+  }
+});
+export type TenantFormInput = z.infer<typeof tenantSchema>;
+
+/** Tenant self-service change-of-details form. */
+export const detailsSchema = z.object({ email: emailField, phone: phoneField, employer: optText(120), emergencyName: optText(100), emergencyRelation: optText(40), emergencyPhone: optPhone });
