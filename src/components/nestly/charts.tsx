@@ -39,9 +39,9 @@ export function ChartCard({ title, sub, children, state = "ready", action }: { t
   );
 }
 
-export function AreaComparisonChart({ data }: { data: { month: string; collected: number; previous: number }[] }) {
+export function AreaComparisonChart({ data, names = { collected: "Collected", previous: "Last year" } }: { data: { month: string; collected: number; previous: number }[]; names?: { collected: string; previous: string } }) {
   return (
-    <div className="h-56 w-full" role="img" aria-label="Rent collected per month compared with last year">
+    <div className="h-56 w-full" role="img" aria-label={`${names.collected} per month compared with ${names.previous.toLowerCase()}`}>
       <ResponsiveContainer>
         <AreaChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
           <defs>
@@ -50,9 +50,9 @@ export function AreaComparisonChart({ data }: { data: { month: string; collected
               <stop offset="100%" stopColor="var(--olive-500)" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="month" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
+          <XAxis dataKey="month" tickFormatter={(v) => String(v).slice(0, 3)} interval="preserveStartEnd" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
           <YAxis tickLine={false} axisLine={false} width={56} tick={{ fill: "var(--ink-500)", fontSize: 11 }} tickFormatter={formatCompactZAR} />
-          <RTooltip cursor={{ stroke: OLIVE, strokeDasharray: "3 3" }} content={<ChipTooltip names={{ collected: "Collected", previous: "Last year" }} />} />
+          <RTooltip cursor={{ stroke: OLIVE, strokeDasharray: "3 3" }} content={<ChipTooltip names={names} />} />
           <Line type="monotone" dataKey="previous" stroke="var(--ink-500)" strokeDasharray="5 5" dot={false} strokeWidth={1.5} />
           <Area type="monotone" dataKey="collected" stroke={OLIVE_DARK} strokeWidth={2} fill="url(#oliveFill)" activeDot={{ r: 5, fill: OLIVE_DARK, stroke: "white", strokeWidth: 2 }} />
         </AreaChart>
@@ -67,7 +67,7 @@ export function TickBarChart({ data }: { data: { label: string; value: number }[
     <div className="h-56 w-full" role="img" aria-label="Monthly values bar chart">
       <ResponsiveContainer>
         <BarChart data={data} margin={{ top: 8, right: 0, left: -8, bottom: 0 }} onMouseLeave={() => setActive(null)}>
-          <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
+          <XAxis dataKey="label" tickFormatter={(v) => String(v).slice(0, 3)} tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
           <YAxis hide />
           <RTooltip cursor={false} content={<ChipTooltip names={{ value: "Collected" }} />} />
           <Bar dataKey="value" radius={[6, 6, 6, 6]} barSize={10} onMouseEnter={(_, i) => setActive(i)} onClick={(_, i) => setActive(i)}>
