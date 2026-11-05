@@ -67,7 +67,7 @@ export function Stagger({ children, className, start = 120, step = 60 }: { child
       {arr.map((c, i) => {
         const style = { animationDelay: `${start + i * step}ms` };
         // Clone elements so grid-span classes stay on the grid item.
-        if (isValidElement<{ className?: string; style?: CSSProperties }>(c))
+        if (isValidElement<{ className?: string; style?: CSSProperties }>(c) && typeof c.type === "string")
           return cloneElement(c, { key: c.key ?? i, className: cn(c.props.className, "animate-rise min-w-0"), style: { ...c.props.style, ...style } });
         return <div key={i} className="animate-rise min-w-0" style={style}>{c}</div>;
       })}
