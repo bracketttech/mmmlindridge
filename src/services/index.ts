@@ -14,5 +14,12 @@ export const requestService = { list: () => delay(db.requests) };
 export const invoiceService = { list: () => delay(db.invoices) };
 export const staffService = { list: () => delay(db.staff) };
 export const notificationService = { list: () => delay(db.notifications, 300) };
+export const dashboardService = {
+  get: (propertyId: string) => import("@/mocks/dashboard").then((m) => delay(m.buildDashboard(propertyId), 700)),
+};
+export const searchService = {
+  search: (q: string) => import("@/mocks/dashboard").then((m) => delay(m.searchAll(q), 200)),
+};
+export type { DashboardData, SearchResult } from "@/mocks/dashboard";
 export const planService = { list: () => import("@/mocks/plans").then((m) => delay(m.plans, 300)) };
 export const reportService = { revenue: () => delay(db.revenueSeries) };
