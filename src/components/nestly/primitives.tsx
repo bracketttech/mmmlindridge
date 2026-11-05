@@ -53,7 +53,7 @@ export function GlassCard({ className, children, hover = true, style, as: As = "
 
 export function CardMenu({ label = t.common.moreActions }: { label?: string }) {
   return (
-    <button aria-label={label} className="grid h-7 w-7 place-items-center rounded-full text-ink-500 hover:bg-olive-100">
+    <button type="button" aria-label={label} className="grid h-7 w-7 place-items-center rounded-full text-ink-500 hover:bg-olive-100">
       <MoreHorizontal className="h-4 w-4" />
     </button>
   );
@@ -135,6 +135,7 @@ export function SegmentedChips<T extends string>({ options, value, onChange, lab
         return (
           <button
             key={o.value}
+            type="button"
             role="tab"
             aria-selected={active}
             onClick={() => onChange(o.value)}
