@@ -36,3 +36,4 @@ use the editor.
 - App pages live under the `_shell` pathless layout; product docs are in `DOCS/`.
 - Auth screens are top-level public routes; the `_shell` layout is gated by a mock browser session (`src/lib/session.ts`, `ssr: false`) until real auth replaces `src/services/auth.ts`.
 - Form validation rules (password strength, SA phone, matching passwords) live in `src/lib/validation.ts` and are covered by tests.
+- Pages scope data by the switcher via `useAppState().propertyId` ("all" = portfolio) and pass it to services; dashboard aggregates live in `src/mocks/dashboard.ts`.

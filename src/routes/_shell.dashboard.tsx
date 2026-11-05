@@ -54,8 +54,8 @@ function Home() {
       <PageHeader title={title} muted={muted} sub={sub}
         actions={
           <>
-            <Link to="/requests"><PillButton variant="secondary" tabIndex={-1} icon={<Wrench className="h-4 w-4" />}>Requests</PillButton></Link>
-            <Link to="/invoices"><PillButton tabIndex={-1} icon={<CreditCard className="h-4 w-4" />}>Invoices</PillButton></Link>
+            <Link to="/requests" className="inline-flex h-11 items-center gap-3 rounded-full border border-border-soft bg-surface-solid pl-5 pr-1.5 text-sm font-medium text-ink-900 hover:bg-olive-100">Requests<span className="grid h-8 w-8 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Wrench className="h-4 w-4" /></span></Link>
+            <Link to="/invoices" className="inline-flex h-11 items-center gap-3 rounded-full bg-olive-700 pl-5 pr-1.5 text-sm font-medium text-primary-foreground shadow-soft hover:bg-olive-800">Invoices<span className="grid h-8 w-8 place-items-center rounded-full bg-surface-solid text-olive-900"><CreditCard className="h-4 w-4" /></span></Link>
           </>
         } />
       {error ? (

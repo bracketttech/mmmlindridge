@@ -64,7 +64,7 @@ export const t = {
   notificationsPage: { title: "Your", muted: "notifications", sub: "Rent, requests, leases and team updates", all: "All", unread: "Unread", markAll: "Mark all as read", empty: "You're all caught up." },
   dash: {
     featured: "Featured property", allProps: "Portfolio · {n} properties", units: "{n} units", occupied: "{n}% occupied", rentRoll: "rent roll",
-    rentCollected: "Rent collected", ofDue: "of {due} due", arrears: "Arrears", tenantsOwing: "across {n} tenants", occupancy: "Occupancy", unitsOcc: "of {n} units",
+    rentCollected: "Rent collected", ofDue: "of {due} due", arrears: "Arrears", tenantsOwing: "{n} owing", occupancy: "Occupancy", unitsOcc: "of {n} units",
     openRequests: "Open requests", highPriority: "{n} high priority", expiries: "Lease expiries", next90: "next 90 days",
     chartTitle: "Rent collection", chartSub: "Last 12 months · collected vs due (dashed)", collected: "Collected", due: "Due",
     ageingTitle: "Arrears ageing", ageingSub: "How long rent has been owed", ageingGaugeLabel: "of arrears under 30 days",
