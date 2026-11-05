@@ -31,6 +31,7 @@
   --color-outer: var(--outer);
   --color-success: var(--success);
   --color-warning: var(--warning);
+  --color-warning-ink: var(--warning-ink);
   --color-danger: var(--danger);
   --color-info: var(--info);
 
@@ -96,7 +97,8 @@
   --sidebar-line: rgba(255, 255, 255, 0.08);
   --on-dark-muted: rgba(255, 255, 255, 0.62);
   --success: #5e7f3a;
-  --warning: #9a7020;
+  --warning: #c9962b;
+  --warning-ink: #7d5c14;
   --danger: #b5483b;
   --info: #4a7c8c;
 
