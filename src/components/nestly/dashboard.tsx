@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { CardMenu, GlassCard, Skel, TruncatedText, Stagger, StatusChip, EmptyState } from "./primitives";
 import { KpiTile, StatusCell } from "./composites";
 import { AreaComparisonChart, ChartCard, GaugeChart } from "./charts";
-import { propertyImage } from "./property-image";
+import { propertyImage } from "@/images";
+import { FadeImage } from "./fade-image";
 import type { Role } from "@/lib/nav";
 
 const d = t.dash;
@@ -20,8 +21,8 @@ export function FeaturedProperty({ data }: { data: DashboardData }) {
   const p = data.featured;
   const all = data.propertyId === "all";
   return (
-    <article className="lift relative h-[320px] overflow-hidden rounded-[22px] shadow-soft lg:h-full lg:min-h-[340px]">
-      <img src={propertyImage(p.id)} alt={p.name} width={1024} height={768} className="absolute inset-0 h-full w-full object-cover" />
+    <article className="lift relative h-[320px] overflow-hidden rounded-[22px] bg-olive-200 shadow-soft lg:h-full lg:min-h-[340px]">
+      {propertyImage(p.id) && <FadeImage src={propertyImage(p.id)!} alt={p.name} width={1024} height={768} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />}
       <div className="absolute inset-0 bg-linear-to-t from-olive-900/50 via-transparent to-transparent" />
       <span className="glass absolute left-3 top-3 inline-flex h-7 items-center gap-1.5 rounded-full border-surface-solid/40 bg-surface-solid/25 px-3 text-[12px] font-medium text-on-dark shadow-none">
         <Home className="h-3.5 w-3.5" aria-hidden />{all ? fill(d.allProps, { n: data.properties.length }) : d.featured}

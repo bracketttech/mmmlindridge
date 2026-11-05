@@ -13,8 +13,8 @@ import { formatDate } from "@/lib/format";
 import { propertyService, notificationService, type Property, type Notification } from "@/services";
 import { NAvatar, BottomSheet } from "./composites";
 import { SearchOverlay } from "./SearchOverlay";
-import { propertyImage } from "./property-image";
-import { TruncatedText, IconButton, useRipple } from "./primitives";
+import { propertyThumb, avatarFor, preloadImages, allShellImages } from "@/images";
+import { TruncatedText, IconButton, useRipple, Skel } from "./primitives";
 
 function useActiveIndex(items: NavItem[]) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -66,13 +66,21 @@ function PropertySwitcher() {
   const [list, setList] = useState<Property[] | null>(null);
   useEffect(() => { propertyService.list().then(setList); }, []);
   if (role === "tenant") return null;
+  // A saved property is restoring: hold a same-size placeholder instead of flashing "All properties".
+  if (!list && propertyId !== "all")
+    return (
+      <div role="status" aria-label={t.shell.switchProperty} className="glass flex h-12 w-[240px] max-w-full min-w-0 items-center gap-3 rounded-full py-1 pl-1 pr-3 shadow-none">
+        <Skel className="h-10 w-10 shrink-0 rounded-full" />
+        <span className="min-w-0 flex-1 space-y-1.5"><Skel className="h-3 w-3/4" /><Skel className="h-2.5 w-1/2" /></span>
+      </div>
+    );
   const current = list?.find((p) => p.id === propertyId);
   const name = current?.name ?? t.shell.allProperties;
   const sub = current ? `${current.address}, ${current.suburb}` : t.shell.allPropertiesSub;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.switchProperty} className="glass flex h-12 min-w-0 max-w-[280px] items-center gap-3 rounded-full py-1 pl-1 pr-3 text-left shadow-none">
-        {current ? <NAvatar name={current.name} src={propertyImage(current.id)} size={40} /> : <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>}
+        {current ? <NAvatar name={current.name} src={propertyThumb(current.id)} size={40} /> : <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-4 w-4" /></span>}
         <span className="min-w-0 flex-1">
           <TruncatedText text={name} className="text-[14px] font-medium text-ink-900" />
           <TruncatedText text={sub} className="text-[11px] text-ink-500" />
@@ -82,7 +90,7 @@ function PropertySwitcher() {
       <DropdownMenuContent align="start" className="w-72 rounded-[16px] p-1.5">
         {[{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }, ...(list ?? [])].map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[12px] py-2">
-            {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyImage(p.id)} size={32} />}
+            {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyThumb(p.id)} size={32} />}
             <span className="min-w-0 flex-1">
               <TruncatedText text={p.name} className="text-[14px] font-medium" />
               <TruncatedText text={p.suburb ? `${p.address}, ${p.suburb}` : p.address} className="text-[12px] text-ink-500" />
@@ -133,11 +141,11 @@ export const DEMO_USER = { name: "Janice Tinto", email: "janice@nestly.co.za" };
 function AvatarMenu() {
   const { role, setRole } = useAppState();
   const navigate = useNavigate();
-  const [user, setUser] = useState(DEMO_USER);
-  useEffect(() => {
+  // Shell is client-only (ssr: false), so the session can be read synchronously — no name/photo flash.
+  const [user] = useState(() => {
     const s = readSession();
-    if (s) setUser({ name: s.name, email: s.email });
-  }, []);
+    return s ? { name: s.name, email: s.email } : DEMO_USER;
+  });
   const signOut = () => {
     clearSession();
     navigate({ to: "/login", replace: true });
@@ -145,7 +153,7 @@ function AvatarMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.account} className="shrink-0 rounded-full">
-        <NAvatar name={user.name} size={40} className="bg-olive-800 text-primary-foreground" />
+        <NAvatar name={user.name} src={avatarFor(user.email)} size={40} className="bg-olive-800 text-primary-foreground" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64 rounded-[16px] p-1.5">
         <DropdownMenuLabel className="font-normal">
@@ -240,6 +248,8 @@ function MobileTabBar() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  // Warm every shell image once so property switches and menus never show a blank frame.
+  useEffect(() => { preloadImages(allShellImages()); }, []);
   return (
     <div className="flex min-h-screen w-full gap-3 bg-outer p-0 md:p-3">
       <Sidebar />

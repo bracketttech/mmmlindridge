@@ -8,6 +8,7 @@ import { initials } from "@/lib/format";
 import { t } from "@/lib/strings";
 import { CardMenu, DeltaChip, GlassCard, Skel, StatusChip, TruncatedText, EmptyState, PillButton, type Tone } from "./primitives";
 import { MiniDonut, MiniSpark, MiniTicks } from "./charts";
+import { FadeImage } from "./fade-image";
 
 /* ---------- KpiTile ---------- */
 type KpiProps = {
@@ -43,9 +44,13 @@ export function KpiTile({ label, value, unit, delta, deltaLabel, variant = "plai
 
 /* ---------- Avatar ---------- */
 export function NAvatar({ name, src, size = 36, className }: { name: string; src?: string | null | undefined; size?: number; className?: string }) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const showImg = !!src && failedSrc !== src;
   return (
     <span className={cn("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-full bg-olive-200 font-medium text-olive-900", className)} style={{ width: size, height: size, fontSize: size * 0.36 }}>
-      {src ? <img src={src} alt={name} className="h-full w-full object-cover" /> : <span aria-label={name}>{initials(name)}</span>}
+      {showImg
+        ? <FadeImage src={src} alt={name} width={size} height={size} onError={() => setFailedSrc(src)} className="absolute inset-0 h-full w-full object-cover" />
+        : <span aria-label={name}>{initials(name)}</span>}
     </span>
   );
 }
@@ -98,7 +103,7 @@ export function DataTable<T extends { id: string }>({ rows, columns, selectedId,
   );
 }
 
-export function PersonCell({ name, email, src }: { name: string; email: string; src?: string }) {
+export function PersonCell({ name, email, src }: { name: string; email: string; src?: string | undefined }) {
   return (
     <div className="flex min-w-0 max-w-[260px] items-center gap-3">
       <NAvatar name={name} src={src} />

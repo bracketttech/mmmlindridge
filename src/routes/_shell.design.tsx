@@ -8,6 +8,7 @@ import { ChartCard, AreaComparisonChart, TickBarChart, GaugeChart } from "@/comp
 import { tenantService, reportService, propertyService, type Tenant, type Property } from "@/services";
 import { formatZAR, formatDate } from "@/lib/format";
 import { DEMO_USER } from "@/components/nestly/shell";
+import { avatarFor } from "@/images";
 
 export const Route = createFileRoute("/_shell/design")({
   head: () => ({
@@ -50,7 +51,7 @@ function DesignPage() {
   const rows = (tenants ?? []).filter((x) => filter === "all" || x.status === filter);
   const unitOf = (x: Tenant) => props.find((p) => p.id === x.propertyId)?.name ?? "";
   const cols: Column<Tenant>[] = [
-    { key: "t", header: "Tenant", render: (r) => <PersonCell name={r.name} email={r.email} /> },
+    { key: "t", header: "Tenant", render: (r) => <PersonCell name={r.name} email={r.email} src={r.avatar} /> },
     { key: "p", header: "Property", render: (r) => <TruncatedText text={unitOf(r)} className="max-w-[160px] text-ink-900" /> },
     { key: "s", header: "Status", render: (r) => <StatusCell status={r.status} /> },
     { key: "r", header: "Rent", render: (r) => <span className="tabular-nums">{formatZAR(r.rent)}</span> },
@@ -125,8 +126,8 @@ function DesignPage() {
 
       <Section title="Avatar & uploader">
         <GlassCard hover={false} className="space-y-5">
-          <div className="flex items-center gap-2">{["Thandiwe Nkosi", "Pieter van der Merwe", "Lerato Mokoena", "Sipho Dlamini"].map((n, i) => <NAvatar key={n} name={n} size={28 + i * 8} />)}</div>
-          <AvatarUploader name={DEMO_USER.name} />
+          <div className="flex items-center gap-2">{[["Thandiwe Nkosi", "thandiwe.nkosi@mail.co.za"], ["Pieter van der Merwe", "pieter.vdm@mail.co.za"], ["Lerato Mokoena", "lerato.mokoena@mail.co.za"], ["Sipho Dlamini", "sipho.dlamini@mail.co.za"]].map(([n, e], i) => <NAvatar key={n} name={n!} src={avatarFor(e)} size={28 + i * 8} />)}</div>
+          <AvatarUploader name={DEMO_USER.name} initial={avatarFor(DEMO_USER.email) ?? null} />
         </GlassCard>
       </Section>
 

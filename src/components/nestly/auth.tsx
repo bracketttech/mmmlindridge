@@ -1,7 +1,8 @@
 import { forwardRef, useId, useState, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Eye, EyeOff, AlertCircle, Lock, Lightbulb } from "lucide-react";
-import authImage from "@/assets/auth-residence.jpg";
+import { authImage } from "@/images";
+import { FadeImage } from "./fade-image";
 import { cn } from "@/lib/utils";
 import { t } from "@/lib/strings";
 import { passwordScore } from "@/lib/validation";
@@ -21,8 +22,8 @@ export function AuthLayout({ children, wide = false }: { children: ReactNode; wi
           <p className="text-[12px] text-ink-500">© 2026 Nestly · Made in South Africa</p>
         </div>
         <aside aria-hidden className="relative hidden p-3 lg:block">
-          <div className="relative h-full overflow-hidden rounded-[22px]">
-            <img src={authImage} alt="" width={1024} height={1280} className="absolute inset-0 h-full w-full object-cover" />
+          <div className="relative h-full overflow-hidden rounded-[22px] bg-olive-800">
+            <FadeImage src={authImage} alt="" width={1024} height={1280} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
             <div className="absolute inset-0 bg-linear-to-t from-olive-900/80 via-olive-900/10 to-transparent" />
             <div className="absolute inset-x-6 bottom-6 space-y-4 animate-rise" style={{ animationDelay: "200ms" }}>
               <h2 className="text-display text-on-dark">
