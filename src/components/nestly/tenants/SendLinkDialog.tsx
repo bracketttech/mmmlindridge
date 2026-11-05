@@ -52,7 +52,7 @@ export function SendLinkDialog({ tenant, place, onClose }: { tenant: Tenant | nu
           )}
           {channel === "email" && <p className="mb-2 truncate text-[13px] text-ink-500">{l.subject}: <span className="text-ink-900">{fill(l.subjectText, { property: place.property })}</span></p>}
           {channel === "copy"
-            ? <p className="break-all font-mono text-[13px] text-ink-900">{url}</p>
+            ? <p className="break-all text-[13px] text-ink-900">{url}</p>
             : <p className={channel === "whatsapp" ? "whitespace-pre-line rounded-[5.75px] bg-olive-100 p-3 text-[14px] text-ink-900" : "whitespace-pre-line break-words text-[14px] text-ink-900"}>{msg}</p>}
         </div>
         <p className="text-[12px] text-ink-500">{fill(l.expires, { date: expires })}</p>
