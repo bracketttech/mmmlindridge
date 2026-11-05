@@ -26,6 +26,7 @@ import { Route as ShellDesignRouteImport } from './routes/_shell.design'
 import { Route as ShellInvoicesRouteImport } from './routes/_shell.invoices'
 import { Route as ShellLeasesRouteImport } from './routes/_shell.leases'
 import { Route as ShellLegalRouteImport } from './routes/_shell.legal'
+import { Route as ShellNotificationsRouteImport } from './routes/_shell.notifications'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
 import { Route as ShellPropertiesRouteImport } from './routes/_shell.properties'
 import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
@@ -121,6 +122,11 @@ const ShellLegalRoute = ShellLegalRouteImport.update({
   path: '/legal',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellNotificationsRoute = ShellNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellProfileRoute = ShellProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/invoices': typeof ShellInvoicesRoute
   '/leases': typeof ShellLeasesRoute
   '/legal': typeof ShellLegalRoute
+  '/notifications': typeof ShellNotificationsRoute
   '/profile': typeof ShellProfileRoute
   '/properties': typeof ShellPropertiesRoute
   '/reports': typeof ShellReportsRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/invoices': typeof ShellInvoicesRoute
   '/leases': typeof ShellLeasesRoute
   '/legal': typeof ShellLegalRoute
+  '/notifications': typeof ShellNotificationsRoute
   '/profile': typeof ShellProfileRoute
   '/properties': typeof ShellPropertiesRoute
   '/reports': typeof ShellReportsRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/_shell/invoices': typeof ShellInvoicesRoute
   '/_shell/leases': typeof ShellLeasesRoute
   '/_shell/legal': typeof ShellLegalRoute
+  '/_shell/notifications': typeof ShellNotificationsRoute
   '/_shell/profile': typeof ShellProfileRoute
   '/_shell/properties': typeof ShellPropertiesRoute
   '/_shell/reports': typeof ShellReportsRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/leases'
     | '/legal'
+    | '/notifications'
     | '/profile'
     | '/properties'
     | '/reports'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/leases'
     | '/legal'
+    | '/notifications'
     | '/profile'
     | '/properties'
     | '/reports'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/_shell/invoices'
     | '/_shell/leases'
     | '/_shell/legal'
+    | '/_shell/notifications'
     | '/_shell/profile'
     | '/_shell/properties'
     | '/_shell/reports'
@@ -482,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellLegalRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/notifications': {
+      id: '/_shell/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof ShellNotificationsRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/profile': {
       id: '/_shell/profile'
       path: '/profile'
@@ -563,6 +582,7 @@ interface ShellRouteChildren {
   ShellInvoicesRoute: typeof ShellInvoicesRoute
   ShellLeasesRoute: typeof ShellLeasesRoute
   ShellLegalRoute: typeof ShellLegalRoute
+  ShellNotificationsRoute: typeof ShellNotificationsRoute
   ShellProfileRoute: typeof ShellProfileRoute
   ShellPropertiesRoute: typeof ShellPropertiesRoute
   ShellReportsRoute: typeof ShellReportsRoute
@@ -581,6 +601,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellInvoicesRoute: ShellInvoicesRoute,
   ShellLeasesRoute: ShellLeasesRoute,
   ShellLegalRoute: ShellLegalRoute,
+  ShellNotificationsRoute: ShellNotificationsRoute,
   ShellProfileRoute: ShellProfileRoute,
   ShellPropertiesRoute: ShellPropertiesRoute,
   ShellReportsRoute: ShellReportsRoute,
