@@ -215,6 +215,7 @@ export const profileService = {
     return delay(true, 200);
   },
 };
+const propertyOfTenant = (tenantId: string) => getTenancy().tenants.find((t) => t.id === tenantId)?.propertyId;
 export const invoiceService = {
   list: (propertyId = "all") => delay(db.invoices.filter((i) => propertyId === "all" || propertyOfTenant(i.tenantId) === propertyId)),
 };
