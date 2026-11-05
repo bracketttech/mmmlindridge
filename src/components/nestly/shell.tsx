@@ -13,7 +13,7 @@ import { formatDate } from "@/lib/format";
 import { propertyService, notificationService, type Property, type Notification } from "@/services";
 import { NAvatar, BottomSheet } from "./composites";
 import { SearchOverlay } from "./SearchOverlay";
-import { propertyImage, propertyThumb, avatarFor, preloadImages, allShellImages } from "@/images";
+import { propertyThumb, avatarFor, preloadImages, allShellImages } from "@/images";
 import { TruncatedText, IconButton, useRipple } from "./primitives";
 
 function useActiveIndex(items: NavItem[]) {

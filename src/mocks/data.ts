@@ -1,4 +1,5 @@
 // Mock data (UI-only phases). Replace via /src/services when a backend arrives.
+import { avatarFor } from "@/images";
 export type Property = { id: string; name: string; address: string; suburb: string; province: string; units: number; occupied: number; image?: string };
 export type Unit = { id: string; propertyId: string; label: string; beds: number; rent: number; status: "occupied" | "vacant" | "notice" };
 export type Tenant = { id: string; name: string; email: string; phone: string; propertyId: string; unitId: string; rent: number; status: "active" | "arrears" | "notice" | "pending"; paidPct: number; lastPayment: string; avatar?: string };
@@ -26,9 +27,9 @@ export const units: Unit[] = [
 ];
 
 export const tenants: Tenant[] = [
-  { id: "t1", name: "Thandiwe Nkosi", email: "thandiwe.nkosi@mail.co.za", phone: "+27 82 555 0141", propertyId: "p1", unitId: "u1", rent: 12500, status: "active", paidPct: 100, lastPayment: "2026-11-01" },
-  { id: "t2", name: "Pieter van der Merwe", email: "pieter.vdm@mail.co.za", phone: "+27 83 555 0177", propertyId: "p1", unitId: "u2", rent: 8900, status: "arrears", paidPct: 45, lastPayment: "2026-09-30" },
-  { id: "t3", name: "Lerato Mokoena", email: "lerato.mokoena@mail.co.za", phone: "+27 71 555 0102", propertyId: "p2", unitId: "u4", rent: 11200, status: "active", paidPct: 100, lastPayment: "2026-11-02" },
+  { id: "t1", name: "Thandiwe Nkosi", email: "thandiwe.nkosi@mail.co.za", avatar: avatarFor("thandiwe.nkosi@mail.co.za"), phone: "+27 82 555 0141", propertyId: "p1", unitId: "u1", rent: 12500, status: "active", paidPct: 100, lastPayment: "2026-11-01" },
+  { id: "t2", name: "Pieter van der Merwe", email: "pieter.vdm@mail.co.za", avatar: avatarFor("pieter.vdm@mail.co.za"), phone: "+27 83 555 0177", propertyId: "p1", unitId: "u2", rent: 8900, status: "arrears", paidPct: 45, lastPayment: "2026-09-30" },
+  { id: "t3", name: "Lerato Mokoena", email: "lerato.mokoena@mail.co.za", avatar: avatarFor("lerato.mokoena@mail.co.za"), phone: "+27 71 555 0102", propertyId: "p2", unitId: "u4", rent: 11200, status: "active", paidPct: 100, lastPayment: "2026-11-02" },
   { id: "t4", name: "Sipho Dlamini", email: "sipho.dlamini@mail.co.za", phone: "+27 72 555 0199", propertyId: "p1", unitId: "u3", rent: 16800, status: "notice", paidPct: 80, lastPayment: "2026-10-28" },
   { id: "t5", name: "Aisha Patel", email: "aisha.patel@mail.co.za", phone: "+27 84 555 0123", propertyId: "p3", unitId: "u6", rent: 28000, status: "active", paidPct: 92, lastPayment: "2026-11-03" },
   { id: "t6", name: "Johannes Botha-Fitzgerald Mahlangu", email: "johannes.botha.fitzgerald.mahlangu@longcompanyname.co.za", phone: "+27 76 555 0188", propertyId: "p4", unitId: "u7", rent: 26500, status: "pending", paidPct: 20, lastPayment: "2026-10-15" },

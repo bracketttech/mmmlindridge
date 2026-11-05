@@ -1,4 +1,7 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useState, type ReactNode } from "react";
+
+// Layout effect restores saved choices before first paint (no flash of default property/sidebar).
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 import type { Role } from "./nav";
 
 type AppState = {
@@ -14,7 +17,7 @@ const Ctx = createContext<AppState | null>(null);
 
 function usePersisted<T extends string | boolean>(key: string, initial: T) {
   const [v, setV] = useState<T>(initial);
-  useEffect(() => {
+  useIsoLayoutEffect(() => {
     const raw = localStorage.getItem(key);
     if (raw !== null) setV(JSON.parse(raw) as T);
   }, [key]);

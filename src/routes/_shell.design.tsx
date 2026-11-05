@@ -50,7 +50,7 @@ function DesignPage() {
   const rows = (tenants ?? []).filter((x) => filter === "all" || x.status === filter);
   const unitOf = (x: Tenant) => props.find((p) => p.id === x.propertyId)?.name ?? "";
   const cols: Column<Tenant>[] = [
-    { key: "t", header: "Tenant", render: (r) => <PersonCell name={r.name} email={r.email} /> },
+    { key: "t", header: "Tenant", render: (r) => <PersonCell name={r.name} email={r.email} src={r.avatar} /> },
     { key: "p", header: "Property", render: (r) => <TruncatedText text={unitOf(r)} className="max-w-[160px] text-ink-900" /> },
     { key: "s", header: "Status", render: (r) => <StatusCell status={r.status} /> },
     { key: "r", header: "Rent", render: (r) => <span className="tabular-nums">{formatZAR(r.rent)}</span> },
