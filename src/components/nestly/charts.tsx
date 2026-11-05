@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Area, AreaChart, Bar, BarChart, Line, ResponsiveContainer, Tooltip as RTooltip, XAxis, YAxis, Cell } from "recharts";
+import { Area, ComposedChart, Bar, BarChart, Line, ResponsiveContainer, Tooltip as RTooltip, XAxis, YAxis, Cell } from "recharts";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatZAR, formatCompactZAR } from "@/lib/format";
 import { CardMenu, GlassCard, Skel, EmptyState } from "./primitives";
@@ -43,7 +43,7 @@ export function AreaComparisonChart({ data, names = { collected: "Collected", pr
   return (
     <div className="h-56 w-full" role="img" aria-label={`${names.collected} per month compared with ${names.previous.toLowerCase()}`}>
       <ResponsiveContainer>
-        <AreaChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
+        <ComposedChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
           <defs>
             <linearGradient id="oliveFill" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="var(--olive-500)" stopOpacity={0.35} />
@@ -55,7 +55,7 @@ export function AreaComparisonChart({ data, names = { collected: "Collected", pr
           <RTooltip cursor={{ stroke: OLIVE, strokeDasharray: "3 3" }} content={<ChipTooltip names={names} />} />
           <Area type="monotone" dataKey="collected" stroke={OLIVE_DARK} strokeWidth={2} fill="url(#oliveFill)" activeDot={{ r: 5, fill: OLIVE_DARK, stroke: "white", strokeWidth: 2 }} />
           <Line type="monotone" dataKey="previous" stroke="var(--ink-500)" strokeDasharray="5 5" dot={false} activeDot={false} strokeWidth={1.5} />
-        </AreaChart>
+        </ComposedChart>
       </ResponsiveContainer>
     </div>
   );
