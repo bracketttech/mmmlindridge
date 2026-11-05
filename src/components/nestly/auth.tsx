@@ -30,7 +30,7 @@ export function AuthLayout({ children, wide = false }: { children: ReactNode; wi
                 {t.auth.brandHeadline} <em className="font-light">{t.auth.brandAccent}</em>
               </h2>
               <p className="max-w-md text-[15px] text-on-dark-muted">{t.auth.brandBody}</p>
-              <div className="glass max-w-md rounded-[8.05px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark">
+              <div className="glass-clear max-w-md rounded-[8.05px] p-4">
                 <p className="text-[14px]">{t.auth.brandQuote}</p>
                 <p className="mt-1 text-[12px] text-on-dark-muted">{t.auth.brandQuoteBy}</p>
               </div>
