@@ -58,7 +58,7 @@ function make(s: Seed, i: number): MaintRequest {
   };
 }
 
-export const seedRequests = (): MaintRequest[] => [
+export const seedRequests = (): MaintRequest[] => ([
   { id: "r1", tenantId: "t1", category: "fault", area: "plumbing", title: "Geyser leaking in main bathroom", description: "Water is dripping from the overflow pipe and the ceiling below is stained. Started on Sunday evening.", priority: "high", status: "new", createdAt: at("2026-11-03", "07:42"), path: [["new", at("2026-11-03", "07:42")]],
     thread: [{ id: "m1", at: at("2026-11-03", "07:42"), by: "Thandiwe Nkosi", from: "tenant", body: "I've switched the geyser off at the DB board for now.", internal: false }] },
   { id: "r2", tenantId: "t3", category: "upgrade", area: "electrical", title: "Install prepaid electricity meter", description: "Request to switch from municipal billing to a prepaid meter so I can manage usage.", priority: "medium", status: "awaiting_quote", createdAt: at("2026-10-29", "10:15"),
@@ -90,4 +90,4 @@ export const seedRequests = (): MaintRequest[] => [
   { id: "r8", tenantId: "t6", category: "fault", area: "bathroom", title: "Shower drain blocked", description: "Water pools in the shower and drains very slowly.", priority: "medium", status: "assigned", createdAt: at("2026-11-02", "06:50"),
     path: [["new", at("2026-11-02", "06:50")], ["acknowledged", at("2026-11-02", "09:10")], ["assigned", at("2026-11-02", "09:15")]],
     assignee: { kind: "contractor", id: "c5", name: "Atlantic Handyman Services" } },
-].map(make);
+] as Seed[]).map(make);

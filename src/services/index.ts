@@ -216,10 +216,6 @@ export const profileService = {
   },
 };
 const propertyOfTenant = (tenantId: string) => getTenancy().tenants.find((t) => t.id === tenantId)?.propertyId;
-export const requestService = {
-  forTenant: (tenantId: string) => delay(db.requests.filter((r) => r.tenantId === tenantId), 300),
-  list: (propertyId = "all") => delay(db.requests.filter((r) => propertyId === "all" || propertyOfTenant(r.tenantId) === propertyId)),
-};
 export const invoiceService = {
   list: (propertyId = "all") => delay(db.invoices.filter((i) => propertyId === "all" || propertyOfTenant(i.tenantId) === propertyId)),
 };
@@ -233,3 +229,58 @@ export const searchService = {
 export type { DashboardData, SearchResult } from "@/mocks/dashboard";
 export const planService = { list: () => import("@/mocks/plans").then((m) => delay(m.plans, 300)) };
 export const reportService = { revenue: () => delay(db.revenueSeries) };
+
+/* ---------- Requests & maintenance (Phase 6) ---------- */
+import { getMaint, commitMaint } from "@/mocks/maintenance-store";
+import { forTenantView } from "@/lib/maintenance-rules";
+import type { MaintRequest, ReqStatus, Assignee, Attachment, ReqCategory, Area, Priority } from "@/mocks/maintenance";
+export type { MaintRequest, ReqStatus, Assignee, Attachment, ReqCategory, Area, Priority, Contractor, PreventiveTask, ThreadMsg } from "@/mocks/maintenance";
+export type NewRequestInput = { tenantId: string; category: ReqCategory; area: Area; title: string; description: string; priority: Priority; access: string; moveOutDate?: string | undefined; attachments: Attachment[] };
+const M = () => getMaint();
+const now = () => new Date().toISOString().slice(0, 19);
+const mSave = (mut: Parameters<typeof commitMaint>[0]) => { if (!commitMaint(mut)) throw new StorageFullError("storage"); };
+const edit = (id: string, fn: (r: MaintRequest) => void) => mSave((s) => { const r = s.requests.find((x) => x.id === id); if (r) { fn(r); r.updatedAt = now(); } });
+const sortNew = (rs: MaintRequest[]) => [...rs].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+export const requestService = {
+  list: (propertyId = "all") => delay(sortNew(M().requests.filter((r) => propertyId === "all" || r.propertyId === propertyId))),
+  /** Tenant-safe: internal notes, cost and quotes are removed here, never only in the UI. */
+  forTenant: (tenantId: string) => delay(sortNew(M().requests.filter((r) => r.tenantId === tenantId)).map(forTenantView)),
+  async create(input: NewRequestInput) {
+    const x = T().tenants.find((y) => y.id === input.tenantId)!;
+    const at = now();
+    const ref = `REQ-${1001 + M().requests.length}`;
+    const rec: MaintRequest = { ...input, id: newId("r"), ref, tenantName: x.name, propertyId: x.propertyId, unitId: x.unitId, status: "new", createdAt: at, updatedAt: at, thread: [], timeline: [{ status: "new", at, by: x.name }] };
+    mSave((s) => { s.requests.push(rec); });
+    return delay(forTenantView(rec), 900);
+  },
+  async setStatus(id: string, status: ReqStatus, by: string) {
+    edit(id, (r) => { if (r.status !== status) { r.status = status; r.timeline.push({ status, at: now(), by }); } });
+    return delay(true, 300);
+  },
+  async assign(id: string, assignee: Assignee | undefined, by: string) {
+    edit(id, (r) => { r.assignee = assignee; if (assignee && (r.status === "new" || r.status === "acknowledged")) { r.status = "assigned"; r.timeline.push({ status: "assigned", at: now(), by }); } });
+    return delay(true, 300);
+  },
+  async addMessage(id: string, body: string, internal: boolean, by: string, from: "tenant" | "staff") {
+    edit(id, (r) => { r.thread.push({ id: newId("m"), at: now(), by, from, body, internal: from === "tenant" ? false : internal }); });
+    return delay(true, 250);
+  },
+  async setCost(id: string, cost: number | undefined) { edit(id, (r) => { r.cost = cost; }); return delay(true, 300); },
+  async requestQuote(id: string, contractorId: string, amount: number, note: string, by: string) {
+    const c = M().contractors.find((x) => x.id === contractorId)!;
+    edit(id, (r) => { r.quote = { contractorId, contractorName: c.company, amount, note, status: "pending" }; if (r.status !== "awaiting_quote") { r.status = "awaiting_quote"; r.timeline.push({ status: "awaiting_quote", at: now(), by }); } });
+    return delay(true, 400);
+  },
+  async decideQuote(id: string, approve: boolean, by: string) {
+    edit(id, (r) => {
+      if (!r.quote) return;
+      r.quote.status = approve ? "approved" : "declined"; r.quote.decidedAt = now();
+      if (approve) { r.cost = r.quote.amount; r.assignee = { kind: "contractor", id: r.quote.contractorId, name: r.quote.contractorName }; r.status = "in_progress"; r.timeline.push({ status: "in_progress", at: now(), by }); }
+    });
+    return delay(true, 400);
+  },
+  async rate(id: string, stars: number, comment: string) { edit(id, (r) => { r.rating = { stars, comment }; }); return delay(true, 300); },
+};
+export const contractorService = { list: () => delay(M().contractors) };
+export const scheduleService = { list: (propertyId = "all") => delay([...M().schedule].filter((x) => propertyId === "all" || x.propertyId === propertyId).sort((a, b) => a.nextDue.localeCompare(b.nextDue))) };
