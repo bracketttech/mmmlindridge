@@ -1,14 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Placeholder } from "@/components/nestly/Placeholder";
+import { useAppState } from "@/lib/app-state";
+import { t } from "@/lib/strings";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_shell/dashboard")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — Nestly" },
-      { name: "description", content: "Your portfolio at a glance in Nestly." },
-      { property: "og:title", content: "Dashboard — Nestly" },
-      { property: "og:description", content: "Your portfolio at a glance in Nestly." },
-    ],
-  }),
-  component: () => <Placeholder navKey="dashboard" title="Good afternoon," muted="Janice" sub="Your portfolio at a glance" />,
+  head: () => pageHead("Home", "Your Nestly home: portfolio, rent and requests at a glance."),
+  component: Home,
 });
+
+function Home() {
+  const { role } = useAppState();
+  const h = t.home[role];
+  return <Placeholder navKey="dashboard" title={h.title} muted={h.muted} sub={h.sub} />;
+}

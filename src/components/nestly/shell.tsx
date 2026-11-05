@@ -1,5 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Logo } from "./logo";
+import { clearSession, readSession } from "@/lib/session";
 import { Bell, ChevronDown, ChevronsLeft, ChevronsRight, LogOut, MoreHorizontal, Search, Settings, UserRound, Check, Building2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -11,15 +13,6 @@ import { formatDate } from "@/lib/format";
 import { propertyService, notificationService, type Property, type Notification } from "@/services";
 import { NAvatar, BottomSheet } from "./composites";
 import { TruncatedText, IconButton, useRipple } from "./primitives";
-
-const Logo = ({ showText = true }: { showText?: boolean }) => (
-  <div className="flex items-center gap-2">
-    <svg viewBox="0 0 28 28" className="h-7 w-7 shrink-0" aria-hidden>
-      <path d="M7 3l5 5-5 5-5-5zM21 3l5 5-5 5-5-5zM14 10l5 5-5 5-5-5zM7 17l5 5-5 5-5-5z" fill="currentColor" />
-    </svg>
-    {showText && <span className="text-[20px] font-medium tracking-tight">{t.app.name}<sup className="text-[9px]">™</sup></span>}
-  </div>
-);
 
 function useActiveIndex(items: NavItem[]) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -135,14 +128,24 @@ function NotificationsBell() {
 export const DEMO_USER = { name: "Janice Tinto", email: "janice@nestly.co.za" };
 function AvatarMenu() {
   const { role, setRole } = useAppState();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(DEMO_USER);
+  useEffect(() => {
+    const s = readSession();
+    if (s) setUser({ name: s.name, email: s.email });
+  }, []);
+  const signOut = () => {
+    clearSession();
+    navigate({ to: "/login", replace: true });
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger aria-label={t.shell.account} className="shrink-0 rounded-full">
-        <NAvatar name={DEMO_USER.name} size={40} className="bg-olive-800 text-primary-foreground" />
+        <NAvatar name={user.name} size={40} className="bg-olive-800 text-primary-foreground" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-64 rounded-[16px] p-1.5">
         <DropdownMenuLabel className="font-normal">
-          <p className="truncate text-[14px] font-medium">{DEMO_USER.name}</p>
+          <p className="truncate text-[14px] font-medium">{user.name}</p>
           <p className="truncate text-[12px] text-ink-500">{t.shell.signedInAs}: {t.roles[role]}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -154,7 +157,7 @@ function AvatarMenu() {
           {ROLES.map((r) => <DropdownMenuRadioItem key={r} value={r}>{t.roles[r]}</DropdownMenuRadioItem>)}
         </DropdownMenuRadioGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}><LogOut className="h-4 w-4" />{t.shell.signOut}</DropdownMenuItem>
+        <DropdownMenuItem onSelect={signOut}><LogOut className="h-4 w-4" />{t.shell.signOut}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

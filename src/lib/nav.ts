@@ -65,3 +65,8 @@ export function roleCanSee(role: Role, key: NavKey) {
 }
 
 export const NOTIFICATION_ICON = Bell;
+
+/** Where each role lands after sign-in. Tenants see their tenant home on /dashboard. */
+export function homeFor(_role: Role): "/dashboard" {
+  return "/dashboard";
+}

@@ -14,4 +14,5 @@ export const requestService = { list: () => delay(db.requests) };
 export const invoiceService = { list: () => delay(db.invoices) };
 export const staffService = { list: () => delay(db.staff) };
 export const notificationService = { list: () => delay(db.notifications, 300) };
+export const planService = { list: () => import("@/mocks/plans").then((m) => delay(m.plans, 300)) };
 export const reportService = { revenue: () => delay(db.revenueSeries) };
