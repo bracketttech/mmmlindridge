@@ -23,11 +23,10 @@ export function FeaturedProperty({ data }: { data: DashboardData }) {
   return (
     <article className="lift relative h-[320px] overflow-hidden rounded-[8.05px] bg-olive-200 shadow-soft lg:h-full lg:min-h-[340px]">
       {propertyImage(p.id) && <FadeImage src={propertyImage(p.id)!} alt={p.name} width={1024} height={768} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />}
-      <div className="absolute inset-0 bg-linear-to-t from-olive-900/50 via-transparent to-transparent" />
-      <span className="glass absolute left-3 top-3 inline-flex h-7 items-center gap-1.5 rounded-full border-surface-solid/40 bg-surface-solid/25 px-3 text-[12px] font-medium text-on-dark shadow-none">
+      <span className="glass-clear-chip absolute left-3 top-3 inline-flex h-7 items-center gap-1.5 rounded-full px-3 text-[12px] font-medium">
         <Home className="h-3.5 w-3.5" aria-hidden />{all ? fill(d.allProps, { n: data.properties.length }) : d.featured}
       </span>
-      <div className="glass absolute inset-x-3 bottom-3 rounded-[5.75px] border-surface-solid/40 bg-surface-solid/20 p-4 text-on-dark shadow-none">
+      <div className="glass-clear absolute inset-x-3 bottom-3 rounded-[5.75px] p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <TruncatedText text={p.name} className="text-h3" />
@@ -40,7 +39,7 @@ export function FeaturedProperty({ data }: { data: DashboardData }) {
         </div>
         <div className="mt-3 flex flex-wrap gap-2 text-[12px]">
           {[`${fill(d.units, { n: data.totals.units })}`, fill(d.occupied, { n: data.totals.occupancy }), `${data.counts.openRequests} ${d.openRequests.toLowerCase()}`].map((c) => (
-            <span key={c} className="rounded-full border border-surface-solid/40 px-2.5 py-1">{c}</span>
+            <span key={c} className="glass-clear-chip rounded-full px-2.5 py-1">{c}</span>
           ))}
         </div>
       </div>
