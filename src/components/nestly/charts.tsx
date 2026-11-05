@@ -51,10 +51,10 @@ export function AreaComparisonChart({ data, names = { collected: "Collected", pr
             </linearGradient>
           </defs>
           <XAxis dataKey="month" tickFormatter={(v) => String(v).slice(0, 3)} interval="preserveStartEnd" tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
-          <YAxis tickLine={false} axisLine={false} width={56} tick={{ fill: "var(--ink-500)", fontSize: 11 }} tickFormatter={formatCompactZAR} />
+          <YAxis domain={[(min: number) => Math.floor(min * 0.85), "auto"]} tickLine={false} axisLine={false} width={56} tick={{ fill: "var(--ink-500)", fontSize: 11 }} tickFormatter={formatCompactZAR} />
           <RTooltip cursor={{ stroke: OLIVE, strokeDasharray: "3 3" }} content={<ChipTooltip names={names} />} />
-          <Line type="monotone" dataKey="previous" stroke="var(--ink-500)" strokeDasharray="5 5" dot={false} strokeWidth={1.5} />
           <Area type="monotone" dataKey="collected" stroke={OLIVE_DARK} strokeWidth={2} fill="url(#oliveFill)" activeDot={{ r: 5, fill: OLIVE_DARK, stroke: "white", strokeWidth: 2 }} />
+          <Line type="monotone" dataKey="previous" stroke="var(--ink-500)" strokeDasharray="5 5" dot={false} activeDot={false} strokeWidth={1.5} />
         </AreaChart>
       </ResponsiveContainer>
     </div>
