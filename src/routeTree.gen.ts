@@ -28,7 +28,6 @@ import { Route as ShellLeasesRouteImport } from './routes/_shell.leases'
 import { Route as ShellLegalRouteImport } from './routes/_shell.legal'
 import { Route as ShellNotificationsRouteImport } from './routes/_shell.notifications'
 import { Route as ShellProfileRouteImport } from './routes/_shell.profile'
-import { Route as ShellPropertiesRouteImport } from './routes/_shell.properties'
 import { Route as ShellReportsRouteImport } from './routes/_shell.reports'
 import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
 import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
@@ -37,6 +36,7 @@ import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
 import { Route as ShellTenantsRouteImport } from './routes/_shell.tenants'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
+import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -132,11 +132,6 @@ const ShellProfileRoute = ShellProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => ShellRoute,
 } as any)
-const ShellPropertiesRoute = ShellPropertiesRouteImport.update({
-  id: '/properties',
-  path: '/properties',
-  getParentRoute: () => ShellRoute,
-} as any)
 const ShellReportsRoute = ShellReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -177,6 +172,11 @@ const RegisterTokenRoute = RegisterTokenRouteImport.update({
   path: '/register/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellPropertiesIndexRoute = ShellPropertiesIndexRouteImport.update({
+  id: '/properties/',
+  path: '/properties/',
+  getParentRoute: () => ShellRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -197,7 +197,6 @@ export interface FileRoutesByFullPath {
   '/legal': typeof ShellLegalRoute
   '/notifications': typeof ShellNotificationsRoute
   '/profile': typeof ShellProfileRoute
-  '/properties': typeof ShellPropertiesRoute
   '/reports': typeof ShellReportsRoute
   '/requests': typeof ShellRequestsRoute
   '/schedule': typeof ShellScheduleRoute
@@ -206,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/properties/': typeof ShellPropertiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -226,7 +226,6 @@ export interface FileRoutesByTo {
   '/legal': typeof ShellLegalRoute
   '/notifications': typeof ShellNotificationsRoute
   '/profile': typeof ShellProfileRoute
-  '/properties': typeof ShellPropertiesRoute
   '/reports': typeof ShellReportsRoute
   '/requests': typeof ShellRequestsRoute
   '/schedule': typeof ShellScheduleRoute
@@ -235,6 +234,7 @@ export interface FileRoutesByTo {
   '/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/properties': typeof ShellPropertiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -257,7 +257,6 @@ export interface FileRoutesById {
   '/_shell/legal': typeof ShellLegalRoute
   '/_shell/notifications': typeof ShellNotificationsRoute
   '/_shell/profile': typeof ShellProfileRoute
-  '/_shell/properties': typeof ShellPropertiesRoute
   '/_shell/reports': typeof ShellReportsRoute
   '/_shell/requests': typeof ShellRequestsRoute
   '/_shell/schedule': typeof ShellScheduleRoute
@@ -266,6 +265,7 @@ export interface FileRoutesById {
   '/_shell/tenants': typeof ShellTenantsRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/_shell/properties/': typeof ShellPropertiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -288,7 +288,6 @@ export interface FileRouteTypes {
     | '/legal'
     | '/notifications'
     | '/profile'
-    | '/properties'
     | '/reports'
     | '/requests'
     | '/schedule'
@@ -297,6 +296,7 @@ export interface FileRouteTypes {
     | '/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/properties/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -317,7 +317,6 @@ export interface FileRouteTypes {
     | '/legal'
     | '/notifications'
     | '/profile'
-    | '/properties'
     | '/reports'
     | '/requests'
     | '/schedule'
@@ -326,6 +325,7 @@ export interface FileRouteTypes {
     | '/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/properties'
   id:
     | '__root__'
     | '/'
@@ -347,7 +347,6 @@ export interface FileRouteTypes {
     | '/_shell/legal'
     | '/_shell/notifications'
     | '/_shell/profile'
-    | '/_shell/properties'
     | '/_shell/reports'
     | '/_shell/requests'
     | '/_shell/schedule'
@@ -356,6 +355,7 @@ export interface FileRouteTypes {
     | '/_shell/tenants'
     | '/invite/$token'
     | '/register/$token'
+    | '/_shell/properties/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -508,13 +508,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellProfileRouteImport
       parentRoute: typeof ShellRoute
     }
-    '/_shell/properties': {
-      id: '/_shell/properties'
-      path: '/properties'
-      fullPath: '/properties'
-      preLoaderRoute: typeof ShellPropertiesRouteImport
-      parentRoute: typeof ShellRoute
-    }
     '/_shell/reports': {
       id: '/_shell/reports'
       path: '/reports'
@@ -571,6 +564,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/properties/': {
+      id: '/_shell/properties/'
+      path: '/properties'
+      fullPath: '/properties/'
+      preLoaderRoute: typeof ShellPropertiesIndexRouteImport
+      parentRoute: typeof ShellRoute
+    }
   }
 }
 
@@ -584,13 +584,13 @@ interface ShellRouteChildren {
   ShellLegalRoute: typeof ShellLegalRoute
   ShellNotificationsRoute: typeof ShellNotificationsRoute
   ShellProfileRoute: typeof ShellProfileRoute
-  ShellPropertiesRoute: typeof ShellPropertiesRoute
   ShellReportsRoute: typeof ShellReportsRoute
   ShellRequestsRoute: typeof ShellRequestsRoute
   ShellScheduleRoute: typeof ShellScheduleRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
   ShellTenantsRoute: typeof ShellTenantsRoute
+  ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
 }
 
 const ShellRouteChildren: ShellRouteChildren = {
@@ -603,13 +603,13 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellLegalRoute: ShellLegalRoute,
   ShellNotificationsRoute: ShellNotificationsRoute,
   ShellProfileRoute: ShellProfileRoute,
-  ShellPropertiesRoute: ShellPropertiesRoute,
   ShellReportsRoute: ShellReportsRoute,
   ShellRequestsRoute: ShellRequestsRoute,
   ShellScheduleRoute: ShellScheduleRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
   ShellTenantsRoute: ShellTenantsRoute,
+  ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
 }
 
 const ShellRouteWithChildren = ShellRoute._addFileChildren(ShellRouteChildren)

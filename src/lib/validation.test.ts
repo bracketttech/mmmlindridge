@@ -44,3 +44,23 @@ describe("mock invite links", () => {
     expect(r.link?.unit).toBe("A101");
   });
 });
+
+describe("property & unit validation", () => {
+  const base = {
+    name: "Melville Cottages", type: "house", description: "", yearBuilt: "", address: "4 Main Road", suburb: "Melville", city: "Johannesburg",
+    province: "Gauteng", postalCode: "2092", erf: "", amenities: [], municipality: "", accountNo: "", ratesMonthly: "", electricity: "prepaid",
+    electricityMeter: "", waterMeter: "", rulesText: "", pets: false, smoking: false, quietFrom: "22:00", quietTo: "06:00",
+  };
+  it("accepts a property with only the required details", async () => {
+    const { propertySchema } = await import("./validation");
+    expect(propertySchema.safeParse(base).success).toBe(true);
+  });
+  it("rejects a property with a 5-digit postal code", async () => {
+    const { propertySchema } = await import("./validation");
+    expect(propertySchema.safeParse({ ...base, postalCode: "20921" }).success).toBe(false);
+  });
+  it("rejects a unit rent below R 500", async () => {
+    const { unitSchema } = await import("./validation");
+    expect(unitSchema.safeParse({ label: "A1", beds: 1, baths: 1, sizeM2: 40, rent: 400, deposit: 0, status: "vacant", features: "" }).success).toBe(false);
+  });
+});

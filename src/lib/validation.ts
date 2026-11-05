@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { t } from "./strings";
+import { PROPERTY_TYPES, UNIT_STATUSES } from "@/mocks/portfolio";
+import { isSaPostalCode } from "./portfolio-rules";
 
 const v = t.auth.validation;
 
@@ -61,3 +63,49 @@ export const otpSchema = z.object({ code: z.string().regex(/^\d{6}$/, v.otp) });
 
 export type LoginInput = z.infer<typeof loginSchema>;
 export type SignupInput = z.infer<typeof signupSchema>;
+
+/* ---------- Properties & units (Phase 4) ---------- */
+
+const pf = t.props.form;
+const optText = (max: number) => z.string().trim().max(max, v.tooLong);
+const money = (msg: string) => z.string().trim().refine((s) => !s || /^\d{1,9}([.,]\d{1,2})?$/.test(s.replace(/\s/g, "")), msg);
+
+export const propertySchema = z.object({
+  name: z.string().trim().min(2, v.required).max(120, v.tooLong),
+  type: z.enum(PROPERTY_TYPES),
+  description: optText(500),
+  yearBuilt: z.string().trim().refine((s) => !s || (/^\d{4}$/.test(s) && +s >= 1850 && +s <= 2030), pf.year),
+  address: z.string().trim().min(3, v.required).max(200, v.tooLong),
+  suburb: z.string().trim().min(2, v.required).max(80, v.tooLong),
+  city: z.string().trim().min(2, v.required).max(80, v.tooLong),
+  province: z.string().min(1, v.required),
+  postalCode: z.string().trim().refine(isSaPostalCode, pf.postal),
+  erf: optText(80),
+  amenities: z.array(z.string()),
+  municipality: optText(120),
+  accountNo: optText(40),
+  ratesMonthly: money(pf.ratesErr),
+  electricity: z.enum(["prepaid", "conventional"]),
+  electricityMeter: optText(40),
+  waterMeter: optText(40),
+  rulesText: optText(1000),
+  pets: z.boolean(),
+  smoking: z.boolean(),
+  quietFrom: z.string(),
+  quietTo: z.string(),
+});
+export type PropertyFormInput = z.infer<typeof propertySchema>;
+
+const uf = t.units.form;
+const num = (min: number, max: number, msg: string) => z.coerce.number({ invalid_type_error: msg }).min(min, msg).max(max, msg);
+export const unitSchema = z.object({
+  label: z.string().trim().min(1, v.required).max(30, v.tooLong),
+  beds: num(0, 20, v.required),
+  baths: num(0, 20, v.required),
+  sizeM2: num(0, 10000, v.required),
+  rent: num(500, 500000, uf.rentRange),
+  deposit: num(0, 1000000, v.required),
+  status: z.enum(UNIT_STATUSES as [string, ...string[]]),
+  features: optText(300),
+});
+export type UnitFormInput = z.infer<typeof unitSchema>;
