@@ -26,13 +26,13 @@ type Tab = (typeof TABS)[number];
 
 export const Route = createFileRoute("/_shell/properties/$propertyId")({
   head: () => pageHead("Property", "Property overview, units, tenants, documents, maintenance, finance and staff."),
-  validateSearch: (s: Record<string, unknown>): { tab: Tab } => ({ tab: TABS.includes(s["tab"] as Tab) ? (s["tab"] as Tab) : "overview" }),
+  validateSearch: (s: Record<string, unknown>): { tab?: Tab | undefined } => ({ tab: TABS.includes(s["tab"] as Tab) ? (s["tab"] as Tab) : undefined }),
   component: PropertyDetailPage,
 });
 
 function PropertyDetailPage() {
   const { propertyId } = Route.useParams();
-  const { tab } = Route.useSearch();
+  const tab: Tab = Route.useSearch().tab ?? "overview";
   const { role } = useAppState();
   const canManage = useCanManage();
   const navigate = useNavigate();
