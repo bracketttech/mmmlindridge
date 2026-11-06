@@ -37,6 +37,7 @@ import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 import { Route as ShellInvoicesNewRouteImport } from './routes/_shell.invoices_.new'
+import { Route as ShellLeasesPrepareRouteImport } from './routes/_shell.leases_.prepare'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
 import { Route as ShellPropertiesPropertyIdRouteImport } from './routes/_shell.properties.$propertyId'
 import { Route as ShellPropertiesNewRouteImport } from './routes/_shell.properties.new'
@@ -186,6 +187,11 @@ const ShellInvoicesNewRoute = ShellInvoicesNewRouteImport.update({
   path: '/invoices/new',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellLeasesPrepareRoute = ShellLeasesPrepareRouteImport.update({
+  id: '/leases_/prepare',
+  path: '/leases/prepare',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellPropertiesIndexRoute = ShellPropertiesIndexRouteImport.update({
   id: '/properties/',
   path: '/properties/',
@@ -264,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
+  '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/requests/new': typeof ShellRequestsNewRoute
@@ -302,6 +309,7 @@ export interface FileRoutesByTo {
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
+  '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/requests/new': typeof ShellRequestsNewRoute
@@ -342,6 +350,7 @@ export interface FileRoutesById {
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/_shell/invoices_/new': typeof ShellInvoicesNewRoute
+  '/_shell/leases_/prepare': typeof ShellLeasesPrepareRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/_shell/properties/new': typeof ShellPropertiesNewRoute
   '/_shell/requests_/new': typeof ShellRequestsNewRoute
@@ -382,6 +391,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/register/$token'
     | '/invoices/new'
+    | '/leases/prepare'
     | '/properties/$propertyId'
     | '/properties/new'
     | '/requests/new'
@@ -420,6 +430,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/register/$token'
     | '/invoices/new'
+    | '/leases/prepare'
     | '/properties/$propertyId'
     | '/properties/new'
     | '/requests/new'
@@ -459,6 +470,7 @@ export interface FileRouteTypes {
     | '/invite/$token'
     | '/register/$token'
     | '/_shell/invoices_/new'
+    | '/_shell/leases_/prepare'
     | '/_shell/properties/$propertyId'
     | '/_shell/properties/new'
     | '/_shell/requests_/new'
@@ -683,6 +695,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellInvoicesNewRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/leases_/prepare': {
+      id: '/_shell/leases_/prepare'
+      path: '/leases/prepare'
+      fullPath: '/leases/prepare'
+      preLoaderRoute: typeof ShellLeasesPrepareRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/': {
       id: '/_shell/properties/'
       path: '/properties'
@@ -766,6 +785,7 @@ interface ShellRouteChildren {
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
   ShellInvoicesNewRoute: typeof ShellInvoicesNewRoute
+  ShellLeasesPrepareRoute: typeof ShellLeasesPrepareRoute
   ShellPropertiesPropertyIdRoute: typeof ShellPropertiesPropertyIdRoute
   ShellPropertiesNewRoute: typeof ShellPropertiesNewRoute
   ShellRequestsNewRoute: typeof ShellRequestsNewRoute
@@ -794,6 +814,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
   ShellInvoicesNewRoute: ShellInvoicesNewRoute,
+  ShellLeasesPrepareRoute: ShellLeasesPrepareRoute,
   ShellPropertiesPropertyIdRoute: ShellPropertiesPropertyIdRoute,
   ShellPropertiesNewRoute: ShellPropertiesNewRoute,
   ShellRequestsNewRoute: ShellRequestsNewRoute,
