@@ -229,7 +229,7 @@ export function seedEnvelopes(): Envelope[] {
       id: "e6", title: "Incoming inspection — Loft 3", kind: "inspection", inspectionId: "i1", leaseId: "l3", createdAt: "2026-02-01", createdBy: OWNER.name, sentAt: "2026-02-01T12:00:00", expiresAt: "2026-02-15",
       pages: [{ id: "p1", heading: "Condition report", body: "Incoming inspection of Loft 3, Rosebank Lofts, for Lerato Mokoena." }, { id: "p2", heading: "Agreement", body: "By signing, the Tenant and Landlord agree that the room-by-room report and photos reflect the condition of the Premises." }],
       signers: [{ id: "e6s1", ...T3, role: "tenant", state: "signed", token: "sign-e6-tenant", viewedAt: "2026-02-01T12:20:00", signedAt: "2026-02-01T12:24:00", method: "draw", signature: sig(T3.name) }, { id: "e6s2", ...OWNER, role: "owner", state: "signed", token: "sign-e6-owner", viewedAt: "2026-02-01T12:30:00", signedAt: "2026-02-01T12:31:00", method: "type", signature: sig(OWNER.name) }],
-      fields: [{ id: "f1", signerId: "e6s1", type: "signature", page: 2, x: 8, y: 70 }, { id: "f2", signerId: "e6s2", type: "signature", page: 2, x: 55, y: 70 }],
+      fields: [{ id: "f1", signerId: "e6s1", type: "signature", page: 1, x: 8, y: 70 }, { id: "f2", signerId: "e6s2", type: "signature", page: 1, x: 55, y: 70 }],
       audit: [ev("a1", "2026-02-01T11:58:00", "created", OWNER.name), ev("a2", "2026-02-01T12:00:00", "sent", OWNER.name, { note: "In app" }), ev("a3", "2026-02-01T12:24:00", "signed", T3.name, { ip: "41.13.200.7", device: DEV }), ev("a4", "2026-02-01T12:31:00", "signed", OWNER.name, { ip: "196.25.14.8", device: DEV3 }), ev("a5", "2026-02-01T12:31:00", "completed", "Nestly")],
     },
     {

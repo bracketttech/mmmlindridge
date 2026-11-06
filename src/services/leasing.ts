@@ -343,7 +343,7 @@ export const inspectionService = {
     const signers = [{ id: "s1", name: x.name, email: x.email, phone: x.phone, role: "tenant" as const }, { id: "s2", ...OWNER_SIGNER, role: "owner" as const }];
     const envId = await signService.createDraft({
       title: `${i.type === "incoming" ? "Incoming" : "Outgoing"} inspection — ${unit(i.unitId)?.label ?? ""}`, kind: "inspection", inspectionId: i.id, leaseId: i.leaseId, pages, signers,
-      fields: autoFields(signers.map((s) => s.id), pages.length),
+      fields: autoFields(signers.map((s) => s.id), pages.length - 1),
     });
     await signService.send(envId, { expiresInDays: 7, message: "Please review the inspection report and sign it off.", channels: ["Email", "In app"] });
     editInsp(id, (y) => { y.envelopeId = envId; });
