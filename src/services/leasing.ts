@@ -29,7 +29,9 @@ export function deviceLabel(ua: string): string {
   const os = /Android/.test(ua) ? "Android" : /iPhone|iPad/.test(ua) ? "iPhone" : /Windows/.test(ua) ? "Windows" : /Mac OS X/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "device";
   return `${browser} on ${os}`;
 }
-const mockIp = () => `102.${130 + Math.floor(Math.random() * 20)}.${Math.floor(Math.random() * 255)}.${1 + Math.floor(Math.random() * 250)}`;
+const ips = new Map<string, string>();
+/** One mock IP per person per session so the audit trail reads like a single device. */
+const mockIp = (actor = "") => { if (!ips.has(actor)) ips.set(actor, `102.${130 + Math.floor(Math.random() * 20)}.${Math.floor(Math.random() * 255)}.${1 + Math.floor(Math.random() * 250)}`); return ips.get(actor)!; };
 const device = () => (typeof navigator === "undefined" ? "Browser" : deviceLabel(navigator.userAgent));
 
 /* ---------- Merge values ---------- */
@@ -151,7 +153,7 @@ export const signService = {
       id, title: input.title, kind: input.kind, leaseId: input.leaseId, inspectionId: input.inspectionId, pages: input.pages,
       signers: input.signers.map((x) => ({ ...x, state: "pending", token: signerToken(id, x.id) })),
       fields: input.fields.map((f) => ({ ...f, id: newId("f") })), createdAt: today(), createdBy: OWNER_SIGNER.name,
-      audit: [{ id: newId("au"), at: nowLocal(), kind: "created", actor: OWNER_SIGNER.name, ip: mockIp(), device: device() }],
+      audit: [{ id: newId("au"), at: nowLocal(), kind: "created", actor: OWNER_SIGNER.name, ip: mockIp(OWNER_SIGNER.name), device: device() }],
     };
     save((s) => { s.envelopes.unshift(env); });
     return delay(id, 400);
@@ -172,7 +174,7 @@ export const signService = {
     save((s) => {
       const x = s.envelopes.find((y) => y.id === id)!;
       x.sentAt = nowLocal(); x.expiresAt = addDays(today(), opts.expiresInDays); x.message = opts.message;
-      x.audit.push({ id: newId("au"), at: nowLocal(), kind: "sent", actor: OWNER_SIGNER.name, ip: mockIp(), device: device(), note: opts.channels.join(", ") });
+      x.audit.push({ id: newId("au"), at: nowLocal(), kind: "sent", actor: OWNER_SIGNER.name, ip: mockIp(OWNER_SIGNER.name), device: device(), note: opts.channels.join(", ") });
     });
     return delay(true, 700);
   },
@@ -180,7 +182,7 @@ export const signService = {
     save((s) => {
       const e = s.envelopes.find((x) => x.signers.some((y) => y.token === token)); if (!e) return;
       const sg = e.signers.find((y) => y.token === token)!;
-      if (sg.state === "pending" && canSignerAct(envelopeStatus(e, nowLocal()), sg)) { sg.state = "viewed"; sg.viewedAt = nowLocal(); e.audit.push({ id: newId("au"), at: nowLocal(), kind: "viewed", actor: sg.name, ip: mockIp(), device: device() }); }
+      if (sg.state === "pending" && canSignerAct(envelopeStatus(e, nowLocal()), sg)) { sg.state = "viewed"; sg.viewedAt = nowLocal(); e.audit.push({ id: newId("au"), at: nowLocal(), kind: "viewed", actor: sg.name, ip: mockIp(sg.name), device: device() }); }
     });
     return delay(true, 100);
   },
@@ -193,7 +195,7 @@ export const signService = {
       ok = true;
       const at = nowLocal();
       Object.assign(sg, { state: "signed", signedAt: at, method, signature, viewedAt: sg.viewedAt ?? at });
-      e.audit.push({ id: newId("au"), at, kind: "signed", actor: sg.name, ip: mockIp(), device: device(), note: method });
+      e.audit.push({ id: newId("au"), at, kind: "signed", actor: sg.name, ip: mockIp(sg.name), device: device(), note: method });
       afterSigned(s, e);
     });
     if (!ok) throw new Error("closed");
@@ -205,7 +207,7 @@ export const signService = {
       const sg = e.signers.find((y) => y.token === token)!;
       if (!canSignerAct(envelopeStatus(e, nowLocal()), sg)) return;
       sg.state = "declined"; sg.declineReason = reason;
-      e.audit.push({ id: newId("au"), at: nowLocal(), kind: "declined", actor: sg.name, ip: mockIp(), device: device(), note: reason });
+      e.audit.push({ id: newId("au"), at: nowLocal(), kind: "declined", actor: sg.name, ip: mockIp(sg.name), device: device(), note: reason });
     });
     return delay(true, 600);
   },

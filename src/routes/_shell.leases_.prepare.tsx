@@ -95,12 +95,12 @@ function PreparePage() {
   if (role === "tenant" || role === "caretaker" || role === "finance") return <Placeholder navKey="leases" title={pr.title} muted={pr.muted} />;
 
   const addSigner = (row?: Partial<SignerRow>) => setSigners((xs) => [...xs, { id: uid("s"), name: "", email: "", phone: "", role: "tenant", ...row }]);
-  const quick: { label: string; row: Partial<SignerRow> }[] = [
-    { label: `${sg.roles.owner} · ${OWNER_SIGNER.name}`, row: { ...OWNER_SIGNER, role: "owner" } },
-    ...(tenant.data ? [{ label: `${sg.roles.tenant} · ${tenant.data.name}`, row: { name: tenant.data.name, email: tenant.data.email, phone: tenant.data.phone, role: "tenant" as const } }] : []),
-    ...(tenant.data?.surety ? [{ label: `${sg.roles.surety} · ${tenant.data.surety.name}`, row: { name: tenant.data.surety.name, email: tenant.data.surety.email, phone: tenant.data.surety.phone, role: "surety" as const } }] : []),
-    ...(lease?.coTenant ? [{ label: `${sg.roles.co_tenant} · ${lease.coTenant}`, row: { name: lease.coTenant, role: "co_tenant" as const } }] : []),
-  ].filter((q) => !signers.some((s) => s.email && s.email.toLowerCase() === (q.row.email ?? "").toLowerCase() && q.row.email));
+  type Quick = { label: string; row: Partial<SignerRow> };
+  const quickAll: Quick[] = [{ label: `${sg.roles.owner} · ${OWNER_SIGNER.name}`, row: { ...OWNER_SIGNER, role: "owner" } }];
+  if (tenant.data) quickAll.push({ label: `${sg.roles.tenant} · ${tenant.data.name}`, row: { name: tenant.data.name, email: tenant.data.email, phone: tenant.data.phone, role: "tenant" } });
+  if (tenant.data?.surety) quickAll.push({ label: `${sg.roles.surety} · ${tenant.data.surety.name}`, row: { name: tenant.data.surety.name, email: tenant.data.surety.email, phone: tenant.data.surety.phone, role: "surety" } });
+  if (lease?.coTenant) quickAll.push({ label: `${sg.roles.co_tenant} · ${lease.coTenant}`, row: { name: lease.coTenant, role: "co_tenant" } });
+  const quick = quickAll.filter((q) => !signers.some((s) => (q.row.email ? s.email.toLowerCase() === q.row.email.toLowerCase() : s.name === q.row.name && s.role === q.row.role)));
 
   const place = (e: MouseEvent<HTMLDivElement>) => {
     if (!active.signerId) return;

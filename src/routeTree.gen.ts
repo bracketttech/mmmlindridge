@@ -34,8 +34,10 @@ import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
 import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
+import { Route as ApplyUnitIdRouteImport } from './routes/apply.$unitId'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
+import { Route as SignTokenRouteImport } from './routes/sign.$token'
 import { Route as ShellInvoicesNewRouteImport } from './routes/_shell.invoices_.new'
 import { Route as ShellLeasesPrepareRouteImport } from './routes/_shell.leases_.prepare'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
@@ -172,6 +174,11 @@ const ShellStaffRoute = ShellStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => ShellRoute,
 } as any)
+const ApplyUnitIdRoute = ApplyUnitIdRouteImport.update({
+  id: '/apply/$unitId',
+  path: '/apply/$unitId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
@@ -180,6 +187,11 @@ const InviteTokenRoute = InviteTokenRouteImport.update({
 const RegisterTokenRoute = RegisterTokenRouteImport.update({
   id: '/register/$token',
   path: '/register/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignTokenRoute = SignTokenRouteImport.update({
+  id: '/sign/$token',
+  path: '/sign/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShellInvoicesNewRoute = ShellInvoicesNewRouteImport.update({
@@ -267,8 +279,10 @@ export interface FileRoutesByFullPath {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
   '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -306,8 +320,10 @@ export interface FileRoutesByTo {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
   '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -347,8 +363,10 @@ export interface FileRoutesById {
   '/_shell/schedule': typeof ShellScheduleRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/_shell/invoices_/new': typeof ShellInvoicesNewRoute
   '/_shell/leases_/prepare': typeof ShellLeasesPrepareRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -388,8 +406,10 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/invoices/new'
     | '/leases/prepare'
     | '/properties/$propertyId'
@@ -427,8 +447,10 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/invoices/new'
     | '/leases/prepare'
     | '/properties/$propertyId'
@@ -467,8 +489,10 @@ export interface FileRouteTypes {
     | '/_shell/schedule'
     | '/_shell/settings'
     | '/_shell/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/_shell/invoices_/new'
     | '/_shell/leases_/prepare'
     | '/_shell/properties/$propertyId'
@@ -493,8 +517,10 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   TwoFactorRoute: typeof TwoFactorRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  ApplyUnitIdRoute: typeof ApplyUnitIdRoute
   InviteTokenRoute: typeof InviteTokenRoute
   RegisterTokenRoute: typeof RegisterTokenRoute
+  SignTokenRoute: typeof SignTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -674,6 +700,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellStaffRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/apply/$unitId': {
+      id: '/apply/$unitId'
+      path: '/apply/$unitId'
+      fullPath: '/apply/$unitId'
+      preLoaderRoute: typeof ApplyUnitIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/invite/$token': {
       id: '/invite/$token'
       path: '/invite/$token'
@@ -686,6 +719,13 @@ declare module '@tanstack/react-router' {
       path: '/register/$token'
       fullPath: '/register/$token'
       preLoaderRoute: typeof RegisterTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign/$token': {
+      id: '/sign/$token'
+      path: '/sign/$token'
+      fullPath: '/sign/$token'
+      preLoaderRoute: typeof SignTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_shell/invoices_/new': {
@@ -839,8 +879,10 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   TwoFactorRoute: TwoFactorRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  ApplyUnitIdRoute: ApplyUnitIdRoute,
   InviteTokenRoute: InviteTokenRoute,
   RegisterTokenRoute: RegisterTokenRoute,
+  SignTokenRoute: SignTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
