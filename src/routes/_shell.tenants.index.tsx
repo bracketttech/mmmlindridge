@@ -36,7 +36,7 @@ const surname = (n: string) => n.split(" ").slice(-1)[0] ?? n;
 
 function TenantsPage() {
   const { role, propertyId } = useAppState();
-  const canManage = useCanManage();
+  const canManage = useCanManage("tenants");
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/tenants/" });
   const tt = t.tenants;

@@ -6,6 +6,7 @@ import { Bell, ChevronDown, ChevronsLeft, ChevronsRight, LogOut, MoreHorizontal,
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAppState } from "@/lib/app-state";
+import { useAccess } from "@/lib/access";
 import { navForRole, ROLES, type NavItem } from "@/lib/nav";
 import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,8 @@ function useActiveIndex(items: NavItem[]) {
 
 /* ---------- Desktop sidebar ---------- */
 function Sidebar() {
-  const { role, collapsed, setCollapsed } = useAppState();
+  const { role, collapsed, setCollapsed, version } = useAppState();
+  void version;
   const { items } = navForRole(role);
   const active = useActiveIndex(items);
   return (
@@ -62,9 +64,9 @@ function Sidebar() {
 
 /* ---------- Property switcher ---------- */
 function PropertySwitcher() {
-  const { propertyId, setPropertyId, role } = useAppState();
+  const { propertyId, setPropertyId, role, scope, version } = useAppState();
   const [list, setList] = useState<Property[] | null>(null);
-  useEffect(() => { propertyService.list().then(setList); }, []);
+  useEffect(() => { propertyService.list().then(setList); }, [role, version]);
   if (role === "tenant") return null;
   // A saved property is restoring: hold a same-size placeholder instead of flashing "All properties".
   if (!list && propertyId !== "all")
@@ -88,7 +90,7 @@ function PropertySwitcher() {
         <ChevronDown className="h-4 w-4 shrink-0 text-ink-500" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-72 rounded-[5.75px] p-1.5">
-        {[{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }, ...(list ?? [])].map((p) => (
+        {[...(scope === "all" ? [{ id: "all", name: t.shell.allProperties, address: t.shell.allPropertiesSub, suburb: "" }] : []), ...(list ?? [])].map((p) => (
           <DropdownMenuItem key={p.id} onSelect={() => setPropertyId(p.id)} className="gap-3 rounded-[4.6px] py-2">
             {p.id === "all" ? <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-olive-700 text-primary-foreground"><Building2 className="h-3.5 w-3.5" /></span> : <NAvatar name={p.name} src={propertyThumb(p.id)} size={32} />}
             <span className="min-w-0 flex-1">
@@ -140,6 +142,7 @@ function NotificationsBell() {
 export const DEMO_USER = { name: "Janice Tinto", email: "janice@nestly.co.za" };
 function AvatarMenu() {
   const { role, setRole } = useAppState();
+  const { member } = useAccess();
   const navigate = useNavigate();
   // Shell is client-only (ssr: false), so the session can be read synchronously — no name/photo flash.
   const [user] = useState(() => {
@@ -158,7 +161,7 @@ function AvatarMenu() {
       <DropdownMenuContent align="end" className="w-64 rounded-[5.75px] p-1.5">
         <DropdownMenuLabel className="font-normal">
           <p className="truncate text-[14px] font-medium">{user.name}</p>
-          <p className="truncate text-[12px] text-ink-500">{t.shell.signedInAs}: {t.roles[role]}</p>
+          <p className="truncate text-[12px] text-ink-500">{t.shell.signedInAs}: {t.roles[role]}{member ? ` · ${member.name}` : ""}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild><Link to="/profile"><UserRound className="h-4 w-4" />{t.shell.profile}</Link></DropdownMenuItem>
@@ -207,7 +210,8 @@ function TopBar() {
 
 /* ---------- Mobile floating tab bar ---------- */
 function MobileTabBar() {
-  const { role } = useAppState();
+  const { role, version } = useAppState();
+  void version;
   const { tabs, more } = navForRole(role);
   const active = useActiveIndex(tabs);
   const [open, setOpen] = useState(false);
