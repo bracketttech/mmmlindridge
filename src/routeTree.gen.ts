@@ -34,6 +34,7 @@ import { Route as ShellRequestsRouteImport } from './routes/_shell.requests'
 import { Route as ShellScheduleRouteImport } from './routes/_shell.schedule'
 import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
+import { Route as ApplyUnitIdRouteImport } from './routes/apply.$unitId'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
 import { Route as SignTokenRouteImport } from './routes/sign.$token'
@@ -173,6 +174,11 @@ const ShellStaffRoute = ShellStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => ShellRoute,
 } as any)
+const ApplyUnitIdRoute = ApplyUnitIdRouteImport.update({
+  id: '/apply/$unitId',
+  path: '/apply/$unitId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
@@ -273,6 +279,7 @@ export interface FileRoutesByFullPath {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/sign/$token': typeof SignTokenRoute
@@ -313,6 +320,7 @@ export interface FileRoutesByTo {
   '/schedule': typeof ShellScheduleRoute
   '/settings': typeof ShellSettingsRoute
   '/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/sign/$token': typeof SignTokenRoute
@@ -355,6 +363,7 @@ export interface FileRoutesById {
   '/_shell/schedule': typeof ShellScheduleRoute
   '/_shell/settings': typeof ShellSettingsRoute
   '/_shell/staff': typeof ShellStaffRoute
+  '/apply/$unitId': typeof ApplyUnitIdRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
   '/sign/$token': typeof SignTokenRoute
@@ -397,6 +406,7 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
     | '/sign/$token'
@@ -437,6 +447,7 @@ export interface FileRouteTypes {
     | '/schedule'
     | '/settings'
     | '/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
     | '/sign/$token'
@@ -478,6 +489,7 @@ export interface FileRouteTypes {
     | '/_shell/schedule'
     | '/_shell/settings'
     | '/_shell/staff'
+    | '/apply/$unitId'
     | '/invite/$token'
     | '/register/$token'
     | '/sign/$token'
@@ -505,6 +517,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   TwoFactorRoute: typeof TwoFactorRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
+  ApplyUnitIdRoute: typeof ApplyUnitIdRoute
   InviteTokenRoute: typeof InviteTokenRoute
   RegisterTokenRoute: typeof RegisterTokenRoute
   SignTokenRoute: typeof SignTokenRoute
@@ -687,6 +700,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellStaffRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/apply/$unitId': {
+      id: '/apply/$unitId'
+      path: '/apply/$unitId'
+      fullPath: '/apply/$unitId'
+      preLoaderRoute: typeof ApplyUnitIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/invite/$token': {
       id: '/invite/$token'
       path: '/invite/$token'
@@ -859,6 +879,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   TwoFactorRoute: TwoFactorRoute,
   VerifyEmailRoute: VerifyEmailRoute,
+  ApplyUnitIdRoute: ApplyUnitIdRoute,
   InviteTokenRoute: InviteTokenRoute,
   RegisterTokenRoute: RegisterTokenRoute,
   SignTokenRoute: SignTokenRoute,

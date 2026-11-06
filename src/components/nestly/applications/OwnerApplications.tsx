@@ -102,7 +102,7 @@ function Pipeline({ apps, loading, onOpen }: { apps: ApplicationView[]; loading:
                             <span>{a.sources[x.source]}</span>
                             {x.viewing?.state === "booked" && <span className="inline-flex items-center gap-1"><CalendarClock className="h-3 w-3" aria-hidden />{formatDate(x.viewing.date)} {x.viewing.time}</span>}
                             {x.ready && stage !== "approved" && <StatusChip tone="success">{a.scr.readyBadge}</StatusChip>}
-                            {stage === "approved" && x.tenantId && <StatusChip tone="strong">{a.detail.converted.split(" ")[0]}</StatusChip>}
+                            {stage === "approved" && x.tenantId && <StatusChip tone="strong">{a.view.converted}</StatusChip>}
                           </div>
                         </button>
                       </li>
@@ -236,7 +236,7 @@ function Viewings({ apps, vacancies, loading, unitId, setUnitId, onOpen }: { app
             <div role="radiogroup" aria-label={v.timeTitle} className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {VIEWING_SLOTS.map((s) => {
                 const ok = free.includes(s);
-                return <button key={s} type="button" role="radio" aria-checked={time === s} disabled={!ok} aria-label={ok ? fill(v.pick, { time: s }) : `${s} — ${t.common.emptyTitle}`} onClick={() => setTime(s)}
+                return <button key={s} type="button" role="radio" aria-checked={time === s} disabled={!ok} aria-label={ok ? fill(v.pick, { time: s }) : `${s} — ${v.taken}`} onClick={() => setTime(s)}
                   className={cn("h-11 rounded-[5.75px] border text-[14px] tabular-nums transition-colors", time === s ? "border-olive-800 bg-olive-800 text-primary-foreground" : ok ? "border-border-soft bg-surface-solid text-ink-900 hover:bg-olive-100" : "cursor-not-allowed border-border-soft bg-surface-solid/40 text-ink-500/50 line-through")}>{s}</button>;
               })}
             </div>
