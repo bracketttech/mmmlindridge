@@ -9,7 +9,7 @@ const OLIVE_DARK = "var(--olive-700)";
 const OLIVE_SOFT = "var(--olive-200)";
 
 type TipPayload = { name?: string; value?: number; dataKey?: string | number; color?: string };
-function ChipTooltip({ active, payload, label, names, format = formatZAR }: { active?: boolean; payload?: TipPayload[]; label?: string; names?: Record<string, string>; format?: (n: number) => string }) {
+function ChipTooltip({ active, payload, label, names, format = formatZAR }: { active?: boolean; payload?: TipPayload[]; label?: string; names?: Record<string, string>; format?: ((n: number) => string) | undefined }) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft">

@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Placeholder } from "@/components/nestly/Placeholder";
+import { SchedulePage } from "@/components/nestly/admin/SchedulePage";
+import { useAppState } from "@/lib/app-state";
+import { roleCanSee } from "@/lib/nav";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_shell/schedule")({
-  head: () => ({
-    meta: [
-      { title: "Schedule — Nestly" },
-      { name: "description", content: "Inspections, viewings and repairs in Nestly." },
-      { property: "og:title", content: "Schedule — Nestly" },
-      { property: "og:description", content: "Inspections, viewings and repairs in Nestly." },
-    ],
-  }),
-  component: () => <Placeholder navKey="schedule" title="Your" muted="schedule" sub="Inspections, viewings and repairs" />,
+  head: () => pageHead("Schedule", "Inspections, maintenance visits and viewings on one calendar."),
+  component: Page,
 });
+
+function Page() {
+  const { role } = useAppState();
+  if (!roleCanSee(role, "schedule")) return <Placeholder navKey="schedule" title={"Schedule"} />;
+  return <SchedulePage />;
+}

@@ -275,3 +275,14 @@ export function SuccessCheck() {
     </div>
   );
 }
+
+/* ---------- ProgressBar (labelled) ---------- */
+export function ProgressBar({ value, label, tone = "olive" }: { value: number; label?: string; tone?: "olive" | "warning" | "danger" }) {
+  const v = Math.max(0, Math.min(100, value));
+  return (
+    <div className="min-w-0 space-y-1" role="progressbar" aria-valuenow={v} aria-valuemin={0} aria-valuemax={100} aria-label={label}>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-olive-100"><div className={cn("h-full rounded-full", tone === "olive" ? "bg-olive-700" : tone === "warning" ? "bg-warning" : "bg-danger")} style={{ width: `${v}%` }} /></div>
+      {label && <p className="truncate text-[11px] text-ink-500">{label}</p>}
+    </div>
+  );
+}

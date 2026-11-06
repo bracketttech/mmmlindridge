@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Placeholder } from "@/components/nestly/Placeholder";
+import { ReportsPage } from "@/components/nestly/admin/ReportsPage";
+import { useAppState } from "@/lib/app-state";
+import { roleCanSee } from "@/lib/nav";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/_shell/reports")({
-  head: () => ({
-    meta: [
-      { title: "Reports — Nestly" },
-      { name: "description", content: "Income, occupancy and arrears in Nestly." },
-      { property: "og:title", content: "Reports — Nestly" },
-      { property: "og:description", content: "Income, occupancy and arrears in Nestly." },
-    ],
-  }),
-  component: () => <Placeholder navKey="reports" title="Portfolio" muted="reports" sub="Income, occupancy and arrears" />,
+  head: () => pageHead("Reports & insights", "Rent roll, arrears, income vs expenses, vacancy and turnover reports."),
+  component: Page,
 });
+
+function Page() {
+  const { role } = useAppState();
+  if (!roleCanSee(role, "reports")) return <Placeholder navKey="reports" title={"Reports & insights"} />;
+  return <ReportsPage />;
+}

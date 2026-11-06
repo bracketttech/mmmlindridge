@@ -96,7 +96,7 @@ export function SchedulePage() {
                   <li key={e.id} className="relative">
                     <span className="absolute -left-20 top-3 w-14 text-[13px] tabular-nums text-ink-900">{e.time}<span className="block text-[11px] text-ink-500">{fill(c.min, { n: e.duration })}</span></span>
                     <button onClick={() => setSelId(e.id)} aria-pressed={sel?.id === e.id} className={cn("flex w-full min-w-0 items-center gap-3 rounded-[5.75px] border p-2 text-left", sel?.id === e.id ? "border-olive-200 bg-olive-100" : "border-border-soft bg-surface-solid/80 hover:bg-olive-100")}>
-                      <span className="h-11 w-11 shrink-0 overflow-hidden rounded-[4.6px] bg-olive-100">{e.photo && <FadeImage src={resolvePhoto(e.photo)} alt="" width={44} height={44} className="h-full w-full object-cover" />}</span>
+                      <span className="h-11 w-11 shrink-0 overflow-hidden rounded-[4.6px] bg-olive-100">{e.photo && <FadeImage src={resolvePhoto(e.photo) ?? ""} alt="" width={44} height={44} className="h-full w-full object-cover" />}</span>
                       <span className="min-w-0 flex-1"><TruncatedText text={e.title} className="font-medium text-ink-900" /><TruncatedText text={`${e.withName} · ${c.kindOne[e.kind]}`} className="text-[12px] text-ink-500" /></span>
                       <StatusChip tone={e.status === "confirmed" ? "success" : "neutral"} dot>{c.statuses[e.status]}</StatusChip>
                     </button>
@@ -108,7 +108,7 @@ export function SchedulePage() {
           <GlassCard hover={false} className="lg:col-span-12 xl:col-span-4">
             {!sel ? <EmptyState title={c.select} /> : (
               <div className="space-y-4">
-                <div className="aspect-[16/9] overflow-hidden rounded-[5.75px] bg-olive-100">{sel.photo && <FadeImage src={resolvePhoto(sel.photo)} alt={sel.propertyName} className="h-full w-full object-cover" />}</div>
+                <div className="aspect-[16/9] overflow-hidden rounded-[5.75px] bg-olive-100">{sel.photo && <FadeImage src={resolvePhoto(sel.photo) ?? ""} alt={sel.propertyName} className="h-full w-full object-cover" />}</div>
                 <p className="text-overline text-ink-500">{c.kindOne[sel.kind]} · {formatDate(sel.date)}, {sel.time}</p>
                 <div><TruncatedText text={sel.title} as="h3" className="text-h2 text-ink-900" /><TruncatedText text={[sel.propertyName, sel.unitLabel].filter(Boolean).join(" · ")} className="text-[13px] text-ink-500" /></div>
                 <div className="flex items-center gap-3 rounded-[5.75px] border border-border-soft bg-surface-solid p-3">

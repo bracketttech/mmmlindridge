@@ -268,7 +268,7 @@ export type CalEvent = Omit<CalEventRecord, "requestId"> & {
 };
 function calendar(): CalEvent[] {
   const ov = A().eventOverrides;
-  const base = (id: string) => ov[id] ?? {};
+  const base = (id: string) => Object.fromEntries(Object.entries(ov[id] ?? {}).filter(([, v]) => v !== undefined)) as { date?: string; time?: string; status?: CalStatus };
   const pv = (propertyId: string, unitId?: string) => ({ propertyName: prop(propertyId)?.name ?? "—", unitLabel: unit(unitId)?.label ?? "", photo: prop(propertyId)?.photos[0] });
   const now = nowLocal();
   const out: CalEvent[] = [];
