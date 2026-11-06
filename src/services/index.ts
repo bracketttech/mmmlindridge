@@ -291,7 +291,7 @@ export const scheduleService = { list: (propertyId = "all") => delay([...M().sch
 /* ---------- Billing, statements & payments (Phase 7) ---------- */
 import type { Invoice as LegacyInvoice } from "@/mocks/data";
 import { commitBilling, getBilling } from "@/mocks/billing-store";
-import type { Channel, Deposit, Escalation, Invoice as BillInvoice, InvoiceLine, InvoiceStatus, Payment, PayMethod, PayStatus, Proof, RecurringSchedule } from "@/mocks/billing";
+import type { Channel, Invoice as BillInvoice, InvoiceLine, InvoiceStatus, Payment, PayMethod, PayStatus, Proof } from "@/mocks/billing";
 import { ageing, depositSummary, escalatedRent, invoiceStatus, invoiceTotals, outstanding, paidOn, paymentStatusFor, statement, tenantBalance, type Outcome } from "@/lib/billing-rules";
 export type { Channel, Deposit, Escalation, InvoiceLine, InvoiceStatus, Payment, PayMethod, PayStatus, Proof, RecurringSchedule, ChargeKind } from "@/mocks/billing";
 export type { Outcome, StatementLine, Bucket } from "@/lib/billing-rules";
