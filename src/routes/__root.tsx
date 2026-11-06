@@ -81,9 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nestly" },
-      { name: "description", content: "Property management for South African landlords." },
+      { title: "MMM Lindridge" },
+      { name: "description", content: "MMM Lindridge | Property Management Platform" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "MMM Lindridge" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
@@ -94,7 +95,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,

@@ -31,7 +31,7 @@ function Sidebar() {
   return (
     <aside aria-label={t.shell.mainNav} className={cn("sticky top-3 hidden h-[calc(100vh-1.5rem)] shrink-0 flex-col rounded-[9.2px] bg-sidebar-bg p-3 text-on-dark transition-[width] duration-300 ease-out lg:flex", collapsed ? "w-[76px]" : "w-[264px]")}>
       <div className={cn("flex h-12 items-center", collapsed ? "justify-center" : "justify-between px-2")}>
-        <Logo showText={!collapsed} />
+        <Logo variant="app" showText={!collapsed} />
       </div>
       <nav className="relative mt-4 flex-1 overflow-y-auto overflow-x-hidden [scrollbar-width:none]">
         <ul className="relative flex flex-col gap-1">

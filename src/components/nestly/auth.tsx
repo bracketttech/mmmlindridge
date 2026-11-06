@@ -15,11 +15,11 @@ export function AuthLayout({ children, wide = false }: { children: ReactNode; wi
     <div className="min-h-screen w-full bg-outer md:p-3">
       <div className="relative grid min-h-screen w-full overflow-hidden bg-canvas md:min-h-[calc(100vh-1.5rem)] md:rounded-[9.2px] md:border md:border-surface-solid md:shadow-soft lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
         <div className="flex min-w-0 flex-col px-5 py-6 sm:px-10 md:py-8">
-          <Link to="/login" className="w-fit rounded-md text-ink-900" aria-label="Nestly — sign in">
+          <Link to="/login" className="w-fit rounded-md text-ink-900" aria-label="MMM Lindridge — sign in">
             <Logo />
           </Link>
           <main className={cn("mx-auto flex w-full flex-1 flex-col justify-center py-8 animate-page-in", wide ? "max-w-2xl" : "max-w-md")}>{children}</main>
-          <p className="text-[12px] text-ink-500">© 2026 Nestly · Made in South Africa</p>
+          <p className="text-[12px] text-ink-500">© 2026 MMM Lindridge · Made in South Africa</p>
         </div>
         <aside aria-hidden className="relative hidden p-3 lg:block">
           <div className="relative h-full overflow-hidden rounded-[8.05px] bg-olive-800">

@@ -7,10 +7,12 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     meta: [
-      { title: "Nestly — Property management for SA landlords" },
-      { name: "description", content: "Nestly helps South African landlords manage properties, tenants, requests and rent." },
-      { property: "og:title", content: "Nestly — Property management" },
+      { title: "MMM Lindridge — Property Management Platform" },
+      { name: "description", content: "MMM Lindridge | Property Management Platform" },
+      { property: "og:title", content: "MMM Lindridge — Property Management Platform" },
       { property: "og:description", content: "Manage properties, tenants, requests and rent in one calm workspace." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
 });
