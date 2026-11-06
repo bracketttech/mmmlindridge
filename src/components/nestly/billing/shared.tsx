@@ -190,7 +190,7 @@ type AgeDatum = { label: string; amount: number; tenants: number };
 function AgeTip({ active, payload }: { active?: boolean; payload?: { payload: AgeDatum }[] }) {
   const p = payload?.[0]?.payload;
   if (!active || !p) return null;
-  return <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft"><div className="font-medium">{p.label}</div><div className="tabular-nums">{fill(b.arrears.tip, { n: p.tenants, amount: formatZAR(p.amount) })}</div></div>;
+  return <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft"><div className="font-medium">{p.label}</div><div className="tabular-nums">{fill(b.arrears.tip, { n: p.tenants, who: p.tenants === 1 ? b.arrears.tenantOne : b.arrears.tenantMany, amount: formatZAR(p.amount) })}</div></div>;
 }
 export function AgeingChart({ buckets }: { buckets: { bucket: Bucket; amount: number; tenants: number }[] }) {
   const [active, setActive] = useState<number | null>(null);
@@ -238,7 +238,7 @@ export function ProofPicker({ value, onChange }: { value: Proof | null; onChange
       ) : (
         <PillButton type="button" variant="secondary" size="sm" onClick={() => ref.current?.click()} icon={<Paperclip className="h-3.5 w-3.5" />}>{c.proofAdd}</PillButton>
       )}
-      <input ref={ref} type="file" className="sr-only" aria-label={c.proofAdd} onChange={(e) => pick(e.target.files?.[0])} />
+      <input ref={ref} type="file" className="sr-only" tabIndex={-1} aria-hidden="true" onChange={(e) => pick(e.target.files?.[0])} />
       {err ? <p role="alert" className="text-[13px] text-danger">{err}</p> : <p className="text-[12px] text-ink-500">{c.proofHint}</p>}
     </div>
   );

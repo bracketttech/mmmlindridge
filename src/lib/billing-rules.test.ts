@@ -9,6 +9,9 @@ describe("invoice totals & VAT", () => {
   it("adds multiple lines without VAT", () => {
     expect(invoiceTotals([line("rent", 1, 12500), line("utilities", 1, 640.5), line("parking", 2, 450)], false)).toEqual({ subtotal: 14040.5, vat: 0, total: 14040.5 });
   });
+  it("rounds VAT half-up to the cent", () => {
+    expect(invoiceTotals([line("rent", 1, 11200), line("utilities", 1, 640.5), line("parking", 2, 450)], true)).toEqual({ subtotal: 12740.5, vat: 1911.08, total: 14651.58 });
+  });
   it("adds 15% VAT on every line except deposits", () => {
     expect(invoiceTotals([line("rent", 1, 10000), line("deposit", 1, 10000)], true)).toEqual({ subtotal: 20000, vat: 1500, total: 21500 });
   });
