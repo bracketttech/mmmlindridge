@@ -9,7 +9,7 @@ const OLIVE_DARK = "var(--olive-700)";
 const OLIVE_SOFT = "var(--olive-200)";
 
 type TipPayload = { name?: string; value?: number; dataKey?: string | number; color?: string };
-function ChipTooltip({ active, payload, label, names }: { active?: boolean; payload?: TipPayload[]; label?: string; names?: Record<string, string> }) {
+function ChipTooltip({ active, payload, label, names, format = formatZAR }: { active?: boolean; payload?: TipPayload[]; label?: string; names?: Record<string, string>; format?: (n: number) => string }) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-[3.45px] bg-olive-900 px-3 py-2 text-[12px] text-primary-foreground shadow-soft">
@@ -17,7 +17,7 @@ function ChipTooltip({ active, payload, label, names }: { active?: boolean; payl
       {payload.map((p) => (
         <div key={String(p.dataKey)} className="flex items-center gap-2 tabular-nums">
           <span className="opacity-70">{names?.[String(p.dataKey)] ?? p.name}</span>
-          <span className="ml-auto">{formatZAR(Number(p.value))}</span>
+          <span className="ml-auto">{format(Number(p.value))}</span>
         </div>
       ))}
     </div>
@@ -61,15 +61,15 @@ export function AreaComparisonChart({ data, names = { collected: "Collected", pr
   );
 }
 
-export function TickBarChart({ data }: { data: { label: string; value: number }[] }) {
+export function TickBarChart({ data, name = "Collected", format }: { data: { label: string; value: number }[]; name?: string; format?: (n: number) => string }) {
   const [active, setActive] = useState<number | null>(null);
   return (
-    <div className="h-56 w-full" role="img" aria-label="Monthly values bar chart">
+    <div className="h-56 w-full" role="img" aria-label={`${name} bar chart`}>
       <ResponsiveContainer>
         <BarChart data={data} margin={{ top: 8, right: 0, left: -8, bottom: 0 }} onMouseLeave={() => setActive(null)}>
           <XAxis dataKey="label" tickFormatter={(v) => String(v).slice(0, 3)} tickLine={false} axisLine={false} tick={{ fill: "var(--ink-500)", fontSize: 12 }} />
           <YAxis hide />
-          <RTooltip cursor={false} content={<ChipTooltip names={{ value: "Collected" }} />} />
+          <RTooltip cursor={false} content={<ChipTooltip names={{ value: name }} format={format} />} />
           <Bar dataKey="value" radius={[6, 6, 6, 6]} barSize={10} onMouseEnter={(_, i) => setActive(i)} onClick={(_, i) => setActive(i)}>
             {data.map((_, i) => (
               <Cell key={i} fill={active === i ? OLIVE_DARK : i === data.length - 1 ? OLIVE : OLIVE_SOFT} />
