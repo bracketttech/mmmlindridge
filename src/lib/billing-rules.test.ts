@@ -64,8 +64,8 @@ describe("statements reconcile with mock data", () => {
     expect(st.closing).toBe(Math.round((st.opening + st.invoiced - st.paid) * 100) / 100);
     expect(st.closing).toBe(tenantBalance("t2", s.invoices, s.payments));
   });
-  it("seeds Pieter's arrears as 4 900 + 8 900 + 8 900", () => {
-    expect(tenantBalance("t2", s.invoices, s.payments)).toBe(22700);
+  it("seeds Pieter's arrears: Sep short 5 585 + Oct 9 540 + Nov 9 510", () => {
+    expect(tenantBalance("t2", s.invoices, s.payments)).toBe(24635);
   });
 });
 
