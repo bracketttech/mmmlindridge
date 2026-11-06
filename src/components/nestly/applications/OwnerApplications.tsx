@@ -215,7 +215,7 @@ function Viewings({ apps, vacancies, loading, unitId, setUnitId, onOpen }: { app
   if (loading) return <div className="grid gap-4 lg:grid-cols-2"><Skel className="h-96" /><Skel className="h-96" /></div>;
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-      <GlassCard hover={false} className="space-y-5 p-4 md:p-5">
+      <GlassCard hover={false} className="min-w-0 space-y-5 p-4 md:p-5">
         <div><h2 className="text-h3 text-ink-900">{v.title}</h2><p className="text-[13px] text-ink-500">{v.sub}</p></div>
         {!vacancies.length ? <p className="text-[14px] text-ink-500">{a.vac.none}</p> : <>
           <SelectField label={v.unit} value={unit?.unitId ?? ""} onChange={(e) => { setUnitId(e.target.value); setTime(""); setWho(""); }}>{vacancies.map((x) => <option key={x.unitId} value={x.unitId}>{`${x.label} · ${x.propertyName}`}</option>)}</SelectField>
@@ -224,7 +224,7 @@ function Viewings({ apps, vacancies, loading, unitId, setUnitId, onOpen }: { app
             <div role="radiogroup" aria-label={v.dayTitle} className="grid grid-cols-7 gap-1.5">
               {days.map((iso) => (
                 <button key={iso} type="button" role="radio" aria-checked={day === iso} aria-label={formatDate(iso)} onClick={() => { setDay(iso); setTime(""); }}
-                  className={cn("flex h-16 flex-col items-center justify-center rounded-full border text-center transition-colors", day === iso ? "border-olive-800 bg-olive-800 text-primary-foreground" : "border-border-soft bg-surface-solid text-ink-900 hover:bg-olive-100")}>
+                  className={cn("flex h-16 min-w-0 flex-col items-center justify-center rounded-full border text-center transition-colors", day === iso ? "border-olive-800 bg-olive-800 text-primary-foreground" : "border-border-soft bg-surface-solid text-ink-900 hover:bg-olive-100")}>
                   <span className={cn("text-[10px] uppercase tracking-[0.06em]", day === iso ? "text-on-dark-muted" : "text-ink-500")}>{wd(iso)}</span>
                   <span className="text-[16px] tabular-nums">{Number(iso.slice(8))}</span>
                 </button>
@@ -250,7 +250,7 @@ function Viewings({ apps, vacancies, loading, unitId, setUnitId, onOpen }: { app
           )}
         </>}
       </GlassCard>
-      <GlassCard hover={false} className="space-y-4 p-4 md:p-5">
+      <GlassCard hover={false} className="min-w-0 space-y-4 p-4 md:p-5">
         <h2 className="text-h3 text-ink-900">{v.upcoming}</h2>
         {!upcoming.length ? <p className="text-[14px] text-ink-500">{v.noneUpcoming}</p> : (
           <ul className="space-y-2">{upcoming.map((x) => (
