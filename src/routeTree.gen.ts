@@ -36,6 +36,7 @@ import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
+import { Route as SignTokenRouteImport } from './routes/sign.$token'
 import { Route as ShellInvoicesNewRouteImport } from './routes/_shell.invoices_.new'
 import { Route as ShellLeasesPrepareRouteImport } from './routes/_shell.leases_.prepare'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
@@ -182,6 +183,11 @@ const RegisterTokenRoute = RegisterTokenRouteImport.update({
   path: '/register/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SignTokenRoute = SignTokenRouteImport.update({
+  id: '/sign/$token',
+  path: '/sign/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShellInvoicesNewRoute = ShellInvoicesNewRouteImport.update({
   id: '/invoices_/new',
   path: '/invoices/new',
@@ -269,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
   '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -308,6 +315,7 @@ export interface FileRoutesByTo {
   '/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/invoices/new': typeof ShellInvoicesNewRoute
   '/leases/prepare': typeof ShellLeasesPrepareRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -349,6 +357,7 @@ export interface FileRoutesById {
   '/_shell/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/sign/$token': typeof SignTokenRoute
   '/_shell/invoices_/new': typeof ShellInvoicesNewRoute
   '/_shell/leases_/prepare': typeof ShellLeasesPrepareRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
@@ -390,6 +399,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/invoices/new'
     | '/leases/prepare'
     | '/properties/$propertyId'
@@ -429,6 +439,7 @@ export interface FileRouteTypes {
     | '/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/invoices/new'
     | '/leases/prepare'
     | '/properties/$propertyId'
@@ -469,6 +480,7 @@ export interface FileRouteTypes {
     | '/_shell/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/sign/$token'
     | '/_shell/invoices_/new'
     | '/_shell/leases_/prepare'
     | '/_shell/properties/$propertyId'
@@ -495,6 +507,7 @@ export interface RootRouteChildren {
   VerifyEmailRoute: typeof VerifyEmailRoute
   InviteTokenRoute: typeof InviteTokenRoute
   RegisterTokenRoute: typeof RegisterTokenRoute
+  SignTokenRoute: typeof SignTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -688,6 +701,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sign/$token': {
+      id: '/sign/$token'
+      path: '/sign/$token'
+      fullPath: '/sign/$token'
+      preLoaderRoute: typeof SignTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_shell/invoices_/new': {
       id: '/_shell/invoices_/new'
       path: '/invoices/new'
@@ -841,6 +861,7 @@ const rootRouteChildren: RootRouteChildren = {
   VerifyEmailRoute: VerifyEmailRoute,
   InviteTokenRoute: InviteTokenRoute,
   RegisterTokenRoute: RegisterTokenRoute,
+  SignTokenRoute: SignTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
