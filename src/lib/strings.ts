@@ -367,7 +367,7 @@ export const t = {
     title: "Invoices &", muted: "payments", sub: "{due} outstanding · {n} tenants in arrears",
     gateway: "Yoco", gatewayNote: "Payment processed by {gateway}. Nestly does not hold your funds.",
     views: { invoices: "Invoices", payments: "Payments", arrears: "Arrears", statements: "Statements", deposits: "Deposits", escalations: "Escalations", reconcile: "Reconciliation" },
-    kpi: { billed: "Billed this month", collected: "Collected this month", rate: "Collection rate", arrears: "Arrears", pending: "Pending clearance", tenants: "{n} tenants", ofBilled: "of billed", payments: "{n} payments" },
+    kpi: { billed: "Billed this month", collected: "Collected this month", rate: "Collection rate", arrears: "Arrears", pending: "Pending clearance", tenants: "{n} tenants", tenantOne: "{n} tenant", ofBilled: "of billed", payments: "{n} payments", paymentOne: "{n} payment" },
     statuses: { draft: "Draft", sent: "Due", partial: "Part paid", paid: "Paid", overdue: "Overdue", void: "Void" },
     payStatuses: { cleared: "Cleared", pending: "Pending", failed: "Failed", reversed: "Reversed" },
     methods: { eft: "EFT", cash: "Cash", card: "Card", gateway: "Online (gateway)" },

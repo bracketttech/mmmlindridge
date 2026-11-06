@@ -17,6 +17,8 @@ import { cn } from "@/lib/utils";
 
 export const b = t.bill;
 export const todayIso = () => new Date().toISOString().slice(0, 10);
+export const nTenants = (n: number) => fill(n === 1 ? b.kpi.tenantOne : b.kpi.tenants, { n });
+export const nPayments = (n: number) => fill(n === 1 ? b.kpi.paymentOne : b.kpi.payments, { n });
 export const gatewayNote = () => fill(b.gatewayNote, { gateway: b.gateway });
 
 const INV_TONE: Record<InvoiceStatus, Tone> = { draft: "neutral", sent: "info", partial: "warning", paid: "success", overdue: "danger", void: "neutral" };

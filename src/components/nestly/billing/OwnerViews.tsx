@@ -16,7 +16,7 @@ import { useAppState } from "@/lib/app-state";
 import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
-import { AgeingChart, b, Money, StatementDocument, StatementTable, todayIso } from "./shared";
+import { AgeingChart, b, nTenants, Money, StatementDocument, StatementTable, todayIso } from "./shared";
 
 type ArrearsData = Awaited<ReturnType<typeof billingService.arrears>>;
 type ArrearsRow = ArrearsData["tenants"][number];
@@ -53,7 +53,7 @@ export function ArrearsView({ data }: { data: { data: ArrearsData | null; loadin
         <ChartCard title={a.chartTitle} sub={a.chartSub} state={data.loading ? "loading" : rows.length ? "ready" : "empty"}><AgeingChart buckets={data.data?.buckets ?? []} /></ChartCard>
         <div className="grid grid-cols-2 gap-3">
           {(data.data?.buckets ?? [{ bucket: "b0" }, { bucket: "b30" }, { bucket: "b60" }, { bucket: "b90" }]).map((x) => (
-            <KpiTile key={x.bucket} loading={data.loading} label={`${a.buckets[x.bucket as keyof typeof a.buckets]} · ${fill(b.kpi.tenants, { n: "tenants" in x ? x.tenants : 0 })}`} value={formatZAR("amount" in x ? x.amount : 0, { decimals: false })} unit="" variant="plain" />
+            <KpiTile key={x.bucket} loading={data.loading} label={`${a.buckets[x.bucket as keyof typeof a.buckets]} · ${nTenants("tenants" in x ? x.tenants : 0)}`} value={formatZAR("amount" in x ? x.amount : 0, { decimals: false })} unit="" variant="plain" />
           ))}
         </div>
       </div>
