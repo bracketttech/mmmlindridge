@@ -11,6 +11,6 @@ export const Route = createFileRoute("/_shell/tenants/new")({
 });
 
 function NewTenantPage() {
-  if (!useCanManage()) return <Placeholder navKey="tenants" title={t.tenants.title} muted={t.tenants.muted} />;
+  if (!useCanManage("tenants")) return <Placeholder navKey="tenants" title={t.tenants.title} muted={t.tenants.muted} />;
   return <TenantForm />;
 }

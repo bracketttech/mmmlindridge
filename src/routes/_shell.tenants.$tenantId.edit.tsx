@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_shell/tenants/$tenantId/edit")({
 
 function EditTenantPage() {
   const { tenantId } = Route.useParams();
-  const canManage = useCanManage();
+  const canManage = useCanManage("tenants");
   const { data, loading, error, reload } = useData(() => tenantService.get(tenantId), [tenantId]);
   if (!canManage) return <Placeholder navKey="tenants" title={t.tenants.title} muted={t.tenants.muted} />;
   if (loading) return <div className="space-y-6"><Skel className="h-12 w-72" /><Skel className="h-[480px] rounded-[8.05px]" /></div>;

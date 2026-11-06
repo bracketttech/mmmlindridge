@@ -1,7 +1,7 @@
 import { Building2 } from "lucide-react";
 import type { Property } from "@/services";
 import { propertyImage } from "@/images";
-import { useAppState } from "@/lib/app-state";
+import { useAccess } from "@/lib/access";
 import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
 import { StatusChip } from "../primitives";
@@ -14,8 +14,8 @@ export const resolvePhoto = (src: string | undefined) => (src?.startsWith("bundl
 export const coverOf = (p: { photos: string[] }) => resolvePhoto(p.photos[0]);
 
 /** Only the owner can create, edit or delete. Other roles see properties read-only. */
-export function useCanManage() {
-  return useAppState().role === "owner";
+export function useCanManage(module: "properties" | "tenants" = "properties") {
+  return useAccess().can(module, "edit");
 }
 
 export type OccupancyStatus = "fully_let" | "vacancies" | "maintenance" | "setup";

@@ -12,6 +12,8 @@ import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
+import { useAccess } from "@/lib/access";
+import { canApproveSpend } from "@/lib/access-rules";
 import { AttachmentThumbs, PriorityChip, ReqStatusChip, StatusPipeline, Stars, Thread, actorName, fmtDateTime } from "./shared";
 
 const r = t.req;
@@ -20,6 +22,7 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 /** Owner / caretaker request detail (right rail). */
 export function RequestDetail({ req, place }: { req: MaintRequest; place: string }) {
   const staff = useData(() => staffService.list(), []);
+  const access = useAccess();
   const contractors = useData(() => contractorService.list(), []);
   const [mode, setMode] = useState<"public" | "internal">("public");
   const [msg, setMsg] = useState("");
@@ -80,7 +83,7 @@ export function RequestDetail({ req, place }: { req: MaintRequest; place: string
           <div className="flex flex-wrap items-center gap-3 rounded-[5.75px] border border-border-soft p-3">
             <div className="min-w-0 flex-1"><TruncatedText text={req.quote.contractorName} className="text-[14px] font-medium text-ink-900" /><TruncatedText text={`${formatZAR(req.quote.amount)} · ${req.quote.note}`} className="text-[13px] text-ink-500" /></div>
             <StatusChip tone={req.quote.status === "approved" ? "success" : req.quote.status === "declined" ? "danger" : "warning"} dot>{r.quote[req.quote.status]}</StatusChip>
-            {req.quote.status === "pending" && <PillButton size="sm" onClick={() => setDecide(true)}>{r.quote.approveTitle}</PillButton>}
+            {req.quote.status === "pending" && (canApproveSpend(access.perms, req.quote.amount, access.member?.spendLimit) ? <PillButton size="sm" onClick={() => setDecide(true)}>{r.quote.approveTitle}</PillButton> : <p className="w-full text-[12px] text-warning-ink">{fill(t.staffAdmin.overLimit, { limit: formatZAR(access.member?.spendLimit ?? 0) })}</p>)}
           </div>
         ) : null}
         {(!req.quote || req.quote.status === "declined") && <PillButton variant="secondary" size="sm" onClick={() => setQuoteOpen(true)}>{r.quote.request}</PillButton>}

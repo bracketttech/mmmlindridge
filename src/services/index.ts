@@ -27,8 +27,8 @@ function summarize(p: PropertyRecord): Property {
 }
 
 export const propertyService = {
-  list: () => delay(getState().properties.map(summarize)),
-  get: (id: string) => { const p = getState().properties.find((x) => x.id === id); return delay(p ? summarize(p) : null); },
+  list: () => delay(getState().properties.filter((p) => _inScope(_scope(), p.id)).map(summarize)),
+  get: (id: string) => { const p = getState().properties.find((x) => x.id === id && _inScope(_scope(), x.id)); return delay(p ? summarize(p) : null); },
   async create(input: PropertyInput) {
     const rec: PropertyRecord = { ...input, id: newId("p"), staffIds: [], createdAt: new Date().toISOString().slice(0, 10) };
     save((s) => { s.properties.unshift(rec); });
@@ -98,7 +98,7 @@ export const documentService = {
 
 /* ---------- Staff assignment ---------- */
 export const staffService = {
-  list: () => delay(db.staff),
+  list: () => import("@/mocks/admin-store").then((m) => delay(m.getAdmin().staff.filter((x) => x.status === "active").map((x) => ({ id: x.id, name: x.name, email: x.email, role: x.role, phone: x.phone })))),
   async assign(propertyId: string, staffIds: string[]) {
     save((s) => { const p = s.properties.find((x) => x.id === propertyId); if (p) p.staffIds = staffIds; });
     return delay(true, 500);
@@ -435,3 +435,6 @@ export const billingService = {
   },
 };
 export * from "./leasing";
+export * from "./admin";
+import { currentScope as _scope } from "./admin";
+import { inScope as _inScope } from "@/lib/access-rules";
