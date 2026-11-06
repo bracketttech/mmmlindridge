@@ -156,6 +156,16 @@ export const signService = {
     save((s) => { s.envelopes.unshift(env); });
     return delay(id, 400);
   },
+  async updateDraft(id: string, input: DraftInput) {
+    save((s) => {
+      const e = s.envelopes.find((x) => x.id === id);
+      if (!e || e.sentAt) return;
+      Object.assign(e, { title: input.title, kind: input.kind, leaseId: input.leaseId, inspectionId: input.inspectionId, pages: input.pages });
+      e.signers = input.signers.map((x) => ({ ...x, state: "pending", token: e.signers.find((y) => y.id === x.id)?.token ?? signerToken(id, x.id) }));
+      e.fields = input.fields.map((f) => ({ ...f, id: newId("f") }));
+    });
+    return delay(id, 300);
+  },
   async send(id: string, opts: { expiresInDays: number; message: string; channels: string[] }) {
     const e = L().envelopes.find((x) => x.id === id)!;
     if (sendIssues(e).length) throw new Error("not ready");
