@@ -41,8 +41,8 @@ export function sendIssues(e: Pick<Envelope, "signers" | "fields">): SendIssue[]
 export function autoFields(signerIds: string[], lastPage: number): { signerId: string; type: FieldType; page: number; x: number; y: number }[] {
   return signerIds.flatMap((id, i) => {
     const x = i % 2 === 0 ? 8 : 55;
-    const y = 52 + Math.floor(i / 2) * 22;
-    return [{ signerId: id, type: "signature" as const, page: lastPage, x, y }, { signerId: id, type: "date" as const, page: lastPage, x, y: y + 12 }];
+    const y = 8 + Math.floor(i / 2) * 92;
+    return [{ signerId: id, type: "signature" as const, page: lastPage, x, y }, { signerId: id, type: "date" as const, page: lastPage, x, y: y + 46 }];
   });
 }
 

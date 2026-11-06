@@ -33,7 +33,7 @@ export type Signer = {
 };
 export const FIELD_TYPES = ["signature", "initial", "date"] as const;
 export type FieldType = (typeof FIELD_TYPES)[number];
-/** x / y are percentages of the page so fields stay put at any preview size. */
+/** x is a percentage of the section width (stays put at any preview size); y is pixels down the section's signing strip. */
 export type SignField = { id: string; signerId: string; type: FieldType; page: number; x: number; y: number };
 export type AuditKind = "created" | "sent" | "viewed" | "signed" | "declined" | "reminded" | "expired" | "completed" | "voided";
 export type AuditEvent = { id: string; at: string; kind: AuditKind; actor: string; ip?: string | undefined; device?: string | undefined; note?: string | undefined };
@@ -173,7 +173,7 @@ export function seedEnvelopes(): Envelope[] {
         { id: "e1s1", ...OWNER, role: "owner", state: "signed", token: "sign-e1-owner", viewedAt: "2026-11-02T09:15:00", signedAt: "2026-11-02T09:16:00", method: "type", signature: sig(OWNER.name) },
         { id: "e1s2", ...T6, role: "tenant", state: "viewed", token: "sign-e1-tenant", viewedAt: "2026-11-03T18:42:00" },
       ],
-      fields: [{ id: "f1", signerId: "e1s1", type: "signature", page: 8, x: 8, y: 70 }, { id: "f2", signerId: "e1s1", type: "date", page: 8, x: 8, y: 86 }, { id: "f3", signerId: "e1s2", type: "signature", page: 8, x: 55, y: 70 }, { id: "f4", signerId: "e1s2", type: "date", page: 8, x: 55, y: 86 }, { id: "f5", signerId: "e1s2", type: "initial", page: 3, x: 80, y: 84 }],
+      fields: [{ id: "f1", signerId: "e1s1", type: "signature", page: 8, x: 8, y: 8 }, { id: "f2", signerId: "e1s1", type: "date", page: 8, x: 8, y: 54 }, { id: "f3", signerId: "e1s2", type: "signature", page: 8, x: 55, y: 8 }, { id: "f4", signerId: "e1s2", type: "date", page: 8, x: 55, y: 54 }, { id: "f5", signerId: "e1s2", type: "initial", page: 3, x: 80, y: 54 }],
       audit: [
         ev("a1", "2026-10-30T15:02:00", "created", OWNER.name, { ip: "196.25.14.8", device: DEV3 }),
         ev("a2", "2026-11-02T09:14:00", "sent", OWNER.name, { ip: "196.25.14.8", device: DEV3, note: "Email and WhatsApp" }),
@@ -188,7 +188,7 @@ export function seedEnvelopes(): Envelope[] {
         { id: "e2s1", ...T3, role: "tenant", state: "signed", token: "sign-e2-tenant", viewedAt: "2026-01-19T07:30:00", signedAt: "2026-01-19T07:41:00", method: "draw", signature: sig(T3.name) },
         { id: "e2s2", ...OWNER, role: "owner", state: "signed", token: "sign-e2-owner", viewedAt: "2026-01-19T12:00:00", signedAt: "2026-01-19T12:02:00", method: "type", signature: sig(OWNER.name) },
       ],
-      fields: [{ id: "f1", signerId: "e2s1", type: "signature", page: 8, x: 8, y: 70 }, { id: "f2", signerId: "e2s2", type: "signature", page: 8, x: 55, y: 70 }],
+      fields: [{ id: "f1", signerId: "e2s1", type: "signature", page: 8, x: 8, y: 8 }, { id: "f2", signerId: "e2s2", type: "signature", page: 8, x: 55, y: 8 }],
       audit: [
         ev("a1", "2026-01-18T09:50:00", "created", OWNER.name, { ip: "196.25.14.8", device: DEV3 }),
         ev("a2", "2026-01-18T10:00:00", "sent", OWNER.name, { ip: "196.25.14.8", device: DEV3, note: "Email" }),
@@ -205,7 +205,7 @@ export function seedEnvelopes(): Envelope[] {
         { id: "e3s1", ...T2, role: "tenant", state: "declined", token: "sign-e3-tenant", viewedAt: "2026-10-21T19:05:00", declineReason: "I'd like the pet deposit amount reviewed first." },
         { id: "e3s2", ...OWNER, role: "owner", state: "pending", token: "sign-e3-owner" },
       ],
-      fields: [{ id: "f1", signerId: "e3s1", type: "signature", page: 2, x: 8, y: 70 }, { id: "f2", signerId: "e3s2", type: "signature", page: 2, x: 55, y: 70 }],
+      fields: [{ id: "f1", signerId: "e3s1", type: "signature", page: 2, x: 8, y: 8 }, { id: "f2", signerId: "e3s2", type: "signature", page: 2, x: 55, y: 8 }],
       audit: [
         ev("a1", "2026-10-20T10:40:00", "created", OWNER.name, { ip: "196.25.14.8", device: DEV3 }),
         ev("a2", "2026-10-20T11:00:00", "sent", OWNER.name, { ip: "196.25.14.8", device: DEV3, note: "Email" }),
@@ -217,7 +217,7 @@ export function seedEnvelopes(): Envelope[] {
       id: "e4", title: "Rent escalation notice — Villa 5", kind: "notice", leaseId: "l7", createdAt: "2026-10-01", createdBy: OWNER.name, sentAt: "2026-10-01T08:30:00", expiresAt: "2026-10-15",
       pages: [{ id: "p1", heading: "Notice to Naledi Khumalo", body: "Your rent for Villa 5, Bryanston Villas, escalates by 6% to R 6 890,00 from 15 January 2027." }, { id: "p2", heading: "Acknowledgement", body: "Please sign to confirm you've received this notice." }],
       signers: [{ id: "e4s1", ...T7, role: "tenant", state: "pending", token: "sign-e4-tenant" }],
-      fields: [{ id: "f1", signerId: "e4s1", type: "signature", page: 1, x: 8, y: 70 }],
+      fields: [{ id: "f1", signerId: "e4s1", type: "signature", page: 1, x: 8, y: 8 }],
       audit: [ev("a1", "2026-10-01T08:20:00", "created", OWNER.name, { ip: "196.25.14.8", device: DEV3 }), ev("a2", "2026-10-01T08:30:00", "sent", OWNER.name, { ip: "196.25.14.8", device: DEV3, note: "SMS" }), ev("a3", "2026-10-08T08:30:00", "reminded", OWNER.name)],
     },
     {
@@ -229,14 +229,14 @@ export function seedEnvelopes(): Envelope[] {
       id: "e6", title: "Incoming inspection — Loft 3", kind: "inspection", inspectionId: "i1", leaseId: "l3", createdAt: "2026-02-01", createdBy: OWNER.name, sentAt: "2026-02-01T12:00:00", expiresAt: "2026-02-15",
       pages: [{ id: "p1", heading: "Condition report", body: "Incoming inspection of Loft 3, Rosebank Lofts, for Lerato Mokoena." }, { id: "p2", heading: "Agreement", body: "By signing, the Tenant and Landlord agree that the room-by-room report and photos reflect the condition of the Premises." }],
       signers: [{ id: "e6s1", ...T3, role: "tenant", state: "signed", token: "sign-e6-tenant", viewedAt: "2026-02-01T12:20:00", signedAt: "2026-02-01T12:24:00", method: "draw", signature: sig(T3.name) }, { id: "e6s2", ...OWNER, role: "owner", state: "signed", token: "sign-e6-owner", viewedAt: "2026-02-01T12:30:00", signedAt: "2026-02-01T12:31:00", method: "type", signature: sig(OWNER.name) }],
-      fields: [{ id: "f1", signerId: "e6s1", type: "signature", page: 1, x: 8, y: 70 }, { id: "f2", signerId: "e6s2", type: "signature", page: 1, x: 55, y: 70 }],
+      fields: [{ id: "f1", signerId: "e6s1", type: "signature", page: 1, x: 8, y: 8 }, { id: "f2", signerId: "e6s2", type: "signature", page: 1, x: 55, y: 8 }],
       audit: [ev("a1", "2026-02-01T11:58:00", "created", OWNER.name), ev("a2", "2026-02-01T12:00:00", "sent", OWNER.name, { note: "In app" }), ev("a3", "2026-02-01T12:24:00", "signed", T3.name, { ip: "41.13.200.7", device: DEV }), ev("a4", "2026-02-01T12:31:00", "signed", OWNER.name, { ip: "196.25.14.8", device: DEV3 }), ev("a5", "2026-02-01T12:31:00", "completed", "Nestly")],
     },
     {
       id: "e7", title: "Parking bay addendum — A101", kind: "addendum", leaseId: "l1", createdAt: "2026-11-05", createdBy: OWNER.name, sentAt: "2026-11-05T10:00:00", expiresAt: "2026-11-19",
       pages: ADD_PAGES("The Tenant rents a second covered parking bay (P15) at R 450,00 per month from 1 December 2026.", T1.name, "A101", "Sunset Gardens"),
       signers: [{ id: "e7s1", ...T1, role: "tenant", state: "pending", token: "sign-e7-tenant" }, { id: "e7s2", ...OWNER, role: "owner", state: "signed", token: "sign-e7-owner", viewedAt: "2026-11-05T10:01:00", signedAt: "2026-11-05T10:02:00", method: "type", signature: sig(OWNER.name) }],
-      fields: [{ id: "f1", signerId: "e7s1", type: "signature", page: 2, x: 8, y: 70 }, { id: "f2", signerId: "e7s1", type: "date", page: 2, x: 8, y: 86 }, { id: "f3", signerId: "e7s2", type: "signature", page: 2, x: 55, y: 70 }],
+      fields: [{ id: "f1", signerId: "e7s1", type: "signature", page: 2, x: 8, y: 8 }, { id: "f2", signerId: "e7s1", type: "date", page: 2, x: 8, y: 54 }, { id: "f3", signerId: "e7s2", type: "signature", page: 2, x: 55, y: 8 }],
       audit: [ev("a1", "2026-11-05T09:55:00", "created", OWNER.name, { ip: "196.25.14.8", device: DEV3 }), ev("a2", "2026-11-05T10:00:00", "sent", OWNER.name, { ip: "196.25.14.8", device: DEV3, note: "Email and in app" }), ev("a3", "2026-11-05T10:02:00", "signed", OWNER.name, { ip: "196.25.14.8", device: DEV3 })],
     },
   ];

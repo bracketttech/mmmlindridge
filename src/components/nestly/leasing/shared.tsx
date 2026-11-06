@@ -67,7 +67,7 @@ const FIELD_ICON: Record<FieldType, typeof PenLine> = { signature: PenLine, init
 export function FieldBox({ f, signer, highlight, onRemove, showValue }: { f: SignField; signer?: Signer | undefined; highlight?: boolean; onRemove?: () => void; showValue?: boolean }) {
   const Icon = FIELD_ICON[f.type];
   const signed = showValue && signer?.state === "signed";
-  const style = { left: `${Math.min(f.x, 70)}%`, top: `${Math.min(f.y, 88)}%` };
+  const style = { left: `${Math.min(Math.max(f.x, 0), 70)}%`, top: `${Math.max(0, f.y)}px` };
   const label = fill(l.prep.fields.remove, { type: sg.fields[f.type].toLowerCase(), name: signer?.name ?? "" });
   const body = signed ? (
     f.type === "signature" ? <SignatureMark value={signer!.signature} name={signer!.name} className="text-[18px]" />
@@ -79,6 +79,9 @@ export function FieldBox({ f, signer, highlight, onRemove, showValue }: { f: Sig
   if (onRemove) return <button type="button" aria-label={label} title={label} onClick={(e) => { e.stopPropagation(); onRemove(); }} className={cn(cls, "hover:border-danger hover:bg-danger/10")} style={style}>{body}</button>;
   return <div className={cls} style={style}>{body}</div>;
 }
+
+/** Height of a section's signing strip so every field fits. */
+export const stripHeight = (fs: Pick<SignField, "y">[]) => Math.max(100, ...fs.map((f) => f.y + 44));
 
 /** Paper-style rendering of a document's sections with its signing fields laid over them. */
 export function DocumentView({ title, pages, fields, signers, highlightSignerId, showValues = false, mark, footer }: {
@@ -92,10 +95,10 @@ export function DocumentView({ title, pages, fields, signers, highlightSignerId,
         {pages.map((p, i) => {
           const fs = fields.filter((f) => f.page === i);
           return (
-            <li key={p.id} className={cn("relative rounded-[3.45px]", fs.length ? "min-h-[200px] pb-2" : "")}>
+            <li key={p.id} className="relative rounded-[3.45px]">
               <h3 className="text-[14px] font-semibold">{p.heading}</h3>
               <p className="mt-1 whitespace-pre-line text-[14px] leading-relaxed text-ink-700">{p.body}</p>
-              {fs.length > 0 && <div className="relative mt-2 h-[120px]">{fs.map((f) => <FieldBox key={f.id} f={{ ...f, y: Math.max(0, Math.min(85, ((f.y - 40) / 60) * 100)) }} signer={signers.find((s) => s.id === f.signerId)} highlight={f.signerId === highlightSignerId} showValue={showValues} />)}</div>}
+              {fs.length > 0 && <div className="relative mt-2" style={{ height: stripHeight(fs) }}>{fs.map((f) => <FieldBox key={f.id} f={f} signer={signers.find((s) => s.id === f.signerId)} highlight={f.signerId === highlightSignerId} showValue={showValues} />)}</div>}
             </li>
           );
         })}
