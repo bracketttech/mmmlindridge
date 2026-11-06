@@ -215,9 +215,12 @@ export const profileService = {
     return delay(true, 200);
   },
 };
-const propertyOfTenant = (tenantId: string) => getTenancy().tenants.find((t) => t.id === tenantId)?.propertyId;
+/** Simple invoice rows (property finance tab), now read from the Phase 7 billing store. */
 export const invoiceService = {
-  list: (propertyId = "all") => delay(db.invoices.filter((i) => propertyId === "all" || propertyOfTenant(i.tenantId) === propertyId)),
+  list: (propertyId = "all") => billingService.invoices(propertyId).then((xs) => xs.filter((i) => i.status !== "void").map((i): Invoice => ({
+    id: i.number, tenantId: i.tenantId, amount: i.total, dueDate: i.dueDate,
+    status: i.status === "paid" ? "paid" : i.status === "overdue" ? "overdue" : "pending",
+  }))),
 };
 export const notificationService = { list: () => delay(db.notifications, 300) };
 export const dashboardService = {
