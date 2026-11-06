@@ -5,7 +5,7 @@ import { Download, FileText, Link2, Plus, Receipt, Repeat, Search, Send, Wallet 
 import { PAY_METHODS, PAY_STATUSES, type InvoiceStatus, type PayMethod, type PayStatus } from "@/mocks/billing";
 import { billingService, tenantService, type InvoiceView, type Proof } from "@/services";
 import { EmptyState, GlassCard, PageHeader, PillButton, SegmentedChips, Skel, StatusChip, TruncatedText } from "@/components/nestly/primitives";
-import { DataTable, KpiTile, Modal, PersonCell, type Column } from "@/components/nestly/composites";
+import { DataTable, KpiTile, Modal, type Column } from "@/components/nestly/composites";
 import { SelectField } from "@/components/nestly/forms";
 import { TextField } from "@/components/nestly/auth";
 import { ConfirmDialog, SidePanel } from "@/components/nestly/overlays";
@@ -347,4 +347,3 @@ function MatchModal({ p, onClose }: { p: PaymentRow; onClose: () => void }) {
   );
 }
 
-export { PersonCell };
