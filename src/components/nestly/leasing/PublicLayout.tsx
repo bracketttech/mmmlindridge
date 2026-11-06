@@ -13,7 +13,7 @@ export function PublicLayout({ children, badge }: { children: ReactNode; badge?:
           {badge && <span className="inline-flex min-w-0 items-center gap-1.5 rounded-full bg-surface-solid/80 px-3 py-1.5 text-[12px] font-medium text-olive-900 shadow-soft"><ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden /><TruncatedText text={badge} /></span>}
         </header>
         <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-10 animate-page-in sm:px-6">{children}</main>
-        <p className="mx-auto w-full max-w-3xl px-4 pb-6 text-[12px] text-ink-500 sm:px-6">© 2026 Nestly · Made in South Africa</p>
+        <p className="mx-auto w-full max-w-3xl px-4 pb-6 text-[12px] text-ink-500 sm:px-6">© 2026 MMM Lindridge · Made in South Africa</p>
       </div>
     </div>
   );
