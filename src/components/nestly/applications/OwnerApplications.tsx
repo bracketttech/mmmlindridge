@@ -214,7 +214,7 @@ function Viewings({ apps, vacancies, loading, unitId, setUnitId, onOpen }: { app
 
   if (loading) return <div className="grid gap-4 lg:grid-cols-2"><Skel className="h-96" /><Skel className="h-96" /></div>;
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <GlassCard hover={false} className="min-w-0 space-y-5 p-4 md:p-5">
         <div><h2 className="text-h3 text-ink-900">{v.title}</h2><p className="text-[13px] text-ink-500">{v.sub}</p></div>
         {!vacancies.length ? <p className="text-[14px] text-ink-500">{a.vac.none}</p> : <>
