@@ -36,12 +36,14 @@ import { Route as ShellSettingsRouteImport } from './routes/_shell.settings'
 import { Route as ShellStaffRouteImport } from './routes/_shell.staff'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as RegisterTokenRouteImport } from './routes/register.$token'
+import { Route as ShellInvoicesNewRouteImport } from './routes/_shell.invoices_.new'
 import { Route as ShellPropertiesIndexRouteImport } from './routes/_shell.properties.index'
 import { Route as ShellPropertiesPropertyIdRouteImport } from './routes/_shell.properties.$propertyId'
 import { Route as ShellPropertiesNewRouteImport } from './routes/_shell.properties.new'
 import { Route as ShellRequestsNewRouteImport } from './routes/_shell.requests_.new'
 import { Route as ShellTenantsIndexRouteImport } from './routes/_shell.tenants.index'
 import { Route as ShellTenantsNewRouteImport } from './routes/_shell.tenants.new'
+import { Route as ShellInvoicesInvoiceIdPayRouteImport } from './routes/_shell.invoices_.$invoiceId.pay'
 import { Route as ShellPropertiesPropertyIdEditRouteImport } from './routes/_shell.properties.$propertyId_.edit'
 import { Route as ShellTenantsTenantIdEditRouteImport } from './routes/_shell.tenants.$tenantId.edit'
 
@@ -179,6 +181,11 @@ const RegisterTokenRoute = RegisterTokenRouteImport.update({
   path: '/register/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShellInvoicesNewRoute = ShellInvoicesNewRouteImport.update({
+  id: '/invoices_/new',
+  path: '/invoices/new',
+  getParentRoute: () => ShellRoute,
+} as any)
 const ShellPropertiesIndexRoute = ShellPropertiesIndexRouteImport.update({
   id: '/properties/',
   path: '/properties/',
@@ -210,6 +217,12 @@ const ShellTenantsNewRoute = ShellTenantsNewRouteImport.update({
   path: '/tenants/new',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellInvoicesInvoiceIdPayRoute =
+  ShellInvoicesInvoiceIdPayRouteImport.update({
+    id: '/invoices_/$invoiceId/pay',
+    path: '/invoices/$invoiceId/pay',
+    getParentRoute: () => ShellRoute,
+  } as any)
 const ShellPropertiesPropertyIdEditRoute =
   ShellPropertiesPropertyIdEditRouteImport.update({
     id: '/properties/$propertyId_/edit',
@@ -250,12 +263,14 @@ export interface FileRoutesByFullPath {
   '/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/invoices/new': typeof ShellInvoicesNewRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/requests/new': typeof ShellRequestsNewRoute
   '/tenants/new': typeof ShellTenantsNewRoute
   '/properties/': typeof ShellPropertiesIndexRoute
   '/tenants/': typeof ShellTenantsIndexRoute
+  '/invoices/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -286,12 +301,14 @@ export interface FileRoutesByTo {
   '/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/invoices/new': typeof ShellInvoicesNewRoute
   '/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/properties/new': typeof ShellPropertiesNewRoute
   '/requests/new': typeof ShellRequestsNewRoute
   '/tenants/new': typeof ShellTenantsNewRoute
   '/properties': typeof ShellPropertiesIndexRoute
   '/tenants': typeof ShellTenantsIndexRoute
+  '/invoices/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -324,12 +341,14 @@ export interface FileRoutesById {
   '/_shell/staff': typeof ShellStaffRoute
   '/invite/$token': typeof InviteTokenRoute
   '/register/$token': typeof RegisterTokenRoute
+  '/_shell/invoices_/new': typeof ShellInvoicesNewRoute
   '/_shell/properties/$propertyId': typeof ShellPropertiesPropertyIdRoute
   '/_shell/properties/new': typeof ShellPropertiesNewRoute
   '/_shell/requests_/new': typeof ShellRequestsNewRoute
   '/_shell/tenants/new': typeof ShellTenantsNewRoute
   '/_shell/properties/': typeof ShellPropertiesIndexRoute
   '/_shell/tenants/': typeof ShellTenantsIndexRoute
+  '/_shell/invoices_/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/_shell/properties/$propertyId_/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/_shell/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -362,12 +381,14 @@ export interface FileRouteTypes {
     | '/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/invoices/new'
     | '/properties/$propertyId'
     | '/properties/new'
     | '/requests/new'
     | '/tenants/new'
     | '/properties/'
     | '/tenants/'
+    | '/invoices/$invoiceId/pay'
     | '/properties/$propertyId/edit'
     | '/tenants/$tenantId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -398,12 +419,14 @@ export interface FileRouteTypes {
     | '/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/invoices/new'
     | '/properties/$propertyId'
     | '/properties/new'
     | '/requests/new'
     | '/tenants/new'
     | '/properties'
     | '/tenants'
+    | '/invoices/$invoiceId/pay'
     | '/properties/$propertyId/edit'
     | '/tenants/$tenantId/edit'
   id:
@@ -435,12 +458,14 @@ export interface FileRouteTypes {
     | '/_shell/staff'
     | '/invite/$token'
     | '/register/$token'
+    | '/_shell/invoices_/new'
     | '/_shell/properties/$propertyId'
     | '/_shell/properties/new'
     | '/_shell/requests_/new'
     | '/_shell/tenants/new'
     | '/_shell/properties/'
     | '/_shell/tenants/'
+    | '/_shell/invoices_/$invoiceId/pay'
     | '/_shell/properties/$propertyId_/edit'
     | '/_shell/tenants/$tenantId/edit'
   fileRoutesById: FileRoutesById
@@ -651,6 +676,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_shell/invoices_/new': {
+      id: '/_shell/invoices_/new'
+      path: '/invoices/new'
+      fullPath: '/invoices/new'
+      preLoaderRoute: typeof ShellInvoicesNewRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/': {
       id: '/_shell/properties/'
       path: '/properties'
@@ -693,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellTenantsNewRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/invoices_/$invoiceId/pay': {
+      id: '/_shell/invoices_/$invoiceId/pay'
+      path: '/invoices/$invoiceId/pay'
+      fullPath: '/invoices/$invoiceId/pay'
+      preLoaderRoute: typeof ShellInvoicesInvoiceIdPayRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/$propertyId_/edit': {
       id: '/_shell/properties/$propertyId_/edit'
       path: '/properties/$propertyId/edit'
@@ -726,12 +765,14 @@ interface ShellRouteChildren {
   ShellScheduleRoute: typeof ShellScheduleRoute
   ShellSettingsRoute: typeof ShellSettingsRoute
   ShellStaffRoute: typeof ShellStaffRoute
+  ShellInvoicesNewRoute: typeof ShellInvoicesNewRoute
   ShellPropertiesPropertyIdRoute: typeof ShellPropertiesPropertyIdRoute
   ShellPropertiesNewRoute: typeof ShellPropertiesNewRoute
   ShellRequestsNewRoute: typeof ShellRequestsNewRoute
   ShellTenantsNewRoute: typeof ShellTenantsNewRoute
   ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
   ShellTenantsIndexRoute: typeof ShellTenantsIndexRoute
+  ShellInvoicesInvoiceIdPayRoute: typeof ShellInvoicesInvoiceIdPayRoute
   ShellPropertiesPropertyIdEditRoute: typeof ShellPropertiesPropertyIdEditRoute
   ShellTenantsTenantIdEditRoute: typeof ShellTenantsTenantIdEditRoute
 }
@@ -752,12 +793,14 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellScheduleRoute: ShellScheduleRoute,
   ShellSettingsRoute: ShellSettingsRoute,
   ShellStaffRoute: ShellStaffRoute,
+  ShellInvoicesNewRoute: ShellInvoicesNewRoute,
   ShellPropertiesPropertyIdRoute: ShellPropertiesPropertyIdRoute,
   ShellPropertiesNewRoute: ShellPropertiesNewRoute,
   ShellRequestsNewRoute: ShellRequestsNewRoute,
   ShellTenantsNewRoute: ShellTenantsNewRoute,
   ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
   ShellTenantsIndexRoute: ShellTenantsIndexRoute,
+  ShellInvoicesInvoiceIdPayRoute: ShellInvoicesInvoiceIdPayRoute,
   ShellPropertiesPropertyIdEditRoute: ShellPropertiesPropertyIdEditRoute,
   ShellTenantsTenantIdEditRoute: ShellTenantsTenantIdEditRoute,
 }

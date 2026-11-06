@@ -14,3 +14,14 @@
   - [x] Tests for upload rules, bulk unit labels, SA postal code
   - [x] Browser verification desktop + 360px
 - [x] Phase 5 — Tenants & change-of-details (awaiting sign-off)
+- [x] Phase 6 — Requests & maintenance (awaiting sign-off)
+- [x] Phase 7 — Billing, statements & rent payment (awaiting sign-off)
+  - [x] Billing mock store + pure rules (totals/VAT, schedule dates, ageing, statements, deposits, gateway outcomes) + tests
+  - [x] Invoices list, create (lines, VAT, recurring + next 3 dates), PDF-style preview, send dialog
+  - [x] Payments capture with proof upload, statuses, reconciliation + CSV export
+  - [x] Arrears ageing chart + reminder templates
+  - [x] Statements (running balance, date range, PDF preview)
+  - [x] Deposits tracker with itemised deductions + refund
+  - [x] Rent escalation scheduler
+  - [x] Tenant billing + pay flow (checkout → success / failed / abandoned / pending → receipt)
+  - [x] Browser verification 360 / 768 / 1280
