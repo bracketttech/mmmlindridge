@@ -118,7 +118,16 @@ export function StatementTable({ st }: { st: { opening: number; lines: Statement
   const s = b.st;
   return (
     <div className="space-y-3">
-      <div className="overflow-x-auto">
+      <ul className="divide-y divide-border-soft text-[13px] sm:hidden" aria-label={s.title}>
+        <li className="flex justify-between gap-3 py-2 text-ink-500"><span>{s.opening}</span><Money v={st.opening} /></li>
+        {st.lines.map((l) => (
+          <li key={l.id} className="flex min-w-0 items-start justify-between gap-3 py-2">
+            <div className="min-w-0"><TruncatedText text={l.ref} className="font-medium text-ink-900" /><span className="text-[12px] text-ink-500">{formatDate(l.date)}</span></div>
+            <div className="shrink-0 text-right">{l.debit ? <Money v={l.debit} className="block text-ink-900" /> : <Money v={-l.credit} className="block text-success" />}<span className="text-[12px] text-ink-500">{s.balance} {formatZAR(l.balance)}</span></div>
+          </li>
+        ))}
+      </ul>
+      <div className="hidden overflow-x-auto sm:block">
         <table className="w-full min-w-[520px] text-left text-[13px]">
           <thead><tr className="border-b border-border-soft text-overline text-ink-500"><th className="py-2 pr-2 font-medium">{b.cols.date}</th><th className="px-2 py-2 font-medium">{b.cols.ref}</th><th className="px-2 py-2 text-right font-medium">{s.debit}</th><th className="px-2 py-2 text-right font-medium">{s.credit}</th><th className="py-2 pl-2 text-right font-medium">{s.balance}</th></tr></thead>
           <tbody>
