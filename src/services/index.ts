@@ -217,7 +217,7 @@ export const profileService = {
 };
 /** Simple invoice rows (property finance tab), now read from the Phase 7 billing store. */
 export const invoiceService = {
-  list: (propertyId = "all") => billingService.invoices(propertyId).then((xs) => xs.filter((i) => i.status !== "void").map((i): Invoice => ({
+  list: (propertyId = "all") => billingService.invoices(propertyId).then((xs) => xs.filter((i) => i.status !== "void").map((i): LegacyInvoice => ({
     id: i.number, tenantId: i.tenantId, amount: i.total, dueDate: i.dueDate,
     status: i.status === "paid" ? "paid" : i.status === "overdue" ? "overdue" : "pending",
   }))),
@@ -287,3 +287,150 @@ export const requestService = {
 };
 export const contractorService = { list: () => delay(M().contractors) };
 export const scheduleService = { list: (propertyId = "all") => delay([...M().schedule].filter((x) => propertyId === "all" || x.propertyId === propertyId).sort((a, b) => a.nextDue.localeCompare(b.nextDue))) };
+
+/* ---------- Billing, statements & payments (Phase 7) ---------- */
+import type { Invoice as LegacyInvoice } from "@/mocks/data";
+import { commitBilling, getBilling } from "@/mocks/billing-store";
+import type { Channel, Deposit, Escalation, Invoice as BillInvoice, InvoiceLine, InvoiceStatus, Payment, PayMethod, PayStatus, Proof, RecurringSchedule } from "@/mocks/billing";
+import { ageing, depositSummary, escalatedRent, invoiceStatus, invoiceTotals, outstanding, paidOn, paymentStatusFor, statement, tenantBalance, type Outcome } from "@/lib/billing-rules";
+export type { Channel, Deposit, Escalation, InvoiceLine, InvoiceStatus, Payment, PayMethod, PayStatus, Proof, RecurringSchedule, ChargeKind } from "@/mocks/billing";
+export type { Outcome, StatementLine, Bucket } from "@/lib/billing-rules";
+
+export type InvoiceView = BillInvoice & { tenantName: string; total: number; subtotal: number; vatAmount: number; paid: number; outstanding: number; status: InvoiceStatus };
+export type NewInvoiceInput = { tenantId: string; issueDate: string; dueDate: string; lines: InvoiceLine[]; vat: boolean; note?: string | undefined; send: boolean; channels: Channel[]; schedule?: { dayOfMonth: number; startDate: string; endDate?: string | undefined } | undefined };
+export type CaptureInput = { tenantId: string; invoiceId?: string | undefined; amount: number; method: PayMethod; date: string; reference: string; proof?: Proof | undefined };
+
+const bSave = (mut: Parameters<typeof commitBilling>[0]) => { if (!commitBilling(mut)) throw new StorageFullError("storage"); };
+const tenantName = (id?: string) => (id ? T().tenants.find((x) => x.id === id)?.name ?? "—" : "—");
+let balancesSynced = false;
+/** Keeps the tenant balance shown on Tenants pages in step with billing. */
+function syncBalances(ids?: string[]) {
+  const s = getBilling();
+  const targets = T().tenants.filter((x) => !ids || ids.includes(x.id));
+  const changed = targets.filter((x) => x.balance !== Math.max(0, tenantBalance(x.id, s.invoices, s.payments)));
+  if (changed.length) tSave((ts) => { ts.tenants.forEach((x) => { if (changed.some((c) => c.id === x.id)) x.balance = Math.max(0, tenantBalance(x.id, s.invoices, s.payments)); }); });
+}
+const B = () => { const s = getBilling(); if (!balancesSynced && typeof window !== "undefined") { balancesSynced = true; syncBalances(); } return s; };
+const view = (i: BillInvoice, payments: Payment[]): InvoiceView => {
+  const tot = invoiceTotals(i.lines, i.vat);
+  return { ...i, tenantName: tenantName(i.tenantId), total: tot.total, subtotal: tot.subtotal, vatAmount: tot.vat, paid: paidOn(i, payments), outstanding: outstanding(i, payments), status: invoiceStatus(i, payments, today()) };
+};
+const inScope = (propertyId: string, tenantId?: string) => propertyId === "all" || (!!tenantId && T().tenants.find((x) => x.id === tenantId)?.propertyId === propertyId);
+const nextNumber = () => `INV-${new Date().getFullYear()}-${String(B().invoices.length + 1).padStart(4, "0")}`;
+const nextPayRef = () => `PAY-${5001 + B().payments.length}`;
+
+export const billingService = {
+  invoices: (propertyId = "all") => { const s = B(); return delay(s.invoices.filter((i) => propertyId === "all" || i.propertyId === propertyId).map((i) => view(i, s.payments)).sort((a, b) => b.issueDate.localeCompare(a.issueDate) || b.number.localeCompare(a.number))); },
+  invoice: (id: string) => { const s = B(); const i = s.invoices.find((x) => x.id === id); return delay(i ? view(i, s.payments) : null, 300); },
+  async createInvoice(input: NewInvoiceInput) {
+    const x = T().tenants.find((y) => y.id === input.tenantId)!;
+    const id = newId("inv");
+    let scheduleId: string | undefined;
+    bSave((s) => {
+      if (input.schedule) {
+        scheduleId = newId("rs");
+        s.schedules.unshift({ id: scheduleId, tenantId: x.id, lines: input.lines, vat: input.vat, dayOfMonth: input.schedule.dayOfMonth, startDate: input.schedule.startDate, endDate: input.schedule.endDate, active: true, createdAt: today() });
+      }
+      s.invoices.unshift({ id, number: nextNumber(), tenantId: x.id, propertyId: x.propertyId, unitId: x.unitId, issueDate: input.issueDate, dueDate: input.dueDate, lines: input.lines, vat: input.vat, note: input.note, scheduleId, ...(input.send ? { sentAt: today(), sentVia: input.channels } : {}) });
+    });
+    syncBalances([x.id]);
+    return delay(id, 700);
+  },
+  async send(id: string, channels: Channel[]) {
+    let tid = "";
+    bSave((s) => { const i = s.invoices.find((y) => y.id === id); if (i) { tid = i.tenantId; i.sentAt = i.sentAt ?? today(); i.sentVia = [...new Set([...(i.sentVia ?? []), ...channels])]; } });
+    syncBalances([tid]);
+    return delay(true, 800);
+  },
+  async voidInvoice(id: string) {
+    let tid = "";
+    bSave((s) => { const i = s.invoices.find((y) => y.id === id); if (i) { tid = i.tenantId; i.voided = true; } });
+    syncBalances([tid]);
+    return delay(true, 500);
+  },
+  schedules: () => delay(B().schedules.map((r) => ({ ...r, tenantName: tenantName(r.tenantId), total: invoiceTotals(r.lines, r.vat).total }))),
+  async toggleSchedule(id: string) { bSave((s) => { const r = s.schedules.find((y) => y.id === id); if (r) r.active = !r.active; }); return delay(true, 300); },
+
+  payments: (propertyId = "all") => { const s = B(); return delay(s.payments.filter((p) => propertyId === "all" || !p.tenantId || inScope(propertyId, p.tenantId)).map((p) => ({ ...p, tenantName: p.tenantId ? tenantName(p.tenantId) : "", invoiceNumber: s.invoices.find((i) => i.id === p.invoiceId)?.number })).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))); },
+  async capture(input: CaptureInput) {
+    const status: PayStatus = input.method === "eft" ? "pending" : "cleared";
+    const p: Payment = { id: newId("pay"), ref: input.reference.trim() || nextPayRef(), tenantId: input.tenantId, invoiceId: input.invoiceId, amount: input.amount, method: input.method, date: input.date, status, source: "manual", proof: input.proof };
+    bSave((s) => { s.payments.unshift(p); });
+    syncBalances([input.tenantId]);
+    return delay(p, 700);
+  },
+  async setPaymentStatus(id: string, status: PayStatus) {
+    let tid: string | undefined;
+    bSave((s) => { const p = s.payments.find((y) => y.id === id); if (p) { p.status = status; tid = p.tenantId; } });
+    if (tid) syncBalances([tid]);
+    return delay(true, 400);
+  },
+  async match(id: string, tenantId: string, invoiceId: string | undefined) {
+    bSave((s) => { const p = s.payments.find((y) => y.id === id); if (p) { p.tenantId = tenantId; p.invoiceId = invoiceId; } });
+    syncBalances([tenantId]);
+    return delay(true, 500);
+  },
+
+  arrears: (propertyId = "all") => {
+    const s = B();
+    const a = ageing(s.invoices.filter((i) => propertyId === "all" || i.propertyId === propertyId), s.payments, today());
+    return delay({ ...a, tenants: a.tenants.map((r) => { const x = T().tenants.find((y) => y.id === r.tenantId); return { ...r, id: r.tenantId, name: x?.name ?? "—", email: x?.email ?? "", phone: x?.phone ?? "", avatar: x?.avatar, propertyId: x?.propertyId ?? "", unitId: x?.unitId ?? "", lastPayment: s.payments.filter((p) => p.tenantId === r.tenantId && p.status === "cleared").map((p) => p.date).sort().at(-1) }; }) });
+  },
+  async remind(tenantIds: string[], template: string, channel: Channel) {
+    bSave((s) => { tenantIds.forEach((tenantId) => s.reminders.unshift({ id: newId("rm"), tenantId, at: today(), template, channel })); });
+    return delay(tenantIds.length, 800);
+  },
+  reminders: () => delay(B().reminders),
+
+  statement: (tenantId: string, from: string, to: string) => { const s = B(); return delay(statement(tenantId, s.invoices, s.payments, from, to), 400); },
+
+  deposits: (propertyId = "all") => delay(B().deposits.filter((d) => inScope(propertyId, d.tenantId)).map((d) => ({ ...d, tenantName: tenantName(d.tenantId), ...depositSummary(d, today()) }))),
+  async addDeduction(depositId: string, item: string, amount: number, note?: string) { bSave((s) => { s.deposits.find((d) => d.id === depositId)?.deductions.push({ id: newId("dd"), item, amount, note }); }); return delay(true, 300); },
+  async removeDeduction(depositId: string, deductionId: string) { bSave((s) => { const d = s.deposits.find((x) => x.id === depositId); if (d) d.deductions = d.deductions.filter((x) => x.id !== deductionId); }); return delay(true, 300); },
+  async refundDeposit(depositId: string) {
+    bSave((s) => { const d = s.deposits.find((x) => x.id === depositId); if (d) { d.status = "refunded"; d.refundedAt = today(); d.refundAmount = depositSummary(d, today()).refund; } });
+    return delay(true, 700);
+  },
+
+  escalations: (propertyId = "all") => delay(B().escalations.filter((e) => inScope(propertyId, e.tenantId)).map((e) => ({ ...e, tenantName: tenantName(e.tenantId), newRent: escalatedRent(e.currentRent, e.pct) })).sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))),
+  async scheduleEscalation(tenantId: string, pct: number, effectiveDate: string) {
+    const x = T().tenants.find((y) => y.id === tenantId)!;
+    bSave((s) => { s.escalations = s.escalations.filter((e) => !(e.tenantId === tenantId && e.status !== "applied")); s.escalations.unshift({ id: newId("esc"), tenantId, currentRent: x.rent, pct, effectiveDate, status: "scheduled" }); });
+    return delay(true, 600);
+  },
+  async sendEscalationNotice(id: string) { bSave((s) => { const e = s.escalations.find((y) => y.id === id); if (e) { e.status = "notice_sent"; e.noticeSentAt = today(); } }); return delay(true, 600); },
+  async applyEscalation(id: string) {
+    const e = B().escalations.find((y) => y.id === id)!;
+    const rent = escalatedRent(e.currentRent, e.pct);
+    bSave((s) => {
+      const x = s.escalations.find((y) => y.id === id); if (x) x.status = "applied";
+      s.schedules.filter((r) => r.tenantId === e.tenantId).forEach((r) => r.lines.forEach((l) => { if (l.kind === "rent") l.unitPrice = rent; }));
+    });
+    tSave((s) => { const x = s.tenants.find((y) => y.id === e.tenantId); if (x) x.rent = rent; });
+    return delay(true, 600);
+  },
+
+  /** Tenant view: own invoices, payments and balance only. */
+  forTenant: (tenantId: string) => {
+    const s = B();
+    const payments = s.payments.filter((p) => p.tenantId === tenantId);
+    return delay({
+      invoices: s.invoices.filter((i) => i.tenantId === tenantId && i.sentAt && !i.voided).map((i) => view(i, s.payments)).sort((a, b) => b.issueDate.localeCompare(a.issueDate)),
+      payments: payments.map((p) => ({ ...p, invoiceNumber: s.invoices.find((i) => i.id === p.invoiceId)?.number })).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)),
+      balance: tenantBalance(tenantId, s.invoices, s.payments),
+      pending: payments.filter((p) => p.status === "pending").reduce((a, p) => a + p.amount, 0),
+    }, 400);
+  },
+  payment: (id: string) => { const s = B(); const p = s.payments.find((x) => x.id === id); return delay(p ? { ...p, invoiceNumber: s.invoices.find((i) => i.id === p.invoiceId)?.number, tenantName: tenantName(p.tenantId), balance: p.tenantId ? tenantBalance(p.tenantId, s.invoices, s.payments) : 0 } : null, 300); },
+  /** Mock hosted checkout. Abandoned checkouts record nothing. */
+  async checkout(invoiceId: string, outcome: Outcome, method: "card" | "eft") {
+    const i = B().invoices.find((x) => x.id === invoiceId)!;
+    const status = paymentStatusFor(outcome);
+    if (!status) return delay(null, 300);
+    const amount = outstanding(i, B().payments);
+    const p: Payment = { id: newId("pay"), ref: `${nextPayRef()}-GW`, tenantId: i.tenantId, invoiceId, amount, method: "gateway", date: today(), status, source: "gateway", note: outcome === "failed" ? "Card declined by issuing bank" : method === "eft" ? "Instant EFT" : "Card" };
+    bSave((s) => { s.payments.unshift(p); });
+    syncBalances([i.tenantId]);
+    return delay(p, 400);
+  },
+};
