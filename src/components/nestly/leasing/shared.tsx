@@ -70,7 +70,7 @@ export function FieldBox({ f, signer, highlight, onRemove, showValue }: { f: Sig
   const style = { left: `${Math.min(Math.max(f.x, 0), 70)}%`, top: `${Math.max(0, f.y)}px` };
   const label = fill(l.prep.fields.remove, { type: sg.fields[f.type].toLowerCase(), name: signer?.name ?? "" });
   const body = signed ? (
-    f.type === "signature" ? <SignatureMark value={signer!.signature} name={signer!.name} className="text-[18px]" />
+    f.type === "signature" ? <SignatureMark value={signer!.signature} name={signer!.name} className="text-[15px]" />
       : f.type === "initial" ? <span className="text-[15px] font-light italic text-olive-900">{initials(signer!.name)}</span>
       : <span className="text-[12px] tabular-nums text-ink-900">{formatDate(signer!.signedAt!)}</span>
   ) : <span className="flex min-w-0 items-center gap-1 text-[11px] font-medium"><Icon className="h-3 w-3 shrink-0" aria-hidden /><span className="truncate">{sg.fields[f.type]}{signer ? ` · ${signer.name.split(" ")[0]}` : ""}</span></span>;
@@ -144,7 +144,7 @@ export function AuditTrail({ events }: { events: AuditEvent[] }) {
             <div className="min-w-0 flex-1">
               <p className="text-[14px] text-ink-900"><span className="font-medium">{sg.audit[e.kind]}</span> · <span className="text-ink-700">{e.actor}</span></p>
               <p className="text-[12px] tabular-nums text-ink-500">{fmtDateTime(e.at)}{e.ip ? ` · ${fill(sg.panel.ip, { ip: e.ip })}` : ""}{e.device ? ` · ${e.device}` : ""}</p>
-              {e.note && <TruncatedText text={e.note} lines={2} className="text-[12px] text-ink-500" />}
+              {e.note && <TruncatedText text={e.kind === "signed" && e.note in sg.method ? fill(sg.methodNote, { method: sg.method[e.note as keyof typeof sg.method] }) : e.note} lines={2} className="text-[12px] text-ink-500" />}
             </div>
           </li>
         );

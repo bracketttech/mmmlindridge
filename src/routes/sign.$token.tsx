@@ -123,8 +123,8 @@ function ReviewStep({ title, hint, children, onNext, onDecline, sender }: { titl
     <section className="space-y-4" aria-label={title}>
       <div><h1 className="text-h2 text-ink-900">{s.review.title} <span className="text-ink-500">{s.review.muted}</span>.</h1><p className="mt-1 text-[13px] text-ink-500">{s.review.hint} · {hint}</p></div>
       {children}
-      <div className="sticky bottom-3 z-10 flex flex-col-reverse gap-2 rounded-full sm:flex-row sm:justify-end">
-        <PillButton variant="ghost" className="justify-center bg-surface-solid/90 shadow-soft" onClick={() => setDeclining(true)}>{s.review.decline}</PillButton>
+      <div className="glass sticky bottom-3 z-10 flex flex-col-reverse gap-1.5 rounded-[9.2px] p-2 sm:flex-row sm:justify-end">
+        <PillButton variant="ghost" className="justify-center" onClick={() => setDeclining(true)}>{s.review.decline}</PillButton>
         <PillButton size="lg" onClick={onNext} icon={<ArrowRight className="h-4 w-4" />}>{s.review.next}</PillButton>
       </div>
       <Modal open={declining} onOpenChange={(o) => !busy && setDeclining(o)} title={s.decline.title}
