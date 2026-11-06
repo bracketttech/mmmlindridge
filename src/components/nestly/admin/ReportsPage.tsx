@@ -68,7 +68,7 @@ export function ReportsPage() {
       {range === "custom" && <div className="flex flex-wrap gap-3"><TextField label={r.from} type="month" value={custom.from} onChange={(e) => setCustom({ ...custom, from: e.target.value })} /><TextField label={r.to} type="month" value={custom.to} onChange={(e) => setCustom({ ...custom, to: e.target.value })} /></div>}
       <div className="grid gap-4 lg:grid-cols-12">
         <GlassCard className="relative min-h-[260px] overflow-hidden p-0 lg:col-span-4">
-          {top && <FadeImage src={resolvePhoto(top.photos[0])} alt={top.name} className="absolute inset-0 h-full w-full object-cover" />}
+          {top && <FadeImage src={resolvePhoto(top.photos[0]) ?? ""} alt={top.name} className="absolute inset-0 h-full w-full object-cover" />}
           <div className="absolute inset-x-3 bottom-3 rounded-[5.75px] bg-olive-900/70 p-4 text-primary-foreground backdrop-blur">
             <p className="text-overline opacity-80">{r.spotlight}</p>
             <TruncatedText text={top?.name ?? "—"} className="text-h3" />
