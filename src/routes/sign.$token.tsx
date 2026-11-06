@@ -5,7 +5,7 @@ import { signService, type SignMethod } from "@/services";
 import { AuthHeading, Checkbox, FormAlert, TextField } from "@/components/nestly/auth";
 import { TextAreaField } from "@/components/nestly/forms";
 import { Modal } from "@/components/nestly/composites";
-import { GlassCard, PillButton, SegmentedChips, Skel, Stepper, SuccessCheck, TruncatedText } from "@/components/nestly/primitives";
+import { GlassCard, PillButton, SegmentedChips, Skel, Stepper, SuccessCheck } from "@/components/nestly/primitives";
 import { fill } from "@/components/nestly/properties/shared";
 import { PublicLayout } from "@/components/nestly/leasing/PublicLayout";
 import { DocumentView, sg, SignatureMark, SignaturePad } from "@/components/nestly/leasing/shared";
@@ -200,7 +200,6 @@ function SignStep({ name, onBack, onSign }: { name: string; onBack: () => void; 
           <Checkbox label={p.consent} checked={consent} error={errs.consent} onChange={(e) => { setConsent(e.target.checked); setErrs((x) => ({ ...x, consent: undefined })); }} />
         </div>
         {errs.submit && <FormAlert>{errs.submit}</FormAlert>}
-        <TruncatedText text={`${t.sign.forYou.replace("{role}", "").trim()} ${name}`} className="sr-only" />
       </GlassCard>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-between">
         <PillButton variant="secondary" className="justify-center" onClick={onBack} disabled={busy}>{t.lease.prep.back}</PillButton>

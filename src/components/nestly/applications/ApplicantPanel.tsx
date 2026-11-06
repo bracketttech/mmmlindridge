@@ -30,7 +30,7 @@ export function ApplicantPanel({ x, all, onClose }: { x: ApplicationView | null;
 
   const checks = useMemo(() => ({ ...(x?.checks ?? {}), ...over }), [x?.checks, over]);
   const progress = useMemo(() => screeningProgress(checks, CHECK_KEYS), [checks]);
-  if (!x) return <SidePanel open={false} onOpenChange={() => {}} title="">{null}</SidePanel>;
+  if (!x) return null;
 
   const decided = x.stage === "approved" || x.stage === "declined";
   const canScreen = x.stage === "applied" || x.stage === "screening" || decided;
@@ -58,13 +58,13 @@ export function ApplicantPanel({ x, all, onClose }: { x: ApplicationView | null;
     <SidePanel open onOpenChange={(o) => !o && onClose()} title={x.name} wide footer={footer}>
       <div className="space-y-5">
         <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0"><TruncatedText text={`${x.unitLabel} · ${x.propertyName}`} className="text-[14px] text-ink-900" /><p className="text-[12px] text-ink-500">{a.sources[x.source]} · {fill(t.apps.cols.applied, {})} {formatDate(x.createdAt)}</p></div>
+          <div className="min-w-0"><TruncatedText text={`${x.unitLabel} · ${x.propertyName}`} className="text-[14px] text-ink-900" /><p className="text-[12px] text-ink-500">{a.sources[x.source]} · {a.cols.applied} {formatDate(x.createdAt)}</p></div>
           <div className="flex shrink-0 flex-col items-end gap-1.5"><StageChip s={x.stage} />{x.ready && x.stage !== "approved" && <StatusChip tone="success">{a.scr.readyBadge}</StatusChip>}</div>
         </div>
         {x.stage === "declined" && <p role="status" className="rounded-[5.75px] bg-danger/10 p-3 text-[13px] text-danger">{fill(d.declinedNote, { reason: x.declineReason ?? "" })}</p>}
         {x.stage === "approved" && <p role="status" className="rounded-[5.75px] bg-olive-200 p-3 text-[13px] text-olive-900">{x.tenantId ? d.converted : d.approvedNote}</p>}
         {!decided && (
-          <SelectField label={d.stage} value={x.stage} onChange={(e) => run(() => applicationService.setStage(x.id, e.target.value as AppStage), `${a.move} ${a.stages[e.target.value as AppStage]}`)}>
+          <SelectField label={d.stage} value={x.stage} onChange={(e) => run(() => applicationService.setStage(x.id, e.target.value as AppStage), `${d.stage}: ${a.stages[e.target.value as AppStage]}`)}>
             {APP_STAGES.filter((s) => MOVABLE.includes(s)).map((s) => <option key={s} value={s}>{a.stages[s]}</option>)}
           </SelectField>
         )}
