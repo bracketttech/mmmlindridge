@@ -168,7 +168,7 @@ function Vacancies({ data, loading, onBook }: { data: Vacancy[]; loading: boolea
             <GlassCard className="flex h-full flex-col gap-3 p-3">
               <div className="relative aspect-[16/9] overflow-hidden rounded-[5.75px] bg-olive-200">
                 {src && <FadeImage src={src} alt={`${x.propertyName} ${x.label}`} width={640} height={360} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />}
-                <span className="absolute left-2 top-2"><StatusChip tone={x.status === "notice" ? "warning" : "info"} dot>{x.status === "notice" ? v.notice : v.vacant}</StatusChip></span>
+                <span className="absolute left-2 top-2 rounded-full bg-surface-solid shadow-soft"><StatusChip tone={x.status === "notice" ? "warning" : "info"} dot>{x.status === "notice" ? v.notice : v.vacant}</StatusChip></span>
               </div>
               <div className="flex items-start gap-2 px-1">
                 <div className="min-w-0 flex-1"><TruncatedText text={`${x.label} · ${x.propertyName}`} as="h3" className="text-h3 text-ink-900" /><p className="text-[13px] text-ink-500">{fill(v.beds, { beds: x.beds, baths: x.baths })} · {x.availableFrom <= todayIso() ? v.now : fill(v.available, { date: formatDate(x.availableFrom) })}</p></div>
