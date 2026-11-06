@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { ArrowLeft, CalendarDays, Plus, Trash2 } from "lucide-react";
 import { CHARGE_KINDS, type ChargeKind } from "@/mocks/billing";
 import { billingService, tenantService, type InvoiceLine } from "@/services";
-import { GlassCard, PageHeader, PillButton, TruncatedText } from "@/components/nestly/primitives";
+import { GlassCard, PageHeader, PillButton } from "@/components/nestly/primitives";
 import { SelectField, TextAreaField, ToggleRow } from "@/components/nestly/forms";
 import { TextField } from "@/components/nestly/auth";
 import { Placeholder } from "@/components/nestly/Placeholder";
@@ -14,7 +14,7 @@ import { b, ErrorText, InvoiceDocument, Money, SendInvoiceDialog, todayIso } fro
 import { invoiceTotals, nextInvoiceDates } from "@/lib/billing-rules";
 import { useAppState } from "@/lib/app-state";
 import { useData } from "@/lib/use-data";
-import { formatDate, formatZAR } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import { pageHead } from "@/lib/seo";
 import { t } from "@/lib/strings";
 
@@ -47,7 +47,7 @@ function NewInvoicePage() {
   const [end, setEnd] = useState("");
   const [errs, setErrs] = useState<Partial<Record<"tenant" | "lines" | "due" | "day", string>> & { line?: Record<string, { desc?: string; amount?: string }> }>({});
   const [busy, setBusy] = useState(false);
-  const [created, setCreated] = useState<{ id: string } | null>(null);
+  const [created, setCreated] = useState<{ id: string; number: string } | null>(null);
 
   const x = tenants.data?.find((y) => y.id === tenantId);
   const parsed: InvoiceLine[] = lines.map((l) => ({ id: l.id, kind: l.kind, description: l.description.trim(), qty: Math.max(1, Math.round(num(l.qty) || 1)), unitPrice: num(l.unitPrice) || 0 }));
@@ -59,7 +59,7 @@ function NewInvoicePage() {
   const pickTenant = (id: string) => {
     setTenantId(id);
     const y = tenants.data?.find((z) => z.id === id);
-    if (y && !lines.some((l) => l.kind === "rent")) setLines((ls) => [{ id: lineId(), kind: "rent", description: c.title === "" ? "" : `${b.kinds.rent} — ${new Date(due).toLocaleDateString("en-ZA", { month: "long", year: "numeric" })}`, qty: "1", unitPrice: String(y.rent) }, ...ls]);
+    if (y && !lines.some((l) => l.kind === "rent")) setLines((ls) => [{ id: lineId(), kind: "rent", description: `${b.kinds.rent} — ${new Date(due).toLocaleDateString("en-ZA", { month: "long", year: "numeric" })}`, qty: "1", unitPrice: String(y.rent) }, ...ls]);
   };
   const addLine = (kind: ChargeKind) => setLines((ls) => [...ls, { id: lineId(), kind, description: b.kindDefaults[kind], qty: "1", unitPrice: kind === "rent" && x ? String(x.rent) : kind === "deposit" && x ? String(x.deposit) : "" }]);
   const patch = (id: string, p: Partial<Draft>) => setLines((ls) => ls.map((l) => (l.id === id ? { ...l, ...p } : l)));
@@ -79,7 +79,7 @@ function NewInvoicePage() {
     try {
       const id = await billingService.createInvoice({ tenantId, issueDate: issue, dueDate: due, lines: parsed, vat, note: note.trim() || undefined, send: false, channels: [], schedule: recurring ? { dayOfMonth: Number(day), startDate: start, endDate: end || undefined } : undefined });
       toast.success(c.created);
-      if (send) setCreated({ id });
+      if (send) { const inv = await billingService.invoice(id); setCreated({ id, number: inv?.number ?? "" }); }
       else navigate({ to: "/invoices", search: { id } });
     } catch { toast.error(t.common.errorBody); } finally { setBusy(false); }
   };
@@ -156,12 +156,11 @@ function NewInvoicePage() {
         <aside className="min-w-0 space-y-2 xl:sticky xl:top-4 xl:self-start">
           <p className="text-overline text-ink-500">{c.preview}</p>
           <InvoiceDocument inv={preview} place={x ? dir.place(x) : "—"} email={x?.email} />
-          {x && <TruncatedText text={`${formatZAR(totals.total)} · ${x.name}`} className="sr-only" />}
         </aside>
       </div>
       {created && x && (
         <SendInvoiceDialog open onOpenChange={(o) => { if (!o) navigate({ to: "/invoices", search: { id: created.id } }); }}
-          inv={{ id: created.id, number: b.panel.title.replace("{number}", "").trim() ? "INV" : "INV", tenantName: x.name, total: totals.total, outstanding: totals.total, dueDate: due, sentAt: undefined }} />
+          inv={{ id: created.id, number: created.number, tenantName: x.name, total: totals.total, outstanding: totals.total, dueDate: due, sentAt: undefined }} />
       )}
     </div>
   );

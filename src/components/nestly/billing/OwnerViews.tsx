@@ -16,7 +16,7 @@ import { useAppState } from "@/lib/app-state";
 import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
-import { AgeingChart, b, ErrorText, Money, StatementDocument, StatementTable, todayIso } from "./shared";
+import { AgeingChart, b, Money, StatementDocument, StatementTable, todayIso } from "./shared";
 
 type ArrearsData = Awaited<ReturnType<typeof billingService.arrears>>;
 type ArrearsRow = ArrearsData["tenants"][number];
@@ -322,7 +322,6 @@ function EscalationModal({ onClose }: { onClose: () => void }) {
             <p className="break-words rounded-[5.75px] border border-border-soft p-3 text-[14px] text-ink-900">{fill(e.notice, { name: x.name.split(" ")[0] ?? x.name, place: dir.place(x), pct: String(p).replace(".", ","), current: formatZAR(x.rent), next: formatZAR(escalatedRent(x.rent, p)), date: date ? formatDate(date) : "—" })}</p>
           </div>
         )}
-        <ErrorText>{undefined}</ErrorText>
       </div>
     </Modal>
   );
