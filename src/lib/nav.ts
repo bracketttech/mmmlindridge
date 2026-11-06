@@ -4,6 +4,9 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { t } from "./strings";
+import { permsFor } from "@/services/admin";
+import { readSession } from "./session";
+import { MODULES, type Module } from "./access-rules";
 
 export type Role = "owner" | "caretaker" | "agent" | "finance" | "legal" | "tenant";
 export const ROLES: Role[] = ["owner", "caretaker", "agent", "finance", "legal", "tenant"];
@@ -53,16 +56,26 @@ const ROLE_TABS: Record<Role, Tab[]> = {
   legal: [tab("dashboard", t.nav.home, Home), tab("leases", t.nav.documents, FileText), tab("legal", "Notices", Gavel), tab("tenants", t.nav.tenants, Users), tab("profile", t.nav.profile, UserRound)],
 };
 
+const ORDER = ROLE_ITEMS.owner;
+const ALWAYS: NavKey[] = ["dashboard", "settings"];
+/** Menu keys for a role: tenants are fixed; staff follow their effective permissions (preset + overrides). */
+export function allowedKeys(role: Role): NavKey[] {
+  if (role === "owner" || role === "tenant") return ROLE_ITEMS[role];
+  const p = permsFor(role, readSession()?.email);
+  return ORDER.filter((k) => ALWAYS.includes(k) || ((MODULES as readonly string[]).includes(k) && p[k as Module].view));
+}
+
 export function navForRole(role: Role) {
-  const items = ROLE_ITEMS[role].map((k) => BASE[k]);
-  const tabs = ROLE_TABS[role];
+  const keys = allowedKeys(role);
+  const items = keys.map((k) => BASE[k]);
+  const tabs = ROLE_TABS[role].filter((x) => x.key === "profile" || keys.includes(x.key));
   const tabKeys = new Set(tabs.map((x) => x.key));
   const more = items.filter((i) => !tabKeys.has(i.key));
   return { items, tabs, more };
 }
 
 export function roleCanSee(role: Role, key: NavKey) {
-  return key === "profile" || ROLE_ITEMS[role].includes(key);
+  return key === "profile" || allowedKeys(role).includes(key);
 }
 
 export const NOTIFICATION_ICON = Bell;
