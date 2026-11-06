@@ -12,6 +12,8 @@ import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
 import { cn } from "@/lib/utils";
+import { useAccess } from "@/lib/access";
+import { canApproveSpend } from "@/lib/access-rules";
 import { AttachmentThumbs, PriorityChip, ReqStatusChip, StatusPipeline, Stars, Thread, actorName, fmtDateTime } from "./shared";
 
 const r = t.req;
@@ -20,6 +22,7 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
 /** Owner / caretaker request detail (right rail). */
 export function RequestDetail({ req, place }: { req: MaintRequest; place: string }) {
   const staff = useData(() => staffService.list(), []);
+  const access = useAccess();
   const contractors = useData(() => contractorService.list(), []);
   const [mode, setMode] = useState<"public" | "internal">("public");
   const [msg, setMsg] = useState("");
