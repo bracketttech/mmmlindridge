@@ -9,7 +9,7 @@ import { SelectField, TextAreaField, ToggleRow } from "@/components/nestly/forms
 import { TextField } from "@/components/nestly/auth";
 import { ConfirmDialog, SidePanel } from "@/components/nestly/overlays";
 import { fill } from "@/components/nestly/properties/shared";
-import { downloadCsv, ErrorText } from "@/components/nestly/billing/shared";
+import { downloadCsv } from "@/components/nestly/billing/shared";
 import { ErrorCard } from "@/components/nestly/billing/OwnerBilling";
 import { escalatedRent } from "@/lib/billing-rules";
 import { renewIssues, type LeaseDisplay } from "@/lib/leasing-rules";
@@ -125,7 +125,7 @@ function LeasesList({ data, id, set }: { data: ReturnType<typeof useData<LeaseVi
       )}
       <LeasePanel x={sel} onClose={() => set({ id: undefined })} onRenew={setRenew} onM2m={setM2m} onEdit={setForm} set={set} />
       {renew && <RenewModal x={renew} onClose={() => setRenew(null)} />}
-      {m2m && <ConfirmDialog open onOpenChange={(o) => !o && setM2m(null)} tone="neutral" title={l.panel.m2mTitle} body={fill(l.panel.m2mBody, { name: m2m.tenantName, date: formatDate(m2m.end), n: Math.max(30, m2m.noticeDays) })} confirmLabel={l.panel.m2m}
+      {m2m && <ConfirmDialog open onOpenChange={(o) => !o && setM2m(null)} tone="primary" title={l.panel.m2mTitle} body={fill(l.panel.m2mBody, { name: m2m.tenantName, date: formatDate(m2m.end), n: Math.max(30, m2m.noticeDays) })} confirmLabel={l.panel.m2m}
         onConfirm={async () => { await leaseService.monthToMonth(m2m.id); toast.success(l.panel.m2mDone); }} />}
       {form && <LeaseFormModal x={form === "new" ? null : form} onClose={() => setForm(null)} onCreated={(nid) => set({ id: nid }, false)} />}
     </div>
@@ -192,7 +192,7 @@ function LeasePanel({ x, onClose, onRenew, onM2m, onEdit, set }: { x: LeaseView 
             <ul className="space-y-1.5">{x.history.map((h, i) => <li key={i} className="flex gap-3 text-[13px]"><span className="w-24 shrink-0 tabular-nums text-ink-500">{formatDate(h.at)}</span><span className="min-w-0 text-ink-900">{h.note}</span></li>)}</ul>
           </section>
           <ConfirmDialog open={del} onOpenChange={setDel} title={p.deleteTitle} body={fill(p.deleteBody, { name: x.tenantName })} onConfirm={async () => { await leaseService.remove(x.id); toast.success(p.deleted); onClose(); }} />
-          <ConfirmDialog open={end} onOpenChange={setEnd} tone="neutral" title={p.endTitle} body={fill(p.endBody, { name: x.tenantName })} confirmLabel={p.end} onConfirm={async () => { await leaseService.end(x.id); toast.success(p.ended); }} />
+          <ConfirmDialog open={end} onOpenChange={setEnd} tone="primary" title={p.endTitle} body={fill(p.endBody, { name: x.tenantName })} confirmLabel={p.end} onConfirm={async () => { await leaseService.end(x.id); toast.success(p.ended); }} />
         </div>
       )}
     </SidePanel>
@@ -277,7 +277,6 @@ function LeaseFormModal({ x, onClose, onCreated }: { x: LeaseView | null; onClos
         <SelectField label={fm.template} value={v.templateId} onChange={(e) => up("templateId", e.target.value)}>{(tpls.data ?? []).filter((y) => y.kind === "lease").map((y) => <option key={y.id} value={y.id}>{y.name}</option>)}</SelectField>
         <div className="sm:col-span-2"><TextField label={fm.coTenant} value={v.coTenant} onChange={(e) => up("coTenant", e.target.value)} /></div>
         <div className="sm:col-span-2"><TextAreaField label={fm.special} hint={fm.specialHint} rows={3} value={v.special} onChange={(e) => up("special", e.target.value)} /></div>
-        <ErrorText>{undefined}</ErrorText>
       </div>
     </Modal>
   );
