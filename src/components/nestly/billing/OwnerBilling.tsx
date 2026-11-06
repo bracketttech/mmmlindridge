@@ -17,7 +17,7 @@ import { useData } from "@/lib/use-data";
 import { formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
 import { ArrearsView, DepositsView, EscalationsView, StatementsView } from "./OwnerViews";
-import { b, nPayments, nTenants, downloadCsv, ErrorText, InvoiceDocument, InvStatusChip, Money, PayStatusChip, ProofPicker, SendInvoiceDialog, todayIso } from "./shared";
+import { b, nPayments, nTenants, downloadCsv, InvoiceDocument, InvStatusChip, Money, PayStatusChip, ProofPicker, SendInvoiceDialog, todayIso } from "./shared";
 
 export const BILL_VIEWS = ["invoices", "payments", "arrears", "statements", "deposits", "escalations", "reconcile"] as const;
 export type BillView = (typeof BILL_VIEWS)[number];
