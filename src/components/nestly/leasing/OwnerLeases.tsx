@@ -144,7 +144,7 @@ function LeasePanel({ x, onClose, onRenew, onM2m, onEdit, set }: { x: LeaseView 
     <SidePanel open={!!x} onOpenChange={(o) => !o && onClose()} title={x ? fill(p.title, { number: x.number }) : ""} wide
       footer={x ? <>
         {x.state === "draft" && <PillButton variant="ghost" onClick={() => setDel(true)}>{p.delete}</PillButton>}
-        {(x.display === "month_to_month" || x.display === "expiring") && <PillButton variant="ghost" onClick={() => setEnd(true)}>{p.end}</PillButton>}
+        {(x.display === "month_to_month" || x.display === "expiring") && <PillButton variant="ghost" onClick={() => setEnd(true)}>{p.endLease}</PillButton>}
         {x.canMonthToMonth && <PillButton variant="secondary" onClick={() => onM2m(x)}>{p.m2m}</PillButton>}
         {x.state !== "draft" && x.state !== "ended" && <PillButton variant="secondary" onClick={() => onRenew(x)} icon={<Repeat className="h-4 w-4" />}>{p.renew}</PillButton>}
         {x.state === "draft" && <PillButton variant="secondary" onClick={() => onEdit(x)}>{p.edit}</PillButton>}
@@ -192,7 +192,7 @@ function LeasePanel({ x, onClose, onRenew, onM2m, onEdit, set }: { x: LeaseView 
             <ul className="space-y-1.5">{x.history.map((h, i) => <li key={i} className="flex gap-3 text-[13px]"><span className="w-24 shrink-0 tabular-nums text-ink-500">{formatDate(h.at)}</span><span className="min-w-0 text-ink-900">{h.note}</span></li>)}</ul>
           </section>
           <ConfirmDialog open={del} onOpenChange={setDel} title={p.deleteTitle} body={fill(p.deleteBody, { name: x.tenantName })} onConfirm={async () => { await leaseService.remove(x.id); toast.success(p.deleted); onClose(); }} />
-          <ConfirmDialog open={end} onOpenChange={setEnd} tone="primary" title={p.endTitle} body={fill(p.endBody, { name: x.tenantName })} confirmLabel={p.end} onConfirm={async () => { await leaseService.end(x.id); toast.success(p.ended); }} />
+          <ConfirmDialog open={end} onOpenChange={setEnd} tone="primary" title={p.endTitle} body={fill(p.endBody, { name: x.tenantName })} confirmLabel={p.endLease} onConfirm={async () => { await leaseService.end(x.id); toast.success(p.ended); }} />
         </div>
       )}
     </SidePanel>
