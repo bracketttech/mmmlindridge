@@ -25,3 +25,12 @@
   - [x] Rent escalation scheduler
   - [x] Tenant billing + pay flow (checkout → success / failed / abandoned / pending → receipt)
   - [x] Browser verification 360 / 768 / 1280
+- [x] Phase 8 — Leases, e-signature, applications & screening (awaiting sign-off)
+  - [x] Leases list/detail, renewals & 90/60/30 reminders, month-to-month, templates + merge preview (built earlier)
+  - [x] Prepare → signers → fields → send; status tracker, audit trail, signed PDF preview, reminders
+  - [x] Signer page via secure link (review → draw/type/upload → consent → sign → done; declined/expired/voided/invalid)
+  - [x] Applications: pipeline, vacancies, viewing scheduler, applicants, applicant detail, add enquiry
+  - [x] Tenant-facing application form via link
+  - [x] Owner screening checklist (result, notes, date, attachment, progress ring, ready-to-approve gate) → approve → create tenant & lease
+  - [x] Inspections with room photos + tenant e-sign sign-off
+  - [x] Browser verification 360 / 768 / 1280
