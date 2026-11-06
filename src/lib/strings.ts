@@ -422,7 +422,7 @@ export const t = {
     panel: {
       title: "Lease {number}", term: "Term", start: "Start", end: "End", rent: "Monthly rent", escalation: "Escalation", nextEsc: "Next escalation {date}", deposit: "Deposit", notice: "Notice period", noticeDays: "{n} days", dueDay: "Rent due", dueDayV: "Day {n} of the month", coTenant: "Co-tenant", template: "Template",
       special: "Special terms", noSpecial: "No special terms.", reminders: "Renewal reminders", reminderHint: "Reminders go to you and the tenant before the lease ends.", r90: "90 days before", r60: "60 days before", r30: "30 days before", due: "Due",
-      docs: "Signing documents", noDocs: "Nothing sent for signature yet.", history: "History", renew: "Renew lease", m2m: "Convert to month-to-month", end: "End lease", delete: "Delete draft", deleted: "Draft lease deleted", edit: "Edit",
+      docs: "Signing documents", noDocs: "Nothing sent for signature yet.", history: "History", renew: "Renew lease", m2m: "Convert to month-to-month", endLease: "End lease", delete: "Delete draft", deleted: "Draft lease deleted", edit: "Edit",
       m2mTitle: "Convert to month-to-month?", m2mBody: "{name}'s lease continues on the same terms after {date}, ending on {n} days' notice from either side.", m2mDone: "Lease is now month-to-month",
       endTitle: "End this lease?", endBody: "Mark {name}'s lease as ended. Do the outgoing inspection and deposit refund next.", ended: "Lease ended",
       deleteTitle: "Delete this draft lease?", deleteBody: "The draft for {name} will be removed. Signed leases can't be deleted.",
