@@ -9,7 +9,7 @@ export function invoiceTotals(lines: Pick<InvoiceLine, "kind" | "qty" | "unitPri
   const subtotal = round2(lines.reduce((a, l) => a + lineTotal(l), 0));
   const vatable = lines.filter((l) => l.kind !== "deposit").reduce((a, l) => a + lineTotal(l), 0);
   // VAT in whole cents, half-up (avoids float drift like 1911.075 → 1911.07).
-  const vatAmount = vat ? Math.round(Math.round(vatable * 100) * VAT_RATE * 100 / 100 + 1e-6) / 100 : 0;
+  const vatAmount = vat ? Math.round((Math.round(vatable * 100) * Math.round(VAT_RATE * 100)) / 100) / 100 : 0;
   return { subtotal, vat: vatAmount, total: round2(subtotal + vatAmount) };
 }
 
