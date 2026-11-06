@@ -123,7 +123,8 @@ export function MiniDonut({ value, tip }: { value: number; tip: string }) {
   );
 }
 
-export function MiniSpark({ points, tip }: { points: number[]; tip: string }) {
+export function MiniSpark({ points: raw, tip }: { points: number[]; tip: string }) {
+  const points = raw.length > 1 ? raw : [raw[0] ?? 0, raw[0] ?? 0];
   const max = Math.max(...points), min = Math.min(...points);
   const d = points.map((p, i) => `${(i / (points.length - 1)) * 60},${22 - ((p - min) / (max - min || 1)) * 18}`).join(" L");
   return (
