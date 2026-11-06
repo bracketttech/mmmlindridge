@@ -38,3 +38,4 @@ use the editor.
 - Form validation rules (password strength, SA phone, matching passwords) live in `src/lib/validation.ts` and are covered by tests.
 - All bundled images (property photos + small thumbs, avatars, auth art) live in `src/images` as WebP and are resolved only via `src/images/index.ts`; render them with `FadeImage`/`NAvatar` so they fade in on a placeholder, and the shell preloads them — avoids pop-in/flashes.
 - Pages scope data by the switcher via `useAppState().propertyId` ("all" = portfolio) and pass it to services; dashboard aggregates live in `src/mocks/dashboard.ts`.
+- Billing totals, VAT, invoice status, ageing, statements, deposits and gateway outcomes are pure functions in `src/lib/billing-rules.ts` (tested); `billingService` keeps tenant balances in the tenancy store in step so Tenants pages match billing.
