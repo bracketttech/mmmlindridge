@@ -14,7 +14,7 @@ import { RANGES, inRange, rangeBounds, sumByMonth, turnoverPct, type Range } fro
 import { useAppState } from "@/lib/app-state";
 import { useAccess } from "@/lib/access";
 import { useData } from "@/lib/use-data";
-import { formatDate, formatZAR } from "@/lib/format";
+import { formatCompactZAR, formatDate, formatZAR } from "@/lib/format";
 import { t } from "@/lib/strings";
 
 const r = t.rep;
@@ -76,14 +76,14 @@ export function ReportsPage() {
           </div>
         </GlassCard>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-5">
-          <KpiTile loading={roll.loading} label={r.kpi.rentRoll} value={formatZAR(rentRoll, { decimals: false })} unit={r.kpi.perMonth} />
-          <KpiTile loading={loading} label={r.kpi.collected} value={formatZAR(income, { decimals: false })} variant="sparkline" visual={monthly.length > 1 ? monthly.map((m) => m.income) : [0, 0]} tip={`${r.kpi.collected}: ${formatZAR(income)}`} />
+          <KpiTile loading={roll.loading} label={r.kpi.rentRoll} value={formatCompactZAR(rentRoll)} unit={r.kpi.perMonth} />
+          <KpiTile loading={loading} label={r.kpi.collected} value={formatCompactZAR(income)} variant="sparkline" visual={monthly.length > 1 ? monthly.map((m) => m.income) : [0, 0]} tip={`${r.kpi.collected}: ${formatZAR(income)}`} />
           <KpiTile loading={vac.loading} label={r.kpi.vacancy} value={String(avgVac)} unit={r.kpi.days} />
           <KpiTile loading={loading} label={r.kpi.turnover} value={`${String(turnover).replace(".", ",")}%`} unit={r.kpi.ofLet} variant="tick-bar" visual={monthly.length ? monthly.map((m) => m.moveOuts + 1) : [1]} tip={`${r.moveOuts}: ${monthly.reduce((a, m) => a + m.moveOuts, 0)}`} />
         </div>
-        <ChartCard title={r.occupancy} state={st(props.loading, props.error, !units)} action={<span />}>
+        <div className="lg:col-span-3"><ChartCard title={r.occupancy} state={st(props.loading, props.error, !units)} action={<span />}>
           <GaugeChart value={units ? Math.round((occ / units) * 100) : 0} label={r.occupancy} detail={fill(r.occDetail, { o: occ, u: units })} />
-        </ChartCard>
+        </ChartCard></div>
       </div>
       <div className="grid gap-4 lg:grid-cols-12">
         <div className="lg:col-span-4"><ChartCard title={r.maint} sub={r.maintSub} state={st(loading, hist.error, !maintByProp.length)} action={<ExportBtn onClick={() => exp(r.maint, [[r.cols.place, "R"], ...maintByProp.map((x) => [x.name, x.v])])} />}>

@@ -34,3 +34,4 @@
   - [x] Owner screening checklist (result, notes, date, attachment, progress ring, ready-to-approve gate) → approve → create tenant & lease
   - [x] Inspections with room photos + tenant e-sign sign-off
   - [x] Browser verification 360 / 768 / 1280
+- [x] Phase 9 — Staff & permissions, legal/notices, schedule, announcements, reports, settings, audit (awaiting sign-off)
