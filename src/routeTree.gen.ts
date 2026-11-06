@@ -43,6 +43,7 @@ import { Route as ShellPropertiesNewRouteImport } from './routes/_shell.properti
 import { Route as ShellRequestsNewRouteImport } from './routes/_shell.requests_.new'
 import { Route as ShellTenantsIndexRouteImport } from './routes/_shell.tenants.index'
 import { Route as ShellTenantsNewRouteImport } from './routes/_shell.tenants.new'
+import { Route as ShellInvoicesInvoiceIdPayRouteImport } from './routes/_shell.invoices_.$invoiceId.pay'
 import { Route as ShellPropertiesPropertyIdEditRouteImport } from './routes/_shell.properties.$propertyId_.edit'
 import { Route as ShellTenantsTenantIdEditRouteImport } from './routes/_shell.tenants.$tenantId.edit'
 
@@ -216,6 +217,12 @@ const ShellTenantsNewRoute = ShellTenantsNewRouteImport.update({
   path: '/tenants/new',
   getParentRoute: () => ShellRoute,
 } as any)
+const ShellInvoicesInvoiceIdPayRoute =
+  ShellInvoicesInvoiceIdPayRouteImport.update({
+    id: '/invoices_/$invoiceId/pay',
+    path: '/invoices/$invoiceId/pay',
+    getParentRoute: () => ShellRoute,
+  } as any)
 const ShellPropertiesPropertyIdEditRoute =
   ShellPropertiesPropertyIdEditRouteImport.update({
     id: '/properties/$propertyId_/edit',
@@ -263,6 +270,7 @@ export interface FileRoutesByFullPath {
   '/tenants/new': typeof ShellTenantsNewRoute
   '/properties/': typeof ShellPropertiesIndexRoute
   '/tenants/': typeof ShellTenantsIndexRoute
+  '/invoices/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -300,6 +308,7 @@ export interface FileRoutesByTo {
   '/tenants/new': typeof ShellTenantsNewRoute
   '/properties': typeof ShellPropertiesIndexRoute
   '/tenants': typeof ShellTenantsIndexRoute
+  '/invoices/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/properties/$propertyId/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -339,6 +348,7 @@ export interface FileRoutesById {
   '/_shell/tenants/new': typeof ShellTenantsNewRoute
   '/_shell/properties/': typeof ShellPropertiesIndexRoute
   '/_shell/tenants/': typeof ShellTenantsIndexRoute
+  '/_shell/invoices_/$invoiceId/pay': typeof ShellInvoicesInvoiceIdPayRoute
   '/_shell/properties/$propertyId_/edit': typeof ShellPropertiesPropertyIdEditRoute
   '/_shell/tenants/$tenantId/edit': typeof ShellTenantsTenantIdEditRoute
 }
@@ -378,6 +388,7 @@ export interface FileRouteTypes {
     | '/tenants/new'
     | '/properties/'
     | '/tenants/'
+    | '/invoices/$invoiceId/pay'
     | '/properties/$propertyId/edit'
     | '/tenants/$tenantId/edit'
   fileRoutesByTo: FileRoutesByTo
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/tenants/new'
     | '/properties'
     | '/tenants'
+    | '/invoices/$invoiceId/pay'
     | '/properties/$propertyId/edit'
     | '/tenants/$tenantId/edit'
   id:
@@ -453,6 +465,7 @@ export interface FileRouteTypes {
     | '/_shell/tenants/new'
     | '/_shell/properties/'
     | '/_shell/tenants/'
+    | '/_shell/invoices_/$invoiceId/pay'
     | '/_shell/properties/$propertyId_/edit'
     | '/_shell/tenants/$tenantId/edit'
   fileRoutesById: FileRoutesById
@@ -712,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShellTenantsNewRouteImport
       parentRoute: typeof ShellRoute
     }
+    '/_shell/invoices_/$invoiceId/pay': {
+      id: '/_shell/invoices_/$invoiceId/pay'
+      path: '/invoices/$invoiceId/pay'
+      fullPath: '/invoices/$invoiceId/pay'
+      preLoaderRoute: typeof ShellInvoicesInvoiceIdPayRouteImport
+      parentRoute: typeof ShellRoute
+    }
     '/_shell/properties/$propertyId_/edit': {
       id: '/_shell/properties/$propertyId_/edit'
       path: '/properties/$propertyId/edit'
@@ -752,6 +772,7 @@ interface ShellRouteChildren {
   ShellTenantsNewRoute: typeof ShellTenantsNewRoute
   ShellPropertiesIndexRoute: typeof ShellPropertiesIndexRoute
   ShellTenantsIndexRoute: typeof ShellTenantsIndexRoute
+  ShellInvoicesInvoiceIdPayRoute: typeof ShellInvoicesInvoiceIdPayRoute
   ShellPropertiesPropertyIdEditRoute: typeof ShellPropertiesPropertyIdEditRoute
   ShellTenantsTenantIdEditRoute: typeof ShellTenantsTenantIdEditRoute
 }
@@ -779,6 +800,7 @@ const ShellRouteChildren: ShellRouteChildren = {
   ShellTenantsNewRoute: ShellTenantsNewRoute,
   ShellPropertiesIndexRoute: ShellPropertiesIndexRoute,
   ShellTenantsIndexRoute: ShellTenantsIndexRoute,
+  ShellInvoicesInvoiceIdPayRoute: ShellInvoicesInvoiceIdPayRoute,
   ShellPropertiesPropertyIdEditRoute: ShellPropertiesPropertyIdEditRoute,
   ShellTenantsTenantIdEditRoute: ShellTenantsTenantIdEditRoute,
 }
