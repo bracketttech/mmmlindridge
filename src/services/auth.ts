@@ -1,6 +1,6 @@
 // Mock auth service. Same signatures will be backed by Lovable Cloud later.
 import * as fx from "@/mocks/auth";
-import { findSentLink, markRegistered } from "./index";
+import { findSentLink, markRegistered, staffAdminService } from "./index";
 import type { Role } from "@/lib/nav";
 import { writeSession, type MockSession } from "@/lib/session";
 
@@ -51,11 +51,12 @@ export const authService = {
   },
   async getStaffInvite(token: string): Promise<{ status: fx.InviteStatus; invite?: fx.StaffInvite }> {
     await wait(500);
-    const invite = fx.staffInvites.find((i) => i.token === token);
+    const invite = fx.staffInvites.find((i) => i.token === token) ?? staffAdminService.findInvite(token);
     return invite ? { status: invite.status, invite } : { status: "invalid" };
   },
   async acceptStaffInvite(invite: fx.StaffInvite, name: string) {
     await wait();
+    staffAdminService.acceptInvite(invite.token, name);
     return startSession(invite.email, invite.role, name);
   },
   async getTenantLink(token: string): Promise<{ status: fx.InviteStatus; link?: fx.TenantLink }> {
