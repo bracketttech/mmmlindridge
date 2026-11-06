@@ -66,7 +66,7 @@ export function InvoiceDocument({ inv, place, email }: { inv: Pick<InvoiceView, 
         </dl>
       </section>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[420px] text-left">
+        <table className="w-full min-w-[340px] text-left">
           <thead><tr className="border-b border-border-soft text-overline text-ink-500"><th className="py-2 pr-2 font-medium">{d.desc}</th><th className="px-2 py-2 text-right font-medium">{d.qty}</th><th className="px-2 py-2 text-right font-medium">{d.price}</th><th className="py-2 pl-2 text-right font-medium">{d.amount}</th></tr></thead>
           <tbody>
             {inv.lines.map((l) => (

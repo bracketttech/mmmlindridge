@@ -53,7 +53,7 @@ export function ArrearsView({ data }: { data: { data: ArrearsData | null; loadin
         <ChartCard title={a.chartTitle} sub={a.chartSub} state={data.loading ? "loading" : rows.length ? "ready" : "empty"}><AgeingChart buckets={data.data?.buckets ?? []} /></ChartCard>
         <div className="grid grid-cols-2 gap-3">
           {(data.data?.buckets ?? [{ bucket: "b0" }, { bucket: "b30" }, { bucket: "b60" }, { bucket: "b90" }]).map((x) => (
-            <KpiTile key={x.bucket} loading={data.loading} label={a.buckets[x.bucket as keyof typeof a.buckets]} value={formatZAR("amount" in x ? x.amount : 0, { decimals: false })} unit="" variant="plain" delta={String("tenants" in x ? x.tenants : 0)} deltaLabel={fill(b.kpi.tenants, { n: "" }).trim()} />
+            <KpiTile key={x.bucket} loading={data.loading} label={`${a.buckets[x.bucket as keyof typeof a.buckets]} · ${fill(b.kpi.tenants, { n: "tenants" in x ? x.tenants : 0 })}`} value={formatZAR("amount" in x ? x.amount : 0, { decimals: false })} unit="" variant="plain" />
           ))}
         </div>
       </div>

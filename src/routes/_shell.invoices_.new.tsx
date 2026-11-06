@@ -105,12 +105,16 @@ function NewInvoicePage() {
                 {lines.map((l) => {
                   const le = errs.line?.[l.id];
                   return (
-                    <li key={l.id} className="grid gap-2 rounded-[5.75px] border border-border-soft bg-surface-solid/80 p-3 sm:grid-cols-[140px_minmax(0,1fr)_70px_130px_auto] sm:items-start">
-                      <SelectField label={c.kind} value={l.kind} onChange={(e) => patch(l.id, { kind: e.target.value as ChargeKind })}>{CHARGE_KINDS.map((k) => <option key={k} value={k}>{b.kinds[k]}</option>)}</SelectField>
-                      <TextField label={c.desc} value={l.description} error={le?.desc} onChange={(e) => patch(l.id, { description: e.target.value })} />
-                      <TextField label={c.qty} inputMode="numeric" value={l.qty} onChange={(e) => patch(l.id, { qty: e.target.value })} />
-                      <TextField label={c.price} inputMode="decimal" value={l.unitPrice} error={le?.amount} onChange={(e) => patch(l.id, { unitPrice: e.target.value })} />
-                      <button type="button" aria-label={fill(c.removeLine, { name: l.description || b.kinds[l.kind] })} onClick={() => setLines((ls) => ls.filter((y) => y.id !== l.id))} className="grid h-11 w-11 place-items-center justify-self-end rounded-full text-ink-500 hover:bg-olive-100 sm:mt-7"><Trash2 className="h-4 w-4" /></button>
+                    <li key={l.id} className="space-y-2 rounded-[5.75px] border border-border-soft bg-surface-solid/80 p-3">
+                      <div className="grid gap-2 sm:grid-cols-[150px_minmax(0,1fr)]">
+                        <SelectField label={c.kind} value={l.kind} onChange={(e) => patch(l.id, { kind: e.target.value as ChargeKind })}>{CHARGE_KINDS.map((k) => <option key={k} value={k}>{b.kinds[k]}</option>)}</SelectField>
+                        <TextField label={c.desc} value={l.description} error={le?.desc} onChange={(e) => patch(l.id, { description: e.target.value })} />
+                      </div>
+                      <div className="grid grid-cols-[72px_minmax(0,1fr)_auto] items-start gap-2">
+                        <TextField label={c.qty} inputMode="numeric" value={l.qty} onChange={(e) => patch(l.id, { qty: e.target.value })} />
+                        <TextField label={c.price} inputMode="decimal" value={l.unitPrice} error={le?.amount} onChange={(e) => patch(l.id, { unitPrice: e.target.value })} />
+                        <button type="button" aria-label={fill(c.removeLine, { name: l.description || b.kinds[l.kind] })} onClick={() => setLines((ls) => ls.filter((y) => y.id !== l.id))} className="mt-7 grid h-11 w-11 place-items-center rounded-full text-ink-500 hover:bg-olive-100"><Trash2 className="h-4 w-4" /></button>
+                      </div>
                     </li>
                   );
                 })}
@@ -132,7 +136,7 @@ function NewInvoicePage() {
             <ToggleRow label={c.recurring} hint={c.recurringHint} checked={recurring} onChange={setRecurring} />
             {recurring && (
               <>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
                   <TextField label={c.day} type="number" min={1} max={31} value={day} error={errs.day} onChange={(e) => setDay(e.target.value)} />
                   <TextField label={c.start} type="date" value={start} onChange={(e) => setStart(e.target.value)} />
                   <TextField label={c.end} type="date" value={end} min={start} onChange={(e) => setEnd(e.target.value)} />

@@ -56,7 +56,7 @@ export function OwnerBilling({ view, id, set }: { view: BillView; id?: string | 
         <KpiTile loading={loading} label={b.kpi.billed} value={formatZAR(billed, { decimals: false })} unit="" variant="plain" />
         <KpiTile loading={loading} label={b.kpi.collected} value={formatZAR(collected, { decimals: false })} unit="" variant="plain" delta={`${rate}%`} deltaLabel={b.kpi.ofBilled} />
         <KpiTile loading={loading} label={b.kpi.arrears} value={formatZAR(arr.data?.total ?? 0, { decimals: false })} unit="" variant="tick-bar" visual={(arr.data?.buckets ?? []).map((x) => x.amount)} tip={fill(b.kpi.tenants, { n: arr.data?.tenants.length ?? 0 })} />
-        <KpiTile loading={loading} label={b.kpi.pending} value={formatZAR(pending.reduce((a, p) => a + p.amount, 0), { decimals: false })} unit="" variant="plain" delta={String(pending.length)} deltaLabel={fill(b.kpi.payments, { n: "" }).trim()} />
+        <KpiTile loading={loading} label={`${b.kpi.pending} · ${fill(b.kpi.payments, { n: pending.length })}`} value={formatZAR(pending.reduce((a, p) => a + p.amount, 0), { decimals: false })} unit="" variant="plain" />
       </div>
       <SegmentedChips label={b.title} value={view} onChange={(v) => set({ view: v === "invoices" ? undefined : v, id: undefined })} options={BILL_VIEWS.map((v) => ({ value: v, label: b.views[v] }))} />
       {view === "invoices" ? <InvoicesView data={inv} id={id} set={set} />
