@@ -109,7 +109,7 @@ function Checkout({ amount, merchant, number, onDone }: { amount: number; mercha
   };
 
   return (
-    <div className="overflow-hidden rounded-[9.2px] border border-border-soft bg-surface-solid shadow-lift">
+    <div className="overflow-hidden rounded-[9.2px] border border-border-soft bg-surface-solid shadow-soft">
       <header className="flex items-center justify-between gap-3 bg-ink-900 px-5 py-4 text-primary-foreground">
         <span className="text-[20px] font-bold lowercase tracking-tight">{b.gateway}</span>
         <span className="inline-flex items-center gap-1.5 text-[13px]"><ShieldCheck className="h-4 w-4" aria-hidden />{c.secure}</span>

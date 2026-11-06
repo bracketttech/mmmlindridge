@@ -384,7 +384,7 @@ export const billingService = {
 
   statement: (tenantId: string, from: string, to: string) => { const s = B(); return delay(statement(tenantId, s.invoices, s.payments, from, to), 400); },
 
-  deposits: (propertyId = "all") => delay(B().deposits.filter((d) => inScope(propertyId, d.tenantId)).map((d) => ({ ...d, tenantName: tenantName(d.tenantId), ...depositSummary(d, today()) }))),
+  deposits: (propertyId = "all") => delay(B().deposits.filter((d) => inScope(propertyId, d.tenantId)).map((d) => { const sum = depositSummary(d, today()); return { ...d, tenantName: tenantName(d.tenantId), interest: sum.interest, deductionsTotal: sum.deductions, refund: sum.refund }; })),
   async addDeduction(depositId: string, item: string, amount: number, note?: string) { bSave((s) => { s.deposits.find((d) => d.id === depositId)?.deductions.push({ id: newId("dd"), item, amount, note }); }); return delay(true, 300); },
   async removeDeduction(depositId: string, deductionId: string) { bSave((s) => { const d = s.deposits.find((x) => x.id === depositId); if (d) d.deductions = d.deductions.filter((x) => x.id !== deductionId); }); return delay(true, 300); },
   async refundDeposit(depositId: string) {

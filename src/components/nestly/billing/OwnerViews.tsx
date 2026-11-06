@@ -151,7 +151,7 @@ export function DepositsView({ id, set }: { id?: string | undefined; set: (p: { 
     { key: "since", header: d.heldSince, render: (r) => <span className="text-ink-500">{formatDate(r.heldSince)}</span> },
     { key: "amt", header: d.held, className: "text-right", render: (r) => <Money v={r.amount} /> },
     { key: "int", header: d.interest, className: "text-right", render: (r) => <Money v={r.interest} className="text-success" /> },
-    { key: "ded", header: d.deductions, className: "text-right", render: (r) => r.deductions ? <Money v={r.deductions} className="text-danger" /> : <span className="text-ink-500">—</span> },
+    { key: "ded", header: d.deductions, className: "text-right", render: (r) => r.deductionsTotal ? <Money v={r.deductionsTotal} className="text-danger" /> : <span className="text-ink-500">—</span> },
     { key: "ref", header: d.refund, className: "text-right", render: (r) => <Money v={r.status === "refunded" ? r.refundAmount ?? 0 : r.refund} className="font-medium text-ink-900" /> },
     { key: "s", header: b.cols.status, render: (r) => <StatusChip tone={r.status === "held" ? "info" : "success"} dot>{d.status[r.status]}</StatusChip> },
   ];
@@ -166,7 +166,7 @@ export function DepositsView({ id, set }: { id?: string | undefined; set: (p: { 
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <KpiTile loading={deps.loading} label={d.totalHeld} value={formatZAR(held.reduce((a, r) => a + r.amount, 0), { decimals: false })} unit="" variant="plain" />
         <KpiTile loading={deps.loading} label={d.interest} value={formatZAR(held.reduce((a, r) => a + r.interest, 0), { decimals: false })} unit="" variant="plain" />
-        <KpiTile loading={deps.loading} label={d.deductions} value={formatZAR(held.reduce((a, r) => a + r.deductions, 0), { decimals: false })} unit="" variant="plain" />
+        <KpiTile loading={deps.loading} label={d.deductions} value={formatZAR(held.reduce((a, r) => a + r.deductionsTotal, 0), { decimals: false })} unit="" variant="plain" />
         <KpiTile loading={deps.loading} label={d.refund} value={formatZAR(held.reduce((a, r) => a + r.refund, 0), { decimals: false })} unit="" variant="plain" />
       </div>
       <GlassCard hover={false} className="space-y-2 p-3 md:p-4">
@@ -186,8 +186,7 @@ function DepositDetail({ r }: { r: DepRow }) {
   const [amount, setAmount] = useState("");
   const [errs, setErrs] = useState<{ item?: string; amount?: string }>({});
   const [confirm, setConfirm] = useState(false);
-  const raw = useData(() => billingService.deposits(), []);
-  const lines = raw.data?.find((x) => x.id === r.id)?.deductions ?? [];
+  const lines = r.deductions;
   const add = async () => {
     const amt = Number(amount.replace(",", "."));
     const e: typeof errs = {};
@@ -230,7 +229,7 @@ function DepositDetail({ r }: { r: DepRow }) {
       {refunded ? <StatusChip tone="success">{fill(d.refundedOn, { amount: formatZAR(r.refundAmount ?? 0), date: formatDate(r.refundedAt ?? "") })}</StatusChip>
         : <PillButton onClick={() => setConfirm(true)}>{d.refundBtn}</PillButton>}
       <ConfirmDialog open={confirm} onOpenChange={setConfirm} tone="primary" confirmLabel={d.refundBtn} title={fill(d.refundTitle, { amount: formatZAR(r.refund), name: r.tenantName })}
-        body={fill(d.refundBody, { deposit: formatZAR(r.amount), interest: formatZAR(r.interest), deductions: formatZAR(r.deductions) })}
+        body={fill(d.refundBody, { deposit: formatZAR(r.amount), interest: formatZAR(r.interest), deductions: formatZAR(r.deductionsTotal) })}
         onConfirm={async () => { await billingService.refundDeposit(r.id); toast.success(d.refunded); }} />
     </div>
   );
@@ -247,7 +246,7 @@ export function EscalationsView() {
   if (esc.error) return <Err onRetry={esc.reload} />;
   const all = esc.data ?? [];
   const rows = all.filter((r) => f === "all" || r.status === f);
-  const tone = (s: EscRow["status"]) => (s === "applied" ? "success" : s === "notice_sent" ? "info" : "warning") as const;
+  const tone = (s: EscRow["status"]): "success" | "info" | "warning" => (s === "applied" ? "success" : s === "notice_sent" ? "info" : "warning");
   const act = (r: EscRow) => r.status === "scheduled" ? <PillButton size="sm" variant="secondary" onClick={async (ev) => { ev.stopPropagation(); await billingService.sendEscalationNotice(r.id); toast.success(e.noticeSent); }}>{e.sendNotice}</PillButton>
     : r.status === "notice_sent" ? <PillButton size="sm" onClick={async (ev) => { ev.stopPropagation(); await billingService.applyEscalation(r.id); toast.success(e.applied); }}>{e.applyNow}</PillButton> : null;
   const columns: Column<EscRow>[] = [
