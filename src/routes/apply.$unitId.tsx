@@ -27,7 +27,7 @@ const ap = t.apps.apply;
 const FILE_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const FILE_MAX = 10 * 1024 * 1024;
 type Values = { name: string; email: string; phone: string; idNumber: string; employer: string; income: string; moveIn: string; occupants: string; message: string };
-type Errs = Partial<Record<keyof Values | "docs" | "popia" | "credit" | "submit", string>>;
+type Errs = Partial<Record<keyof Values | "docs" | "popia" | "credit" | "submit", string | undefined>>;
 
 function ApplyPage() {
   const { unitId } = Route.useParams();
@@ -124,7 +124,7 @@ function ApplyPage() {
           </>}
           {step === 1 && <>
             <TextField label={ap.employer} autoComplete="organization" value={v.employer} error={errs.employer} onChange={(e) => up("employer", e.target.value)} />
-            <TextField label={ap.income} inputMode="decimal" placeholder="45 000" value={v.income} error={errs.income} hint={income > 0 ? formatZAR(income) : undefined} onChange={(e) => up("income", e.target.value)} />
+            <TextField label={ap.income} inputMode="decimal" placeholder="45 000" value={v.income} error={errs.income} {...(income > 0 ? { hint: formatZAR(income) } : {})} onChange={(e) => up("income", e.target.value)} />
             <div className="grid gap-4 sm:grid-cols-2">
               <TextField label={ap.moveIn} type="date" min={todayIso()} value={v.moveIn} error={errs.moveIn} onChange={(e) => up("moveIn", e.target.value)} />
               <TextField label={ap.occupants} type="number" min={1} max={10} inputMode="numeric" value={v.occupants} error={errs.occupants} onChange={(e) => up("occupants", e.target.value)} />

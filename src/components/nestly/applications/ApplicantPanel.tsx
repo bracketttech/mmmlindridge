@@ -121,7 +121,7 @@ function ViewingBlock({ x, all, disabled }: { x: ApplicationView; all: Applicati
       {!disabled && (!x.viewing || x.viewing.state !== "booked") && (open ? (
         <div className="grid gap-2 rounded-[5.75px] border border-border-soft p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end">
           <label className="block space-y-1"><span className="block text-[13px] font-medium text-ink-900">{v.day}</span><input type="date" value={date} min={todayIso()} onChange={(e) => { setDate(e.target.value); setTime(""); }} className="h-11 w-full rounded-[5.75px] border border-input bg-surface-solid px-3 text-[14px] outline-none focus:border-olive-700" /></label>
-          <SelectField label={v.time} value={time} onChange={(e) => setTime(e.target.value)} className="h-11"><option value="">{free.length ? "—" : v.noSlots}</option>{free.map((s) => <option key={s} value={s}>{s}</option>)}</SelectField>
+          <SelectField label={v.timeTitle} value={time} onChange={(e) => setTime(e.target.value)} className="h-11"><option value="">{free.length ? "—" : v.noSlots}</option>{free.map((s) => <option key={s} value={s}>{s}</option>)}</SelectField>
           <PillButton size="sm" onClick={book} disabled={!time}>{v.book}</PillButton>
         </div>
       ) : <PillButton size="sm" variant="secondary" onClick={() => setOpen(true)} icon={<CalendarClock className="h-3.5 w-3.5" />}>{d.bookViewing}</PillButton>)}

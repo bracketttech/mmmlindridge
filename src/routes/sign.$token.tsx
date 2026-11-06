@@ -146,7 +146,7 @@ function SignStep({ name, onBack, onSign }: { name: string; onBack: () => void; 
   const [uploaded, setUploaded] = useState<{ url: string; name: string } | null>(null);
   const [uploadErr, setUploadErr] = useState("");
   const [consent, setConsent] = useState(false);
-  const [errs, setErrs] = useState<{ sig?: string; consent?: string; submit?: string }>({});
+  const [errs, setErrs] = useState<{ sig?: string | undefined; consent?: string | undefined; submit?: string | undefined }>({});
   const [busy, setBusy] = useState(false);
   const file = useRef<HTMLInputElement>(null);
 
